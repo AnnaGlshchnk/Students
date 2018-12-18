@@ -9,22 +9,22 @@ public interface StudentsDao {
 
     List<Group> getGroups(Integer minStudent, Integer maxStudent);
 
-    Group getGroupById();
+    Group getGroupById(Integer groupId);
 
     Integer addGroup(Group group);
 
     Integer updateGroup(Group group);
 
-    Integer deleteGroup(Integer id);
+    Integer deleteGroup(Integer groupId);
 
     List<Student> getStudents(Integer minAge, Integer maxAge);
 
-    Student getStudentById();
+    Student getStudentById(Integer studentId);
 
     Integer addStudent(Student student);
 
     Integer updateStudent(Student student);
 
-    Integer deleteStudent(Integer id);
+    Integer deleteStudent(Integer studentId);
 
 }
