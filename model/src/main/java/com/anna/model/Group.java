@@ -1,12 +1,24 @@
 package com.anna.model;
 
+import java.util.List;
+
 public class Group {
 
-    private  int groupId;
-    private  String name;
+    private int groupId;
+    private String name;
     private int numberOfStudents;
+    List<Student> students;
 
-    public Group() {
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public Group(String name) {
+        this.name = name;
     }
 
     public Group(int groupId, String name) {
@@ -18,6 +30,12 @@ public class Group {
         this.groupId = groupId;
         this.name = name;
         this.numberOfStudents = numberOfStudents;
+    }
+
+    public Group(int groupId, String name, List<Student> students) {
+        this.groupId = groupId;
+        this.name = name;
+        this.students = students;
     }
 
     public int getGroupId() {

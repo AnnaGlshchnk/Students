@@ -8,7 +8,24 @@ public class Student {
     private int age;
     private int groupId;
 
+    Group group;
+
     public Student() {
+    }
+
+    public Student(int studentId, String name, String surname, int age) {
+        this.studentId = studentId;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+    }
+
+    public Student(int studentId, String name, String surname, int age, Group group) {
+        this.studentId = studentId;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.group = group;
     }
 
     public int getStudentId() {
@@ -49,5 +66,13 @@ public class Student {
 
     public void setGroupId(int groupId) {
         this.groupId = groupId;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }
