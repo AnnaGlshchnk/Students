@@ -83,7 +83,6 @@ public class StudentsDaoImpl implements StudentsDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue(GROUP_NAME, group.getName());
-        mapSqlParameterSource.addValue(NUMBER_OF_STUDENT, group.getNumberOfStudents());
 
         namedParameterJdbcTemplate.update(addGroupSql, mapSqlParameterSource, keyHolder);
         return keyHolder.getKey().intValue();
@@ -170,15 +169,13 @@ public class StudentsDaoImpl implements StudentsDao {
                     resultSet.getString("name"),
                     new ArrayList<>());
 
-            if (resultSet.getObject("student_id", Integer.class) == null) {
+            if (resultSet.getObject("name", String.class) == null) {
                 return group;
             }
 
             while (!(resultSet.next())) {
-                group.getStudents().add(new Student(resultSet.getInt("student_Id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("surname"),
-                        resultSet.getInt("age")));
+                group.getStudents().add(new Student(resultSet.getString("name"),
+                        resultSet.getString("surname")));
             }
             return group;
         }

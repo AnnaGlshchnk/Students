@@ -10,7 +10,19 @@ public class Student {
 
     Group group;
 
+    public Student(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
+    }
+
     public Student() {
+    }
+
+    public Student(String name, String surname, int age, int groupId) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.groupId = groupId;
     }
 
     public Student(int studentId, String name, String surname, int age) {
