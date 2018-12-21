@@ -1,11 +1,14 @@
 package com.anna.model;
 
+import java.util.Date;
+
 public class Student {
 
     private int studentId;
     private String name;
     private String surname;
-    private int age;
+
+    private Date birthDate;
     private int groupId;
 
     Group group;
@@ -18,25 +21,26 @@ public class Student {
     public Student() {
     }
 
-    public Student(String name, String surname, int age, int groupId) {
+
+    public Student(String name, String surname, Date birthDate, int groupId) {
         this.name = name;
         this.surname = surname;
-        this.age = age;
+        this.birthDate = birthDate;
         this.groupId = groupId;
     }
 
-    public Student(int studentId, String name, String surname, int age) {
+    public Student(int studentId, String name, String surname, Date birthDate) {
         this.studentId = studentId;
         this.name = name;
         this.surname = surname;
-        this.age = age;
+        this.birthDate = birthDate;
     }
 
-    public Student(int studentId, String name, String surname, int age, Group group) {
+    public Student(int studentId, String name, String surname, Date birthDate, Group group) {
         this.studentId = studentId;
         this.name = name;
         this.surname = surname;
-        this.age = age;
+        this.birthDate = birthDate;
         this.group = group;
     }
 
@@ -64,12 +68,12 @@ public class Student {
         this.surname = surname;
     }
 
-    public int getAge() {
-        return age;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     public int getGroupId() {
