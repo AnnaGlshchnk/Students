@@ -7,11 +7,9 @@ public class Student {
     private int studentId;
     private String name;
     private String surname;
-
     private Date birthDate;
     private int groupId;
-
-    Group group;
+    private Group group;
 
     public Student(String name, String surname) {
         this.name = name;
@@ -21,6 +19,11 @@ public class Student {
     public Student() {
     }
 
+    public Student(int studentId, String name, String surname) {
+        this.studentId = studentId;
+        this.name = name;
+        this.surname = surname;
+    }
 
     public Student(String name, String surname, Date birthDate, int groupId) {
         this.name = name;

@@ -12,17 +12,19 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class GroupDaoImpl implements GroupDao {
 
-    private static String MIN_STUDENT = "minStudent";
-    private static String MAX_STUDENT = "maxStudent";
+    private static String START = "start";
+    private static String FINISH = "finish";
     private static String GROUP_ID = "groupId";
     private static String GROUP_NAME = "name";
-    private static String NUMBER_OF_STUDENT = "numberOfStudent";
+    private static String CREATE_DATE = "createDate";
+    private static String FINISH_DATE = "finishDate";
 
     @Value("${StudentsDaoSql.getGroups}")
     private String getGroupsSql;
@@ -44,13 +46,16 @@ public class GroupDaoImpl implements GroupDao {
 
     @Override
     public List<Group> getGroups(Date start, Date finish) {
-        return null;
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue(START, start);
+        mapSqlParameterSource.addValue(FINISH, finish);
+        return namedParameterJdbcTemplate.query(getGroupsSql, mapSqlParameterSource, new GroupMapper());
     }
 
     @Override
     public Group getGroupById(Integer groupId) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource(GROUP_ID, groupId);
-        return namedParameterJdbcTemplate.queryForObject(getGroupByIdSql, parameterSource, new GroupMapper());
+        return namedParameterJdbcTemplate.queryForObject(getGroupByIdSql, parameterSource, new GroupWithStudentMapper());
     }
 
     @Override
@@ -58,6 +63,8 @@ public class GroupDaoImpl implements GroupDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue(GROUP_NAME, group.getName());
+        mapSqlParameterSource.addValue(CREATE_DATE, group.getCreateDate());
+        mapSqlParameterSource.addValue(FINISH_DATE, group.getFinishDate());
 
         namedParameterJdbcTemplate.update(addGroupSql, mapSqlParameterSource, keyHolder);
         return keyHolder.getKey().intValue();
@@ -69,6 +76,8 @@ public class GroupDaoImpl implements GroupDao {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue(GROUP_ID, group.getGroupId());
         mapSqlParameterSource.addValue(GROUP_NAME, group.getName());
+        mapSqlParameterSource.addValue(CREATE_DATE, group.getCreateDate());
+        mapSqlParameterSource.addValue(FINISH_DATE, group.getFinishDate());
 
         return namedParameterJdbcTemplate.update(updateGroupSql, mapSqlParameterSource);
     }
@@ -82,32 +91,40 @@ public class GroupDaoImpl implements GroupDao {
 
     @Override
     public Float getAverageAgeOfStudents() {
-        return null;
-    }
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
 
-    private class GroupMapperWithStudents implements RowMapper<Group> {
-
-        @Override
-        public Group mapRow(ResultSet resultSet, int i) throws SQLException {
-            return new Group(resultSet.getInt("group_id"),
-                    resultSet.getString("name"),
-                    resultSet.getInt("numberOfStudents"));
-        }
     }
 
      class GroupMapper implements RowMapper<Group> {
         @Override
         public Group mapRow(ResultSet resultSet, int i) throws SQLException {
-            Group group = new Group(resultSet.getInt("group_id"),
+
+            Group group = new Group(resultSet.getInt("groupId"),
                     resultSet.getString("name"),
+                    resultSet.getDate("createDate"),
+                    resultSet.getDate("finishDate"),
+                    new ArrayList<>().size());
+
+            while (resultSet.next()){
+                group.getStudents().add(new Student());
+            }
+            return group;
+        }
+    }
+
+    class GroupWithStudentMapper implements RowMapper<Group> {
+        @Override
+        public Group mapRow(ResultSet resultSet, int i) throws SQLException {
+
+            Group group = new Group(resultSet.getInt("groupId"),
+                    resultSet.getString("name"),
+                    resultSet.getDate("createDate"),
+                    resultSet.getDate("finishDate"),
                     new ArrayList<>());
 
-            if (resultSet.getObject("name", String.class) == null) {
-                return group;
-            }
-
-            while (!(resultSet.next())) {
-                group.getStudents().add(new Student(resultSet.getString("name"),
+            while (resultSet.next()){
+                group.getStudents().add(new Student(resultSet.getInt("studentId"),
+                        resultSet.getString("name"),
                         resultSet.getString("surname")));
             }
             return group;

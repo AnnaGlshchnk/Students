@@ -18,14 +18,12 @@ import java.util.List;
 @Repository
 public class StudentsDaoImpl implements StudentsDao {
 
-    private static String MIN_AGE = "minAge";
-    private static String MAX_AGE = "maxAge";
-
+    private static String MIN_BIRTH_DATE = "minBirthDate";
+    private static String MAX_BIRTH_DATE = "maxBirthDate";
     private static String STUDENT_ID = "studentId";
-
     private static String STUDENT_NAME = "name";
     private static String SURNAME = "surname";
-    private static String BirthDate = "irthDate";
+    private static String BirthDate = "birthDate";
 
     @Value("${StudentsDaoSql.getStudents}")
     private String getStudentsSql;
@@ -47,10 +45,10 @@ public class StudentsDaoImpl implements StudentsDao {
     }
 
     @Override
-    public List<Student> getStudents(Integer minAge, Integer maxAge) {
+    public List<Student> getStudents(Integer minBirthDate, Integer maxBirthDate) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource.addValue(MIN_AGE, minAge);
-        mapSqlParameterSource.addValue(MAX_AGE, maxAge);
+        mapSqlParameterSource.addValue(MIN_BIRTH_DATE, minBirthDate);
+        mapSqlParameterSource.addValue(MAX_BIRTH_DATE, maxBirthDate);
 
         return namedParameterJdbcTemplate.query(getStudentsSql, mapSqlParameterSource, new StudentWithGroupMapper());
     }
@@ -97,12 +95,11 @@ public class StudentsDaoImpl implements StudentsDao {
 
         @Override
         public Student mapRow(ResultSet resultSet, int i) throws SQLException {
-            Student student = new Student(resultSet.getInt("student_id"),
+            return new Student(resultSet.getInt("studentId"),
                     resultSet.getString("name"),
                     resultSet.getString("surname"),
                     resultSet.getDate("birthDate"),
                     new Group(resultSet.getString("name")));
-            return student;
         }
     }
 }

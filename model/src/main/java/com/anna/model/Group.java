@@ -7,18 +7,10 @@ public class Group {
 
     private int groupId;
     private String name;
-    List<Student> students;
-
-    Date createDate;
-    Date graduateDate;
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
+    private Date createDate;
+    private Date finishDate;
+    private List<Student> students;
+    private int size = students.size();
 
     public Group(String name) {
         this.name = name;
@@ -29,16 +21,23 @@ public class Group {
         this.name = name;
     }
 
-    public Group(int groupId, String name, int numberOfStudents) {
+    public Group(int groupId, String name, Date createDate, Date finishDate, int size) {
         this.groupId = groupId;
         this.name = name;
+        this.createDate = createDate;
+        this.finishDate = finishDate;
+        this.size = size;
     }
 
-    public Group(int groupId, String name, List<Student> students) {
+    public Group(int groupId, String name, Date createDate, Date finishDate, List<Student> students) {
         this.groupId = groupId;
         this.name = name;
+        this.createDate = createDate;
+        this.finishDate = finishDate;
         this.students = students;
     }
+
+
 
     public int getGroupId() {
         return groupId;
@@ -54,5 +53,29 @@ public class Group {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(Date finishDate) {
+        this.finishDate = finishDate;
     }
 }
