@@ -11,8 +11,10 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -23,7 +25,8 @@ public class StudentsDaoImpl implements StudentsDao {
     private static String STUDENT_ID = "studentId";
     private static String STUDENT_NAME = "name";
     private static String SURNAME = "surname";
-    private static String BirthDate = "birthDate";
+    private static String Birth_Date = "birthDate";
+    private static String GROUP_ID = "groupId";
 
     @Value("${StudentsDaoSql.getStudents}")
     private String getStudentsSql;
@@ -40,12 +43,12 @@ public class StudentsDaoImpl implements StudentsDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
-    public StudentsDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    public StudentsDaoImpl(DataSource dataSource) {
+        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     @Override
-    public List<Student> getStudents(Integer minBirthDate, Integer maxBirthDate) {
+    public List<Student> getStudents(String minBirthDate, String maxBirthDate) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue(MIN_BIRTH_DATE, minBirthDate);
         mapSqlParameterSource.addValue(MAX_BIRTH_DATE, maxBirthDate);
@@ -65,7 +68,8 @@ public class StudentsDaoImpl implements StudentsDao {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue(STUDENT_NAME, student.getName());
         mapSqlParameterSource.addValue(SURNAME, student.getSurname());
-        mapSqlParameterSource.addValue(BirthDate, student.getBirthDate());
+        mapSqlParameterSource.addValue(Birth_Date, student.getBirthDate());
+        mapSqlParameterSource.addValue(GROUP_ID, student.getGroup().getGroupId());
 
         namedParameterJdbcTemplate.update(addStudentSql, mapSqlParameterSource, keyHolder);
         return keyHolder.getKey().intValue();
@@ -74,10 +78,12 @@ public class StudentsDaoImpl implements StudentsDao {
     @Override
     public Integer updateStudent(Student student) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource.addValue(STUDENT_ID, student.getGroupId());
+        mapSqlParameterSource.addValue(STUDENT_ID, student.getStudentId());
         mapSqlParameterSource.addValue(STUDENT_NAME, student.getName());
         mapSqlParameterSource.addValue(SURNAME, student.getName());
-        mapSqlParameterSource.addValue(BirthDate, student.getBirthDate());
+        mapSqlParameterSource.addValue(Birth_Date, student.getBirthDate());
+        mapSqlParameterSource.addValue(GROUP_ID, student.getGroupId());
+
 
         return namedParameterJdbcTemplate.update(updateStudentSql, mapSqlParameterSource);
     }
@@ -95,10 +101,10 @@ public class StudentsDaoImpl implements StudentsDao {
 
         @Override
         public Student mapRow(ResultSet resultSet, int i) throws SQLException {
-            return new Student(resultSet.getInt("studentId"),
+            return new Student(resultSet.getInt("student_id"),
                     resultSet.getString("name"),
                     resultSet.getString("surname"),
-                    resultSet.getDate("birthDate"),
+                    resultSet.getDate("birth_date"),
                     new Group(resultSet.getString("name")));
         }
     }

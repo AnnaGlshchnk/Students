@@ -10,7 +10,12 @@ public class Group {
     private Date createDate;
     private Date finishDate;
     private List<Student> students;
-    private int size = students.size();
+    private int countOfStudent;
+    private float avgAge;
+
+    public Group(int groupId) {
+        this.groupId = groupId;
+    }
 
     public Group(String name) {
         this.name = name;
@@ -21,12 +26,11 @@ public class Group {
         this.name = name;
     }
 
-    public Group(int groupId, String name, Date createDate, Date finishDate, int size) {
+    public Group(int groupId, String name, Date createDate, Date finishDate) {
         this.groupId = groupId;
         this.name = name;
         this.createDate = createDate;
         this.finishDate = finishDate;
-        this.size = size;
     }
 
     public Group(int groupId, String name, Date createDate, Date finishDate, List<Student> students) {
@@ -37,7 +41,14 @@ public class Group {
         this.students = students;
     }
 
-
+    public Group(int groupId, String name, Date createDate, Date finishDate, int countOfStudent, float avgAge) {
+        this.groupId = groupId;
+        this.name = name;
+        this.createDate = createDate;
+        this.finishDate = finishDate;
+        this.countOfStudent = countOfStudent;
+        this.avgAge = avgAge;
+    }
 
     public int getGroupId() {
         return groupId;
@@ -77,5 +88,21 @@ public class Group {
 
     public void setFinishDate(Date finishDate) {
         this.finishDate = finishDate;
+    }
+
+    public int getCountOfStudent() {
+        return countOfStudent;
+    }
+
+    public void setCountOfStudent(int countOfStudent) {
+        this.countOfStudent = countOfStudent;
+    }
+
+    public float getAvgAge() {
+        return avgAge;
+    }
+
+    public void setAvgAge(float avgAge) {
+        this.avgAge = avgAge;
     }
 }

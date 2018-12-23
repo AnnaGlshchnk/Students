@@ -2,11 +2,12 @@ package com.anna.dao;
 
 import com.anna.model.Student;
 
+import java.util.Date;
 import java.util.List;
 
 public interface StudentsDao {
 
-    List<Student> getStudents(Integer minBirthDate, Integer maxBirthDate);
+    List<Student> getStudents(String minBirthDate, String maxBirthDate);
 
     Student getStudentById(Integer studentId);
 

@@ -11,13 +11,6 @@ public class Student {
     private int groupId;
     private Group group;
 
-    public Student(String name, String surname) {
-        this.name = name;
-        this.surname = surname;
-    }
-
-    public Student() {
-    }
 
     public Student(int studentId, String name, String surname) {
         this.studentId = studentId;
@@ -25,18 +18,11 @@ public class Student {
         this.surname = surname;
     }
 
-    public Student(String name, String surname, Date birthDate, int groupId) {
+    public Student(String name, String surname, Date birthDate, Group group) {
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
-        this.groupId = groupId;
-    }
-
-    public Student(int studentId, String name, String surname, Date birthDate) {
-        this.studentId = studentId;
-        this.name = name;
-        this.surname = surname;
-        this.birthDate = birthDate;
+        this.group = group;
     }
 
     public Student(int studentId, String name, String surname, Date birthDate, Group group) {
@@ -46,6 +32,7 @@ public class Student {
         this.birthDate = birthDate;
         this.group = group;
     }
+
 
     public int getStudentId() {
         return studentId;

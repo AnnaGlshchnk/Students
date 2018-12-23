@@ -5,7 +5,7 @@ import com.anna.model.Group;
 import java.util.Date;
 import java.util.List;
 
-public interface GroupDao {
+public interface GroupsDao {
 
     List<Group> getGroups(Date start, Date finish);
 
@@ -16,6 +16,4 @@ public interface GroupDao {
     Integer updateGroup(Group group);
 
     Integer deleteGroup(Integer groupId);
-
-    Float getAverageAgeOfStudents();
 }

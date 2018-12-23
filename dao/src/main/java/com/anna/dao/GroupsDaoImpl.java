@@ -9,15 +9,16 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class GroupDaoImpl implements GroupDao {
+@Repository
+public class GroupsDaoImpl implements GroupsDao {
 
     private static String START = "start";
     private static String FINISH = "finish";
@@ -40,7 +41,7 @@ public class GroupDaoImpl implements GroupDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
-    public GroupDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public GroupsDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
@@ -89,13 +90,7 @@ public class GroupDaoImpl implements GroupDao {
         return namedParameterJdbcTemplate.update(deleteGroupSql, mapSqlParameterSource);
     }
 
-    @Override
-    public Float getAverageAgeOfStudents() {
-        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-
-    }
-
-     class GroupMapper implements RowMapper<Group> {
+    class GroupMapper implements RowMapper<Group> {
         @Override
         public Group mapRow(ResultSet resultSet, int i) throws SQLException {
 
@@ -103,11 +98,9 @@ public class GroupDaoImpl implements GroupDao {
                     resultSet.getString("name"),
                     resultSet.getDate("createDate"),
                     resultSet.getDate("finishDate"),
-                    new ArrayList<>().size());
+                    resultSet.getInt("countOfStudent"),
+                    resultSet.getFloat("avgAge"));
 
-            while (resultSet.next()){
-                group.getStudents().add(new Student());
-            }
             return group;
         }
     }
@@ -122,7 +115,7 @@ public class GroupDaoImpl implements GroupDao {
                     resultSet.getDate("finishDate"),
                     new ArrayList<>());
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 group.getStudents().add(new Student(resultSet.getInt("studentId"),
                         resultSet.getString("name"),
                         resultSet.getString("surname")));

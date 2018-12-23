@@ -12,15 +12,9 @@
         <jdbc:script location="classpath:testData.sql" />
     </jdbc:embedded-database>
 
-    <bean name="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-        <constructor-arg name="dataSource" ref="dataSource"/>
-    </bean>
 
     <bean name="studentDao" class="com.anna.dao.StudentsDaoImpl">
-        <constructor-arg ref="namedParameterJdbcTemplate"/>
+        <constructor-arg ref="dataSource"/>
     </bean>
 
-    <bean name="groupDao" class="com.anna.dao.GroupDaoImpl">
-        <constructor-arg ref="namedParameterJdbcTemplate"/>
-    </bean>
 </beans>
