@@ -11,6 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -41,12 +42,13 @@ public class GroupsDaoImpl implements GroupsDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
-    public GroupsDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    public GroupsDaoImpl(DataSource dataSource) {
+        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
+
     @Override
-    public List<Group> getGroups(Date start, Date finish) {
+    public List<Group> getGroups(String start, String finish) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue(START, start);
         mapSqlParameterSource.addValue(FINISH, finish);
@@ -94,10 +96,10 @@ public class GroupsDaoImpl implements GroupsDao {
         @Override
         public Group mapRow(ResultSet resultSet, int i) throws SQLException {
 
-            Group group = new Group(resultSet.getInt("groupId"),
+            Group group = new Group(resultSet.getInt("group_id"),
                     resultSet.getString("name"),
-                    resultSet.getDate("createDate"),
-                    resultSet.getDate("finishDate"),
+                    resultSet.getDate("create_date"),
+                    resultSet.getDate("finish_date"),
                     resultSet.getInt("countOfStudent"),
                     resultSet.getFloat("avgAge"));
 
@@ -109,15 +111,14 @@ public class GroupsDaoImpl implements GroupsDao {
         @Override
         public Group mapRow(ResultSet resultSet, int i) throws SQLException {
 
-            Group group = new Group(resultSet.getInt("groupId"),
+            Group group = new Group(resultSet.getInt("group_id"),
                     resultSet.getString("name"),
-                    resultSet.getDate("createDate"),
-                    resultSet.getDate("finishDate"),
+                    resultSet.getDate("create_date"),
+                    resultSet.getDate("finish_date"),
                     new ArrayList<>());
 
             while (resultSet.next()) {
-                group.getStudents().add(new Student(resultSet.getInt("studentId"),
-                        resultSet.getString("name"),
+                group.getStudents().add(new Student(resultSet.getString("name"),
                         resultSet.getString("surname")));
             }
             return group;

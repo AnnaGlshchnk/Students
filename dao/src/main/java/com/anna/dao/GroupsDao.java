@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GroupsDao {
 
-    List<Group> getGroups(Date start, Date finish);
+    List<Group> getGroups(String start, String finish);
 
     Group getGroupById(Integer groupId);
 

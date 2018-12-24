@@ -80,9 +80,9 @@ public class StudentsDaoImpl implements StudentsDao {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue(STUDENT_ID, student.getStudentId());
         mapSqlParameterSource.addValue(STUDENT_NAME, student.getName());
-        mapSqlParameterSource.addValue(SURNAME, student.getName());
+        mapSqlParameterSource.addValue(SURNAME, student.getSurname());
         mapSqlParameterSource.addValue(Birth_Date, student.getBirthDate());
-        mapSqlParameterSource.addValue(GROUP_ID, student.getGroupId());
+        mapSqlParameterSource.addValue(GROUP_ID, student.getGroup().getGroupId());
 
 
         return namedParameterJdbcTemplate.update(updateStudentSql, mapSqlParameterSource);

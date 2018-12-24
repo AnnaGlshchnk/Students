@@ -3,36 +3,42 @@ package com.anna.test;
 import com.anna.dao.StudentsDao;
 import com.anna.model.Group;
 import com.anna.model.Student;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:dao-test-config.xml")
+@Transactional
 public class StudentDaoTest {
+    private static final Logger LOGGER = LogManager.getLogger(StudentDaoTest.class);
 
     @Autowired
     StudentsDao studentsDao;
 
     @Test
-    public void getStudent() {
+    public void getStudents() {
+        LOGGER.debug("test: getStudents");
 
         List<Student> students = studentsDao.getStudents(null, null);
         Assert.assertEquals(6, students.size());
     }
 
     @Test
-    public void getStudentWithParam() {
+    public void getStudentsWithParam() {
+        LOGGER.debug("test: getStudents");
 
         List<Student> students = studentsDao.getStudents("1996-05-04", "1998-04-08");
         Assert.assertEquals(2, students.size());
@@ -40,6 +46,7 @@ public class StudentDaoTest {
 
     @Test
     public void getStudentById() {
+        LOGGER.debug("test: getStudentById");
 
         Student student = studentsDao.getStudentById(1);
         Assert.assertEquals("Ann", student.getName());
@@ -48,6 +55,7 @@ public class StudentDaoTest {
 
     @Test
     public void addStudent() throws ParseException {
+        LOGGER.debug("test: addStudent");
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -62,6 +70,8 @@ public class StudentDaoTest {
 
     @Test
     public void updateStudent() {
+        LOGGER.debug("test: updateStudent");
+
         Student student = studentsDao.getStudentById(1);
         student.setName("Anna");
 
@@ -72,6 +82,8 @@ public class StudentDaoTest {
 
     @Test
     public void deleteStudent() {
+        LOGGER.debug("test: deleteStudent");
+
         studentsDao.deleteStudent(1);
         List<Student> students = studentsDao.getStudents(null, null);
         Assert.assertEquals(5, students.size());

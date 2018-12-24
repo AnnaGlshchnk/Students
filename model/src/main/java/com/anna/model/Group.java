@@ -33,6 +33,12 @@ public class Group {
         this.finishDate = finishDate;
     }
 
+    public Group(String name, Date createDate, Date finishDate) {
+        this.name = name;
+        this.createDate = createDate;
+        this.finishDate = finishDate;
+    }
+
     public Group(int groupId, String name, Date createDate, Date finishDate, List<Student> students) {
         this.groupId = groupId;
         this.name = name;

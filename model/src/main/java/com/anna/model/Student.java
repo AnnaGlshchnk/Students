@@ -11,6 +11,10 @@ public class Student {
     private int groupId;
     private Group group;
 
+    public Student(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
+    }
 
     public Student(int studentId, String name, String surname) {
         this.studentId = studentId;
@@ -32,6 +36,7 @@ public class Student {
         this.birthDate = birthDate;
         this.group = group;
     }
+
 
 
     public int getStudentId() {
