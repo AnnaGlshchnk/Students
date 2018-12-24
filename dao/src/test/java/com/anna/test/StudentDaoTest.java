@@ -20,7 +20,7 @@ import java.util.List;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:dao-test-config.xml")
+@ContextConfiguration("classpath*:dao-test-config.xml")
 @Transactional
 public class StudentDaoTest {
     private static final Logger LOGGER = LogManager.getLogger(StudentDaoTest.class);
@@ -75,9 +75,9 @@ public class StudentDaoTest {
         Student student = studentsDao.getStudentById(1);
         student.setName("Anna");
 
-        studentsDao.updateStudent(student);
-        Student newstudent = studentsDao.getStudentById(1);
-        Assert.assertEquals("Anna", newstudent.getName());
+       studentsDao.updateStudent(student);
+       student = studentsDao.getStudentById(1);
+       Assert.assertEquals("Anna", student.getName());
     }
 
     @Test

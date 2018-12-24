@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
-        <property name="url" value="jdbc:h2:mem:default;MODE=MYSQL;DB_CLOSE_DELAY=-1"/>
+        <property name="url" value="jdbc:h2:mem:test;MODE=MYSQL;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1;"/>
         <property name="username" value="qwer"/>
         <property name="password" value="123"/>
     </bean>
@@ -14,6 +15,7 @@
         <jdbc:script location="testDB.sql"/>
         <jdbc:script location="testData.sql"/>
     </jdbc:initialize-database>
+
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
