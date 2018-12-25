@@ -84,7 +84,6 @@ public class StudentsDaoImpl implements StudentsDao {
         mapSqlParameterSource.addValue(Birth_Date, student.getBirthDate());
         mapSqlParameterSource.addValue(GROUP_ID, student.getGroup().getGroupId());
 
-
         return namedParameterJdbcTemplate.update(updateStudentSql, mapSqlParameterSource);
     }
 
@@ -105,7 +104,7 @@ public class StudentsDaoImpl implements StudentsDao {
                     resultSet.getString("name"),
                     resultSet.getString("surname"),
                     resultSet.getDate("birth_date"),
-                    new Group(resultSet.getString("name")));
+                    new Group(resultSet.getInt("group_id")));
         }
     }
 }

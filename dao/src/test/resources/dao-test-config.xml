@@ -8,6 +8,11 @@
 
     <import resource="classpath*:test-config.xml"/>
 
+    <!--<jdbc:embedded-database id="dataSource" type="H2">-->
+        <!--<jdbc:script location="classpath:testDB.sql"/>-->
+        <!--<jdbc:script location="classpath:testData.sql"/>-->
+    <!--</jdbc:embedded-database>-->
+
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>

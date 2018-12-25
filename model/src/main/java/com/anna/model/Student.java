@@ -8,7 +8,6 @@ public class Student {
     private String name;
     private String surname;
     private Date birthDate;
-    private int groupId;
     private Group group;
 
     public Student(String name, String surname) {
@@ -69,14 +68,6 @@ public class Student {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public int getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
     }
 
     public Group getGroup() {
