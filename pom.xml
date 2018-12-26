@@ -24,6 +24,7 @@
         <h2.version>1.4.196</h2.version>
         <spring.version>4.3.10.RELEASE</spring.version>
         <log4j.version>2.4.1</log4j.version>
+        <easymock.version>3.4</easymock.version>
     </properties>
 
     <dependencyManagement>
@@ -90,6 +91,12 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-api</artifactId>
                 <version>${log4j.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>${easymock.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

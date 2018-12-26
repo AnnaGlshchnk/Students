@@ -24,7 +24,7 @@ public class GroupsDaoImpl implements GroupsDao {
     private static String START = "start";
     private static String FINISH = "finish";
     private static String GROUP_ID = "groupId";
-    private static String GROUP_NAME = "name";
+    private static String GROUP_NAME = "groupName";
     private static String CREATE_DATE = "createDate";
     private static String FINISH_DATE = "finishDate";
 
@@ -97,7 +97,7 @@ public class GroupsDaoImpl implements GroupsDao {
         public Group mapRow(ResultSet resultSet, int i) throws SQLException {
 
             Group group = new Group(resultSet.getInt("group_id"),
-                    resultSet.getString("name"),
+                    resultSet.getString("group_name"),
                     resultSet.getDate("create_date"),
                     resultSet.getDate("finish_date"),
                     resultSet.getInt("countOfStudent"),
@@ -112,13 +112,13 @@ public class GroupsDaoImpl implements GroupsDao {
         public Group mapRow(ResultSet resultSet, int i) throws SQLException {
 
             Group group = new Group(resultSet.getInt("group_id"),
-                    resultSet.getString("name"),
+                    resultSet.getString("group_name"),
                     resultSet.getDate("create_date"),
                     resultSet.getDate("finish_date"),
                     new ArrayList<>());
 
             while (resultSet.next()) {
-                group.getStudents().add(new Student(resultSet.getString("name"),
+                group.getStudents().add(new Student(resultSet.getString("student_name"),
                         resultSet.getString("surname")));
             }
             return group;

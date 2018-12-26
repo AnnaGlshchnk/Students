@@ -61,7 +61,7 @@ public class StudentDaoTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse("1998-09-09");
 
-        Student student = new Student("Val", "Ui", date, new Group(2));
+        Student student = new Student("Val", "Ui", date, new Group(2, "B"));
         Integer studentId = studentsDao.addStudent(student);
 
         student = studentsDao.getStudentById(studentId);
