@@ -16,7 +16,7 @@ public class StudentsServiceImpl implements StudentsService {
     @Autowired
     StudentsDao studentsDao;
 
-    public void GroupsServiceImpl(StudentsDao studentsDao) {
+    public void setStudentsDao(StudentsDao studentsDao) {
         this.studentsDao = studentsDao ;
     }
 
@@ -38,24 +38,25 @@ public class StudentsServiceImpl implements StudentsService {
 
     @Override
     public Integer addStudent(Student student) {
-        toCheck(student);
+        validate(student);
 
         return studentsDao.addStudent(student);
     }
 
     @Override
     public Integer updateStudent(Student student) {
-        toCheck(student);
+
+        if (student.getStudentId() <= 0) {
+            throw new OperationFailedException("studentId should be more than 0");
+        }
+        validate(student);
 
         return studentsDao.updateStudent(student);
     }
 
-    private void toCheck(Student student) {
+    private void validate(Student student) {
         if (student == null) {
             throw new OperationFailedException("student shouldn't be null");
-        }
-        if (student.getStudentId() <= 0) {
-            throw new OperationFailedException("studentId should be more than 0");
         }
         if (student.getName() == null) {
             throw new OperationFailedException("student should have name");

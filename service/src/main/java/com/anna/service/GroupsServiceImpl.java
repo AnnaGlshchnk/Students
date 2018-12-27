@@ -16,7 +16,7 @@ public class GroupsServiceImpl implements GroupsService {
     @Autowired
     GroupsDao groupsDao;
 
-    public void GroupsServiceImpl(GroupsDao groupsDao) {
+    public void setGroupsDao(GroupsDao groupsDao) {
         this.groupsDao = groupsDao;
     }
 
@@ -38,7 +38,7 @@ public class GroupsServiceImpl implements GroupsService {
     @Override
     public Integer addGroup(Group group) throws OperationFailedException {
 
-        toCheck(group);
+        validate(group);
 
         return groupsDao.addGroup(group);
     }
@@ -46,17 +46,17 @@ public class GroupsServiceImpl implements GroupsService {
     @Override
     public Integer updateGroup(Group group) {
 
-        toCheck(group);
+        if (group.getGroupId() <= 0) {
+            throw new OperationFailedException("groupId should be more than 0");
+        }
+        validate(group);
 
         return groupsDao.updateGroup(group);
     }
 
-    private void toCheck(Group group) {
+    private void validate(Group group) {
         if (group == null) {
             throw new OperationFailedException("group shouldn't be null");
-        }
-        if (group.getGroupId() <= 0) {
-            throw new OperationFailedException("groupId should be more than 0");
         }
         if (group.getName() == null) {
             throw new OperationFailedException("group should have name");
