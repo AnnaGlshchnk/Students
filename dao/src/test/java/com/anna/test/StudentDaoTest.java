@@ -20,7 +20,7 @@ import java.util.List;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:dao-test-config.xml")
+@ContextConfiguration("classpath:dao-test-config.xml")
 @Transactional
 public class StudentDaoTest {
     private static final Logger LOGGER = LogManager.getLogger(StudentDaoTest.class);

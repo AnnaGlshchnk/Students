@@ -10,6 +10,10 @@ public class Student {
     private Date birthDate;
     private Group group;
 
+    public Student(int studentId) {
+        this.studentId = studentId;
+    }
+
     public Student(String name, String surname) {
         this.name = name;
         this.surname = surname;
