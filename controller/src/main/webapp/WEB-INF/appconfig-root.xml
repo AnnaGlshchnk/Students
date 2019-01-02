@@ -6,6 +6,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <import resource="classpath:dao-config.xml"/>
+    <import resource="classpath:controller-config.xml"/>
 
     <context:component-scan base-package="com.anna"/>
 

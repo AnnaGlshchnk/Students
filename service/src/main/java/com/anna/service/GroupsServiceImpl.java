@@ -44,7 +44,7 @@ public class GroupsServiceImpl implements GroupsService {
     }
 
     @Override
-    public Integer updateGroup(Group group) {
+    public Integer updateGroup(Group group) throws OperationFailedException{
 
         if (group.getGroupId() <= 0) {
             throw new OperationFailedException("groupId should be more than 0");
@@ -73,7 +73,7 @@ public class GroupsServiceImpl implements GroupsService {
     }
 
     @Override
-    public Integer deleteGroup(Integer groupId) {
+    public Integer deleteGroup(Integer groupId) throws OperationFailedException{
         if (groupId == null) {
             throw new OperationFailedException("groupId shouldn't be null");
         }

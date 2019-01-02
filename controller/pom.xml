@@ -19,6 +19,10 @@
             <groupId>com.anna</groupId>
             <artifactId>dao</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.anna</groupId>
+            <artifactId>service</artifactId>
+        </dependency>
 
         <!--spring framework-->
         <dependency>

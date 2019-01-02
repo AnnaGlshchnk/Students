@@ -46,10 +46,10 @@
     </bean>
 
     <bean id="groupService" class="com.anna.service.GroupsServiceImpl">
-        <property name="groupsDao" ref="groupDao"/>
+        <property name="groupsDao" ref="groupsDao"/>
     </bean>
 
     <bean id="studentService" class="com.anna.service.StudentsServiceImpl">
-        <property name="studentsDao" ref="studentDao"/>
+        <property name="studentsDao" ref="studentsDao"/>
     </bean>
 </beans>
