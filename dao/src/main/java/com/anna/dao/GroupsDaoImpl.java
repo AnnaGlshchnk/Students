@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Repository
 public class GroupsDaoImpl implements GroupsDao {
 
     private static String START = "start";

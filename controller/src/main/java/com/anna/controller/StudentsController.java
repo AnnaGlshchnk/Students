@@ -1,14 +1,16 @@
 package com.anna.controller;
 
-import com.anna.controller.wrappers.IdWrapper;
-import com.anna.model.Group;
 import com.anna.model.Student;
 import com.anna.model.json.View;
 import com.anna.service.StudentsService;
+import com.anna.service.StudentsServiceImpl;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -16,17 +18,16 @@ import java.util.List;
 @RestController
 public class StudentsController {
 
-    private final StudentsService studentService;
+    private StudentsService studentService;
 
     @Autowired
-    public StudentsController(StudentsService studentService) {
+    public StudentsController(StudentsServiceImpl studentService) {
         this.studentService = studentService;
     }
 
     @JsonView(View.Student.class)
     @GetMapping("/students")
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     public List<Student> getStudents(@RequestParam(value = "minBirthDate", required = false) String  minBirthDate,
                                    @RequestParam(value = "maxBirthDate", required = false) String  maxBirthDate) {
         return studentService.getStudents(minBirthDate, maxBirthDate);
@@ -35,21 +36,19 @@ public class StudentsController {
     @JsonView(View.StudentDetails.class)
     @GetMapping("/students/{studentId}")
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     public Student getStudentById(@PathVariable(value = "studentId") Integer studentId) {
         return studentService.getStudentById(studentId);
     }
 
     @PostMapping("/students")
-    @ResponseStatus(HttpStatus.CREATED)
-    @ResponseBody
-    public IdWrapper addStudent(@RequestBody Student student) {
-        return IdWrapper.wrap(studentService.addStudent(student));
+    public ResponseEntity<Void> addStudent(@RequestBody Student student, UriComponentsBuilder builder) {
+        UriComponents uriComponents = builder.path("/students/{studentId}").buildAndExpand(student.getStudentId());
+        return ResponseEntity.created(uriComponents.toUri()).build();
+
     }
 
     @PostMapping("/students/{studentId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @ResponseBody
     public void  updateGroup(@RequestBody Student student, @PathVariable("studentId") Integer studentId) {
         student.setStudentId(studentId);
         studentService.updateStudent(student);
@@ -60,4 +59,5 @@ public class StudentsController {
     public void deleteGroup(@PathVariable(value = "studentId") Integer studentId) {
         studentService.deleteStudent(studentId);
     }
+
 }

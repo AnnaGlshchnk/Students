@@ -9,14 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
 @Transactional
 public class GroupsServiceImpl implements GroupsService {
 
-    @Autowired
-    GroupsDao groupsDao;
+    private GroupsDao groupsDao;
 
-    public void setGroupsDao(GroupsDao groupsDao) {
+    @Autowired
+    public GroupsServiceImpl(GroupsDao groupsDao) {
         this.groupsDao = groupsDao;
     }
 

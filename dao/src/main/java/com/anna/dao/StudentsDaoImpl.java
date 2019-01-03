@@ -17,7 +17,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-@Repository
 public class StudentsDaoImpl implements StudentsDao {
 
     private static String MIN_BIRTH_DATE = "minBirthDate";

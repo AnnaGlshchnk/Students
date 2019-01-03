@@ -9,15 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
 @Transactional
 public class StudentsServiceImpl implements StudentsService {
 
-    @Autowired
-    StudentsDao studentsDao;
+    private StudentsDao studentsDao;
 
-    public void setStudentsDao(StudentsDao studentsDao) {
-        this.studentsDao = studentsDao ;
+    @Autowired
+    public StudentsServiceImpl(StudentsDao studentsDao) {
+        this.studentsDao = studentsDao;
     }
 
 
