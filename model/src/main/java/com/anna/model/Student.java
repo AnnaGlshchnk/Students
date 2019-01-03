@@ -1,13 +1,27 @@
 package com.anna.model;
 
+import com.anna.model.json.View;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Student {
 
+    @JsonView({View.Student.class, View.StudentDetails.class})
     private int studentId;
+
+    @JsonView({View.Student.class, View.StudentDetails.class})
     private String name;
+
+    @JsonView({View.Student.class, View.StudentDetails.class})
     private String surname;
+
+    @JsonView(View.StudentDetails.class)
     private Date birthDate;
+
+    @JsonView({View.Student.class, View.StudentDetails.class})
     private Group group;
 
     public Student(int studentId) {

@@ -1,6 +1,8 @@
 package com.anna.model;
 
+import com.anna.model.json.View;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import java.util.Date;
 import java.util.List;
@@ -8,12 +10,25 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Group {
 
+    @JsonView({View.Group.class, View.GroupWithStudents.class})
     private int groupId;
+
+    @JsonView({View.Group.class, View.GroupWithStudents.class})
     private String name;
+
+    @JsonView({View.Group.class, View.GroupWithStudents.class})
     private Date createDate;
+
+    @JsonView({View.Group.class, View.GroupWithStudents.class})
     private Date finishDate;
+
+    @JsonView(View.GroupWithStudents.class)
     private List<Student> students;
+
+    @JsonView(View.Group.class)
     private int countOfStudent;
+
+    @JsonView(View.Group.class)
     private float avgAge;
 
     public Group(int groupId) {

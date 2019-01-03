@@ -1,7 +1,11 @@
 package com.anna.controller;
 
+import com.anna.controller.wrappers.IdWrapper;
+import com.anna.model.Group;
 import com.anna.model.Student;
+import com.anna.model.json.View;
 import com.anna.service.StudentsService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +23,7 @@ public class StudentsController {
         this.studentService = studentService;
     }
 
-    //@JsonView(View.CompanySummary.class)
+    @JsonView(View.Student.class)
     @GetMapping("/students")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -28,15 +32,30 @@ public class StudentsController {
         return studentService.getStudents(minBirthDate, maxBirthDate);
     }
 
-    // @JsonView(View.CompanyDetails.class)
-    @GetMapping("/students/{id}")
+    @JsonView(View.StudentDetails.class)
+    @GetMapping("/students/{studentId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Student getStudentById(@PathVariable(value = "studentId") Integer studentId) {
         return studentService.getStudentById(studentId);
     }
 
-    @DeleteMapping("/students/{id}")
+    @PostMapping("/students")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public IdWrapper addStudent(@RequestBody Student student) {
+        return IdWrapper.wrap(studentService.addStudent(student));
+    }
+
+    @PostMapping("/students/{studentId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseBody
+    public void  updateGroup(@RequestBody Student student, @PathVariable("studentId") Integer studentId) {
+        student.setStudentId(studentId);
+        studentService.updateStudent(student);
+    }
+
+    @DeleteMapping("/students/{studentId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteGroup(@PathVariable(value = "studentId") Integer studentId) {
         studentService.deleteStudent(studentId);
