@@ -9,7 +9,7 @@
     </bean>
 
     <bean id="groupService" class="com.anna.service.GroupsServiceImpl">
-        <property name="groupsDao" ref="groupDao"/>
+        <constructor-arg ref="groupDao"/>
     </bean>
 
     <bean id="studentDao" class="org.easymock.EasyMock" factory-method="createMock">
@@ -17,7 +17,7 @@
     </bean>
 
     <bean id="studentService" class="com.anna.service.StudentsServiceImpl">
-        <property name="studentsDao" ref="studentDao"/>
+        <constructor-arg ref="studentDao"/>
     </bean>
 
 </beans>
