@@ -15,7 +15,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @CrossOrigin
-@RestController
 public class StudentsController {
 
     private StudentsService studentService;

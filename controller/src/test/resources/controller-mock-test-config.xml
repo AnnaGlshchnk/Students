@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="groupService" class="org.easymock.EasyMock" factory-method="createMock">
+        <constructor-arg value="com.anna.service.GroupsServiceImpl"/>
+    </bean>
+
+    <bean id="studentService" class="org.easymock.EasyMock" factory-method="createMock">
+        <constructor-arg value="com.anna.service.StudentsServiceImpl"/>
+    </bean>
+
+<bean id="groupsController" class="com.anna.controller.GroupsController">
+    <constructor-arg ref="groupService"/>
+</bean>
+
+    <bean id="studentsController" class="com.anna.controller.StudentsController">
+        <constructor-arg ref="studentService"/>
+    </bean>
+</beans>

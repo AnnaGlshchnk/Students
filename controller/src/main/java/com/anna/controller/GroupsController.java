@@ -2,6 +2,7 @@ package com.anna.controller;
 
 import com.anna.model.Group;
 import com.anna.model.json.View;
+import com.anna.service.GroupsService;
 import com.anna.service.GroupsServiceImpl;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @CrossOrigin
-@RestController
 public class GroupsController {
 
 
     private GroupsServiceImpl groupService;
-    @Autowired
+
     public GroupsController(GroupsServiceImpl groupService) {
         this.groupService = groupService;
     }
