@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath:dao-config.xml"/>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <constructor-arg ref="dataSource" />
+    </bean>
+
+    <bean id="groupService" class="com.anna.service.GroupsServiceImpl">
+        <constructor-arg ref="groupsDao"/>
+    </bean>
+
+    <bean id="studentService" class="com.anna.service.StudentsServiceImpl">
+        <constructor-arg ref="studentsDao"/>
+    </bean>
+</beans>

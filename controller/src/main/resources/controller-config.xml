@@ -6,23 +6,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:component-scan base-package="com.anna.controller"/>
+    <import resource="classpath:service-config.xml"/>
 
     <mvc:annotation-driven/>
-
-    <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/students" />
-        <property name="username" value="user" />
-        <property name="password" value="password" />
-    </bean>
-
-    <bean name="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-        <constructor-arg name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
@@ -37,19 +23,11 @@
         <property name="prettyPrint" value="true" />
     </bean>
 
-    <bean id="studentsDao" class="com.anna.dao.StudentsDaoImpl">
-        <constructor-arg ref="dataSource"/>
+    <bean id="groupsController" class="com.anna.controller.GroupsController">
+        <constructor-arg ref="groupService"/>
     </bean>
 
-    <bean id="groupsDao" class="com.anna.dao.GroupsDaoImpl">
-        <constructor-arg ref="dataSource"/>
-    </bean>
-
-    <bean id="groupService" class="com.anna.service.GroupsServiceImpl">
-        <property name="groupsDao" ref="groupsDao"/>
-    </bean>
-
-    <bean id="studentService" class="com.anna.service.StudentsServiceImpl">
-        <property name="studentsDao" ref="studentsDao"/>
+    <bean id="studentsController" class="com.anna.controller.StudentsController">
+        <constructor-arg ref="studentService"/>
     </bean>
 </beans>
