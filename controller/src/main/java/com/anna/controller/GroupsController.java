@@ -3,9 +3,7 @@ package com.anna.controller;
 import com.anna.model.Group;
 import com.anna.model.json.View;
 import com.anna.service.GroupsService;
-import com.anna.service.GroupsServiceImpl;
 import com.fasterxml.jackson.annotation.JsonView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,16 +15,16 @@ import java.util.List;
 @CrossOrigin
 public class GroupsController {
 
+    private GroupsService groupService;
 
-    private GroupsServiceImpl groupService;
-
-    public GroupsController(GroupsServiceImpl groupService) {
+    public GroupsController(GroupsService groupService) {
         this.groupService = groupService;
     }
 
     @JsonView(View.Group.class)
     @GetMapping("/groups")
     @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
     public List<Group> getGroups(@RequestParam(value = "start", required = false) String  start,
                                     @RequestParam(value = "finish", required = false) String  finish) {
         return groupService.getGroups(start, finish);
@@ -41,7 +39,8 @@ public class GroupsController {
 
     @PostMapping("/groups")
     public ResponseEntity<Void> addGroup(@RequestBody Group group, UriComponentsBuilder builder) {
-        UriComponents uriComponents = builder.path("/groups/{groupId}").buildAndExpand(group.getGroupId());
+        Integer createdId = groupService.addGroup(group);
+        UriComponents uriComponents = builder.path("/groups/{groupId}").buildAndExpand(createdId);
         return ResponseEntity.created(uriComponents.toUri()).build();
     }
 

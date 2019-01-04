@@ -19,14 +19,15 @@ public class StudentsController {
 
     private StudentsService studentService;
 
-    @Autowired
-    public StudentsController(StudentsServiceImpl studentService) {
+
+    public StudentsController(StudentsService studentService) {
         this.studentService = studentService;
     }
 
     @JsonView(View.Student.class)
     @GetMapping("/students")
     @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
     public List<Student> getStudents(@RequestParam(value = "minBirthDate", required = false) String  minBirthDate,
                                    @RequestParam(value = "maxBirthDate", required = false) String  maxBirthDate) {
         return studentService.getStudents(minBirthDate, maxBirthDate);
@@ -41,12 +42,13 @@ public class StudentsController {
 
     @PostMapping("/students")
     public ResponseEntity<Void> addStudent(@RequestBody Student student, UriComponentsBuilder builder) {
-        UriComponents uriComponents = builder.path("/students/{studentId}").buildAndExpand(student.getStudentId());
+        Integer createdId = studentService.addStudent(student);
+        UriComponents uriComponents = builder.path("/students/{studentId}").buildAndExpand(createdId);
         return ResponseEntity.created(uriComponents.toUri()).build();
 
     }
 
-    @PostMapping("/students/{studentId}")
+    @PutMapping("/students/{studentId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void  updateGroup(@RequestBody Student student, @PathVariable("studentId") Integer studentId) {
         student.setStudentId(studentId);

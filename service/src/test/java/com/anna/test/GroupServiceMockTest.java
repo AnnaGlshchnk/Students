@@ -106,7 +106,7 @@ public class GroupServiceMockTest {
         Date date2 = simpleDateFormat.parse("2023-06-30");
 
         Integer id = groupsService.updateGroup(new Group(1, "A", date1, date2));
-        Assert.assertEquals(id, new Integer(1));
+        Assert.assertEquals(id, Integer.valueOf(1));
 
     }
 
@@ -118,7 +118,7 @@ public class GroupServiceMockTest {
         replay(mockGroupsDao);
 
         Integer id = groupsService.deleteGroup(1);
-        Assert.assertEquals(id, new Integer(1));
+        Assert.assertEquals(id, Integer.valueOf(1));
 
     }
 }

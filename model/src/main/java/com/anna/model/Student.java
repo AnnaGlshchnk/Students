@@ -3,6 +3,7 @@ package com.anna.model;
 import com.anna.model.json.View;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -19,10 +20,14 @@ public class Student {
     private String surname;
 
     @JsonView(View.StudentDetails.class)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
 
     @JsonView({View.Student.class, View.StudentDetails.class})
     private Group group;
+
+    public Student() {
+    }
 
     public Student(int studentId) {
         this.studentId = studentId;

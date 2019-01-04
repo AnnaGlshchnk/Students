@@ -23,4 +23,5 @@ yarn-error.log*
 *.iml
 *.class
 *.kotlin_module
-/target
+**/target/
+*.jar

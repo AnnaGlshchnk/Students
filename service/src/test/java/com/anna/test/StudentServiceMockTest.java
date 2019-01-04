@@ -106,7 +106,7 @@ public class StudentServiceMockTest {
         Date date = simpleDateFormat.parse("1998-09-09");
 
         Integer studentId = studentsService.updateStudent(new Student(1, "Anna","Glush", date, new Group(1, "A")));
-        Assert.assertEquals(studentId, new Integer(1));
+        Assert.assertEquals(studentId, Integer.valueOf(1));
 
     }
 
