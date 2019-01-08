@@ -12,17 +12,17 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Group {
 
-    @JsonView({View.Group.class, View.GroupWithStudents.class})
+    @JsonView({View.Student.class,View.GroupWithStudents.class})
     private int groupId;
 
-    @JsonView({View.Group.class, View.GroupWithStudents.class})
+    @JsonView({View.Student.class,View.GroupWithStudents.class})
     private String name;
 
-    @JsonView({View.Group.class, View.GroupWithStudents.class})
+    @JsonView(View.GroupWithStudents.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createDate;
 
-    @JsonView({View.Group.class, View.GroupWithStudents.class})
+    @JsonView(View.GroupWithStudents.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date finishDate;
 

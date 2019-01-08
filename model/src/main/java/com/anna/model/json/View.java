@@ -2,10 +2,10 @@ package com.anna.model.json;
 
 public class View {
 
-    public static class Group {
+    public static class Group extends  GroupWithStudents{
     }
 
-    public static class GroupWithStudents extends Group {
+    public static class GroupWithStudents {
     }
 
     public static class Student {

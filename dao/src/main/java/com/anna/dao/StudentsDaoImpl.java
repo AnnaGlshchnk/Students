@@ -106,8 +106,8 @@ public class StudentsDaoImpl implements StudentsDao {
                     resultSet.getString("student_name"),
                     resultSet.getString("surname"),
                     resultSet.getDate("birth_date"),
-                    new Group(resultSet.getInt("group_id"),
-                            resultSet.getString("group_name")));
+                    new Group(resultSet.getInt("student_groupId"),
+                            resultSet.getString("student_groupName")));
         }
     }
 }

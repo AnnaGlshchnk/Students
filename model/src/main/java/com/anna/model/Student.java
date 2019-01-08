@@ -10,20 +10,20 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Student {
 
-    @JsonView({View.Student.class, View.StudentDetails.class})
+    @JsonView(View.Student.class)
     private int studentId;
 
-    @JsonView({View.Student.class, View.StudentDetails.class})
+    @JsonView({View.Student.class, View.GroupWithStudents.class})
     private String name;
 
-    @JsonView({View.Student.class, View.StudentDetails.class})
+    @JsonView({View.Student.class, View.GroupWithStudents.class})
     private String surname;
 
-    @JsonView(View.StudentDetails.class)
+    @JsonView(View.Student.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
 
-    @JsonView({View.Student.class, View.StudentDetails.class})
+    @JsonView(View.Student.class)
     private Group group;
 
     public Student() {

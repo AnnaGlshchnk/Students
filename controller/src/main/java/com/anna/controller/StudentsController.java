@@ -16,7 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @CrossOrigin
-@Controller
+@RestController
 public class StudentsController {
 
     private StudentsService studentService;
@@ -29,7 +29,6 @@ public class StudentsController {
     @JsonView(View.Student.class)
     @GetMapping("/students")
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     public List<Student> getStudents(@RequestParam(value = "minBirthDate", required = false) String  minBirthDate,
                                    @RequestParam(value = "maxBirthDate", required = false) String  maxBirthDate) {
         return studentService.getStudents(minBirthDate, maxBirthDate);
