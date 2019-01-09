@@ -1,6 +1,7 @@
 package com.anna.dao;
 
 import com.anna.model.Group;
+import com.anna.model.SaveGroup;
 import com.anna.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -40,11 +42,9 @@ public class GroupsDaoImpl implements GroupsDao {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    @Autowired
-    public GroupsDaoImpl(DataSource dataSource) {
-        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    public GroupsDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
-
 
     @Override
     public List<Group> getGroups(String start, String finish) {
@@ -61,7 +61,7 @@ public class GroupsDaoImpl implements GroupsDao {
     }
 
     @Override
-    public Integer addGroup(Group group) {
+    public Integer addGroup(SaveGroup group) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue(GROUP_NAME, group.getName());
@@ -74,7 +74,7 @@ public class GroupsDaoImpl implements GroupsDao {
     }
 
     @Override
-    public Integer updateGroup(Group group) {
+    public Integer updateGroup(SaveGroup group) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue(GROUP_ID, group.getGroupId());
         mapSqlParameterSource.addValue(GROUP_NAME, group.getName());

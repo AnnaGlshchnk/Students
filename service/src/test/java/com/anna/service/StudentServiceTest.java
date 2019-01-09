@@ -1,8 +1,7 @@
-package com.anna.test;
+package com.anna.service;
 
 import com.anna.model.Group;
 import com.anna.model.Student;
-import com.anna.service.StudentsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -18,6 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static org.hamcrest.Matchers.*;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:service-test-config.xml"})
 @Transactional
@@ -29,7 +30,7 @@ public class StudentServiceTest {
 
     @Test
     public void getStudents() {
-        LOGGER.debug("test: getStudents");
+        LOGGER.debug("service: getStudents");
 
         List<Student> students = studentsService.getStudents(null, null);
         Assert.assertEquals(6, students.size());
@@ -37,7 +38,7 @@ public class StudentServiceTest {
 
     @Test
     public void getStudentsWithParam() {
-        LOGGER.debug("test: getStudents");
+        LOGGER.debug("service: getStudents");
 
         List<Student> students = studentsService.getStudents("1996-05-04", "1998-04-08");
         Assert.assertEquals(2, students.size());
@@ -45,7 +46,7 @@ public class StudentServiceTest {
 
     @Test
     public void getStudentById() {
-        LOGGER.debug("test: getStudentById");
+        LOGGER.debug("service: getStudentById");
 
         Student student = studentsService.getStudentById(1);
         Assert.assertNotNull(student);
@@ -56,7 +57,7 @@ public class StudentServiceTest {
 
     @Test
     public void addStudent() throws ParseException {
-        LOGGER.debug("test: addStudent");
+        LOGGER.debug("service: addStudent");
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -64,37 +65,28 @@ public class StudentServiceTest {
 
         Student student = new Student("Val", "Ui", date, new Group(2, "B"));
         Integer studentId = studentsService.addStudent(student);
-        Assert.assertNotNull(student);
-        Assert.assertNotNull(student.getName());
-        Assert.assertNotNull(student.getSurname());
-        Assert.assertNotNull(student.getBirthDate());
-        Assert.assertNotNull(student.getGroup());
-
         student = studentsService.getStudentById(studentId);
-        Assert.assertEquals(student.getStudentId(), 7);
+        Assert.assertThat(student, allOf(hasProperty("studentId", equalTo(7)),
+                hasProperty("name", equalTo("Val")),
+                hasProperty("surname", equalTo("Ui")),
+                hasProperty("birthDate", equalTo(date))));
     }
 
     @Test
     public void updateStudent() {
-        LOGGER.debug("test: updateStudent");
+        LOGGER.debug("service: updateStudent");
 
         Student student = studentsService.getStudentById(1);
-        Assert.assertNotNull(student);
-        Assert.assertNotEquals(0, student.getStudentId());
-        Assert.assertNotNull(student.getName());
-        Assert.assertNotNull(student.getSurname());
-        Assert.assertNotNull(student.getBirthDate());
-        Assert.assertNotNull(student.getGroup());
         student.setName("Anna");
-
         studentsService.updateStudent(student);
         student = studentsService.getStudentById(1);
+
         Assert.assertEquals("Anna", student.getName());
     }
 
     @Test
     public void deleteStudent() {
-        LOGGER.debug("test: deleteStudent");
+        LOGGER.debug("service: deleteStudent");
 
         studentsService.deleteStudent(1);
         List<Student> students = studentsService.getStudents(null, null);

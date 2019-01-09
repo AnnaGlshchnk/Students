@@ -1,6 +1,5 @@
-package com.anna.test;
+package com.anna.controller;
 
-import com.anna.controller.StudentsController;
 import com.anna.model.Student;
 import com.anna.service.StudentsService;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.text.SimpleDateFormat;
@@ -59,7 +57,7 @@ public class StudentsControllerMockTest {
 
     @Test
     public void getStudents() throws Exception {
-        LOGGER.debug("test: getStudents");
+        LOGGER.debug("service: getStudents");
 
         List<Student> students = new ArrayList<>();
         expect(mockStudentsService.getStudents(null, null)).andReturn(students);
@@ -71,7 +69,7 @@ public class StudentsControllerMockTest {
 
     @Test
     public void getStudentById() throws Exception {
-        LOGGER.debug("test: getStudentById");
+        LOGGER.debug("service: getStudentById");
 
         Student student = new Student(1, "Anna", "Glush");
         expect(mockStudentsService.getStudentById(anyInt())).andReturn(student);
@@ -83,7 +81,7 @@ public class StudentsControllerMockTest {
 
     @Test
     public void addStudent() throws Exception {
-        LOGGER.debug("test: addStudent");
+        LOGGER.debug("service: addStudent");
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -103,7 +101,7 @@ public class StudentsControllerMockTest {
 
     @Test
     public void updateStudent() throws Exception {
-        LOGGER.debug("test: updateStudent");
+        LOGGER.debug("service: updateStudent");
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -123,7 +121,7 @@ public class StudentsControllerMockTest {
 
     @Test
     public void deleteStudent() throws Exception {
-        LOGGER.debug("test: deleteStudent");
+        LOGGER.debug("service: deleteStudent");
 
         expect(mockStudentsService.deleteStudent(anyInt())).andReturn(0);
         replay(mockStudentsService);

@@ -1,9 +1,8 @@
-package com.anna.test;
+package com.anna.service;
 
 import com.anna.dao.StudentsDao;
 import com.anna.model.Group;
 import com.anna.model.Student;
-import com.anna.service.StudentsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -43,7 +42,7 @@ public class StudentServiceMockTest {
 
     @Test
     public void getStudents() {
-        LOGGER.debug("test: getStudents");
+        LOGGER.debug("service: getStudents");
 
         List<Student> students = new ArrayList<>();
         expect(mockStudentsDao.getStudents(null, null)).andReturn(students);
@@ -56,7 +55,7 @@ public class StudentServiceMockTest {
 
     @Test
     public void getStudentsWithParam() {
-        LOGGER.debug("test: getStudentsWithParam");
+        LOGGER.debug("service: getStudentsWithParam");
 
         List<Student> students = new ArrayList<>();
         expect(mockStudentsDao.getStudents("1998-03-04", "2000-12-12")).andReturn(students);
@@ -69,7 +68,7 @@ public class StudentServiceMockTest {
 
     @Test
     public void getStudentById() {
-        LOGGER.debug("test: getStudentById");
+        LOGGER.debug("service: getStudentById");
 
         expect(mockStudentsDao.getStudentById(anyInt())).andReturn(new Student(4));
         replay(mockStudentsDao);
@@ -80,7 +79,7 @@ public class StudentServiceMockTest {
 
     @Test
     public void addGroup() throws ParseException {
-        LOGGER.debug("test: addGroup");
+        LOGGER.debug("service: addGroup");
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -97,7 +96,7 @@ public class StudentServiceMockTest {
 
     @Test
     public void updateGroup() throws ParseException {
-        LOGGER.debug("test: updateGroup");
+        LOGGER.debug("service: updateGroup");
         expect(mockStudentsDao.updateStudent(anyObject())).andReturn(1);
         replay(mockStudentsDao);
 
@@ -112,7 +111,7 @@ public class StudentServiceMockTest {
 
     @Test
     public void deleteGroup() {
-        LOGGER.debug("test: deleteGroup");
+        LOGGER.debug("service: deleteGroup");
 
         expect(mockStudentsDao.deleteStudent(anyInt())).andReturn(null);
         replay(mockStudentsDao);

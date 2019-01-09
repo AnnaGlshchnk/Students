@@ -1,18 +1,20 @@
 package com.anna.service;
 
+import com.anna.exception.OperationFailedException;
 import com.anna.model.Group;
+import com.anna.model.SaveGroup;
 
 import java.util.List;
 
 public interface GroupsService {
 
-    List<Group> getGroups(String start, String finish);
+    List<Group> getGroups(String start, String finish) throws OperationFailedException;
 
-    Group getGroupById(Integer groupId);
+    Group getGroupById(Integer groupId) throws OperationFailedException;
 
-    Integer addGroup(Group group);
+    Integer addGroup(SaveGroup group) throws OperationFailedException;
 
-    Integer updateGroup(Group group);
+    Integer updateGroup(SaveGroup group) throws OperationFailedException;
 
-    Integer deleteGroup(Integer groupId);
+    Integer deleteGroup(Integer groupId) throws OperationFailedException;
 }

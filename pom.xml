@@ -26,7 +26,8 @@
         <log4j.version>2.4.1</log4j.version>
         <easymock.version>3.4</easymock.version>
         <jackson.version>2.9.5</jackson.version>
-        <javax.servlet-api.version>3.0.1</javax.servlet-api.version>
+        <servlet-api.version>3.0.1</servlet-api.version>
+        <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
     </properties>
 
     <dependencyManagement>
@@ -57,7 +58,7 @@
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
-                <version>${javax.servlet-api.version}</version>
+                <version>${servlet-api.version}</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -93,6 +94,13 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+
+            <!--mysql driver-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java.version}</version>
             </dependency>
 
             <!--test-->

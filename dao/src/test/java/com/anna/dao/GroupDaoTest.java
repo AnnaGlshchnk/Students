@@ -1,7 +1,7 @@
-package com.anna.test;
+package com.anna.dao;
 
-import com.anna.dao.GroupsDao;
 import com.anna.model.Group;
+import com.anna.model.SaveGroup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -29,7 +29,7 @@ public class GroupDaoTest {
 
     @Test
     public void getGroups() {
-        LOGGER.debug("test: getGroups");
+        LOGGER.debug("service: getGroups");
 
         List<Group> groups = groupsDao.getGroups(null, null);
         Assert.assertEquals(3, groups.size());
@@ -37,7 +37,7 @@ public class GroupDaoTest {
 
     @Test
     public void getGroupsWithParam() {
-        LOGGER.debug("test: getGroups");
+        LOGGER.debug("service: getGroups");
 
         List<Group> groups = groupsDao.getGroups("2011-08-04", "2019-07-29");
         Assert.assertEquals(2, groups.size());
@@ -45,7 +45,7 @@ public class GroupDaoTest {
 
     @Test
     public void getGroupById() {
-        LOGGER.debug("test: getGroupById");
+        LOGGER.debug("service: getGroupById");
 
         Group group = groupsDao.getGroupById(1);
         Assert.assertEquals("A", group.getName());
@@ -53,35 +53,39 @@ public class GroupDaoTest {
 
     @Test
     public void addGroup() throws ParseException {
-        LOGGER.debug("test: addGroup");
+        LOGGER.debug("service: addGroup");
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date1 = simpleDateFormat.parse("2018-09-01");
         Date date2 = simpleDateFormat.parse("2022-06-29");
 
-        Group group = new Group("D", date1, date2);
+        SaveGroup group = new SaveGroup("D", date1, date2);
         Integer groupId = groupsDao.addGroup(group);
 
-        group = groupsDao.getGroupById(groupId);
-        Assert.assertEquals(group.getGroupId(), 4);
+        Group newGroup = groupsDao.getGroupById(groupId);
+        Assert.assertEquals(newGroup.getGroupId(), 4);
     }
 
     @Test
-    public void updateGroup() {
-        LOGGER.debug("test: updateGroup");
+    public void updateGroup() throws ParseException {
+        LOGGER.debug("service: updateGroup");
 
-        Group group = groupsDao.getGroupById(1);
-        group.setName("newA");
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        Date date1 = simpleDateFormat.parse("2018-09-01");
+        Date date2 = simpleDateFormat.parse("2022-06-29");
 
-        groupsDao.updateGroup(group);
+        SaveGroup saveGroup = new SaveGroup(1, "A", date1, date2);
+        saveGroup.setName("newA");
+        groupsDao.updateGroup(saveGroup);
         Group newgroup = groupsDao.getGroupById(1);
         Assert.assertEquals("newA", newgroup.getName());
     }
 
     @Test
     public void deleteGroup() {
-        LOGGER.debug("test: deleteGroup");
+        LOGGER.debug("service: deleteGroup");
 
         groupsDao.deleteGroup(1);
         List<Group> groups = groupsDao.getGroups(null, null);

@@ -1,6 +1,5 @@
-package com.anna.test;
+package com.anna.dao;
 
-import com.anna.dao.StudentsDao;
 import com.anna.model.Group;
 import com.anna.model.Student;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +29,7 @@ public class StudentDaoTest {
 
     @Test
     public void getStudents() {
-        LOGGER.debug("test: getStudents");
+        LOGGER.debug("service: getStudents");
 
         List<Student> students = studentsDao.getStudents(null, null);
         Assert.assertEquals(6, students.size());
@@ -38,7 +37,7 @@ public class StudentDaoTest {
 
     @Test
     public void getStudentsWithParam() {
-        LOGGER.debug("test: getStudents");
+        LOGGER.debug("service: getStudents");
 
         List<Student> students = studentsDao.getStudents("1996-05-04", "1998-04-08");
         Assert.assertEquals(2, students.size());
@@ -46,7 +45,7 @@ public class StudentDaoTest {
 
     @Test
     public void getStudentById() {
-        LOGGER.debug("test: getStudentById");
+        LOGGER.debug("service: getStudentById");
 
         Student student = studentsDao.getStudentById(1);
         Assert.assertEquals("Ann", student.getName());
@@ -55,7 +54,7 @@ public class StudentDaoTest {
 
     @Test
     public void addStudent() throws ParseException {
-        LOGGER.debug("test: addStudent");
+        LOGGER.debug("service: addStudent");
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -70,7 +69,7 @@ public class StudentDaoTest {
 
     @Test
     public void updateStudent() {
-        LOGGER.debug("test: updateStudent");
+        LOGGER.debug("service: updateStudent");
 
         Student student = studentsDao.getStudentById(1);
         student.setName("Anna");
@@ -82,7 +81,7 @@ public class StudentDaoTest {
 
     @Test
     public void deleteStudent() {
-        LOGGER.debug("test: deleteStudent");
+        LOGGER.debug("service: deleteStudent");
 
         studentsDao.deleteStudent(1);
         List<Student> students = studentsDao.getStudents(null, null);

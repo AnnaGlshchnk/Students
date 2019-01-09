@@ -1,8 +1,8 @@
-package com.anna.test;
+package com.anna.service;
 
 import com.anna.dao.GroupsDao;
 import com.anna.model.Group;
-import com.anna.service.GroupsService;
+import com.anna.model.SaveGroup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -42,7 +42,7 @@ public class GroupServiceMockTest {
 
     @Test
     public void getGroups() {
-        LOGGER.debug("test: getGroups");
+        LOGGER.debug("service: getGroups");
 
         List<Group> groups = new ArrayList<>();
         expect(mockGroupsDao.getGroups(null, null)).andReturn(groups);
@@ -55,7 +55,7 @@ public class GroupServiceMockTest {
 
     @Test
     public void getGroupsWithParam() {
-        LOGGER.debug("test: getGroups");
+        LOGGER.debug("service: getGroups");
 
         List<Group> groups = new ArrayList<>();
         expect(mockGroupsDao.getGroups("2011-08-04", "2019-07-29")).andReturn(groups);
@@ -67,7 +67,7 @@ public class GroupServiceMockTest {
 
     @Test
     public void getGroupById() {
-        LOGGER.debug("test: getGroupById");
+        LOGGER.debug("service: getGroupById");
 
         expect(mockGroupsDao.getGroupById(anyInt())).andReturn(new Group(1));
         replay(mockGroupsDao);
@@ -78,14 +78,14 @@ public class GroupServiceMockTest {
 
     @Test
     public void addGroup() throws ParseException {
-        LOGGER.debug("test: addGroup");
+        LOGGER.debug("service: addGroup");
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date1 = simpleDateFormat.parse("2019-08-04");
         Date date2 = simpleDateFormat.parse("2023-06-30");
 
-        Group group = new Group("D", date1, date2);
+        SaveGroup group = new SaveGroup("D", date1, date2);
 
         expect(mockGroupsDao.addGroup(group)).andReturn(4);
         replay(mockGroupsDao);
@@ -96,7 +96,7 @@ public class GroupServiceMockTest {
 
     @Test
     public void updateGroup() throws ParseException {
-        LOGGER.debug("test: updateGroup");
+        LOGGER.debug("service: updateGroup");
         expect(mockGroupsDao.updateGroup(anyObject())).andReturn(1);
         replay(mockGroupsDao);
 
@@ -105,14 +105,14 @@ public class GroupServiceMockTest {
         Date date1 = simpleDateFormat.parse("2019-08-04");
         Date date2 = simpleDateFormat.parse("2023-06-30");
 
-        Integer id = groupsService.updateGroup(new Group(1, "A", date1, date2));
+        Integer id = groupsService.updateGroup(new SaveGroup(1, "A", date1, date2));
         Assert.assertEquals(id, Integer.valueOf(1));
 
     }
 
     @Test
     public void deleteGroup() {
-        LOGGER.debug("test: deleteGroup");
+        LOGGER.debug("service: deleteGroup");
 
         expect(mockGroupsDao.deleteGroup(anyInt())).andReturn(1);
         replay(mockGroupsDao);

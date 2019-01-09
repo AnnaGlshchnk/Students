@@ -1,7 +1,7 @@
-package com.anna.test;
+package com.anna.service;
 
 import com.anna.model.Group;
-import com.anna.service.GroupsService;
+import com.anna.model.SaveGroup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -17,6 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static org.hamcrest.Matchers.*;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:service-test-config.xml"})
 @Transactional
@@ -29,7 +31,7 @@ public class GroupServiceTest {
 
     @Test
     public void getGroups() {
-        LOGGER.debug("test: getGroups");
+        LOGGER.debug("service: getGroups");
 
         List<Group> groups = groupsService.getGroups(null, null);
         Assert.assertEquals(3, groups.size());
@@ -37,7 +39,7 @@ public class GroupServiceTest {
 
     @Test
     public void getGroupsWithParam() {
-        LOGGER.debug("test: getGroups");
+        LOGGER.debug("service: getGroups");
 
         List<Group> groups = groupsService.getGroups("2011-08-04", "2019-07-29");
         Assert.assertEquals(2, groups.size());
@@ -45,53 +47,51 @@ public class GroupServiceTest {
 
     @Test
     public void getGroupById() {
-        LOGGER.debug("test: getGroupById");
+        LOGGER.debug("service: getGroupById");
 
         Group group = groupsService.getGroupById(1);
-        Assert.assertNotNull(group);
-        Assert.assertNotEquals(0, group.getGroupId());
-        Assert.assertEquals("A", group.getName());
+        Assert.assertThat(group, allOf(hasProperty("groupId", equalTo(1)),
+                hasProperty("name", equalTo("A"))));
     }
 
     @Test
     public void addGroup() throws ParseException {
-        LOGGER.debug("test: addGroup");
+        LOGGER.debug("service: addGroup");
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date1 = simpleDateFormat.parse("2018-09-01");
         Date date2 = simpleDateFormat.parse("2022-06-29");
 
-        Group group = new Group("D", date1, date2);
+        SaveGroup group = new SaveGroup("D", date1, date2);
         Integer groupId = groupsService.addGroup(group);
+        Group newGroup = groupsService.getGroupById(groupId);
 
-        group = groupsService.getGroupById(groupId);
-        Assert.assertNotNull(group);
-        Assert.assertNotNull(group.getName());
-        Assert.assertNotNull(group.getCreateDate());
-        Assert.assertNotNull(group.getFinishDate());
-        Assert.assertEquals(group.getGroupId(), 4);
+        Assert.assertThat(newGroup, allOf(hasProperty("groupId", equalTo(4)),
+                hasProperty("name", equalTo("D")),
+                hasProperty("createDate", equalTo(date1)),
+                hasProperty("finishDate", equalTo(date2))));
     }
 
     @Test
-    public void updateGroup() {
-        LOGGER.debug("test: updateGroup");
+    public void updateGroup() throws ParseException{
+        LOGGER.debug("service: updateGroup");
 
-        Group group = groupsService.getGroupById(1);
-        Assert.assertNotNull(group);
-        Assert.assertNotEquals(0, group.getGroupId());
-        Assert.assertNotNull(group.getName());
-        Assert.assertNotNull(group.getCreateDate());
-        Assert.assertNotNull(group.getFinishDate());
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        Date date1 = simpleDateFormat.parse("2018-09-01");
+        Date date2 = simpleDateFormat.parse("2022-06-29");
+
+        SaveGroup group = new SaveGroup(1,"A", date1, date2);
         group.setName("newA");
-
         groupsService.updateGroup(group);
         Group newgroup = groupsService.getGroupById(1);
+
         Assert.assertEquals("newA", newgroup.getName());
     }
     @Test
     public void deleteGroup() {
-        LOGGER.debug("test: deleteGroup");
+        LOGGER.debug("service: deleteGroup");
 
         groupsService.deleteGroup(1);
         List<Group> groups = groupsService.getGroups(null, null);

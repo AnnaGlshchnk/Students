@@ -3,6 +3,7 @@ package com.anna.service;
 import com.anna.dao.GroupsDao;
 import com.anna.exception.OperationFailedException;
 import com.anna.model.Group;
+import com.anna.model.SaveGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,6 @@ public class GroupsServiceImpl implements GroupsService {
 
     private GroupsDao groupsDao;
 
-    @Autowired
     public GroupsServiceImpl(GroupsDao groupsDao) {
         this.groupsDao = groupsDao;
     }
@@ -35,7 +35,7 @@ public class GroupsServiceImpl implements GroupsService {
     }
 
     @Override
-    public Integer addGroup(Group group) throws OperationFailedException {
+    public Integer addGroup(SaveGroup group) throws OperationFailedException {
 
         validate(group);
 
@@ -43,7 +43,7 @@ public class GroupsServiceImpl implements GroupsService {
     }
 
     @Override
-    public Integer updateGroup(Group group) throws OperationFailedException{
+    public Integer updateGroup(SaveGroup group) throws OperationFailedException{
 
         if (group.getGroupId() <= 0) {
             throw new OperationFailedException("groupId should be more than 0");
@@ -53,7 +53,7 @@ public class GroupsServiceImpl implements GroupsService {
         return groupsDao.updateGroup(group);
     }
 
-    private void validate(Group group) {
+    private void validate(SaveGroup group) {
         if (group == null) {
             throw new OperationFailedException("group shouldn't be null");
         }
@@ -65,9 +65,6 @@ public class GroupsServiceImpl implements GroupsService {
         }
         if (group.getFinishDate() == null) {
             throw new OperationFailedException("group should have graduation date");
-        }
-        if (group.getCountOfStudent() < 0) {
-            throw new OperationFailedException("group should have students");
         }
     }
 

@@ -13,16 +13,4 @@
         <property name="username" value="anna" />
         <property name="password" value="123" />
     </bean>
-
-    <bean name="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-        <constructor-arg name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <bean id="studentsDao" class="com.anna.dao.StudentsDaoImpl">
-        <constructor-arg ref="dataSource"/>
-    </bean>
-
-    <bean id="groupsDao" class="com.anna.dao.GroupsDaoImpl">
-        <constructor-arg ref="dataSource"/>
-    </bean>
 </beans>

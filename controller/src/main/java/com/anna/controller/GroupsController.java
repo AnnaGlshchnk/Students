@@ -1,6 +1,7 @@
 package com.anna.controller;
 
 import com.anna.model.Group;
+import com.anna.model.SaveGroup;
 import com.anna.model.json.View;
 import com.anna.service.GroupsService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -38,7 +39,7 @@ public class GroupsController {
     }
 
     @PostMapping("/groups")
-    public ResponseEntity<Void> addGroup(@RequestBody Group group, UriComponentsBuilder builder) {
+    public ResponseEntity<Void> addGroup(@RequestBody SaveGroup group, UriComponentsBuilder builder) {
         Integer createdId = groupService.addGroup(group);
         UriComponents uriComponents = builder.path("/groups/{groupId}").buildAndExpand(createdId);
         return ResponseEntity.created(uriComponents.toUri()).build();
@@ -46,7 +47,7 @@ public class GroupsController {
 
     @PutMapping("/groups/{groupId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateGroup(@RequestBody Group group, @PathVariable("groupId") Integer groupId) {
+    public void updateGroup(@RequestBody SaveGroup group, @PathVariable("groupId") Integer groupId) {
         group.setGroupId(groupId);
 
         groupService.updateGroup(group);

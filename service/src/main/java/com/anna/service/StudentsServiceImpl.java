@@ -14,7 +14,6 @@ public class StudentsServiceImpl implements StudentsService {
 
     private StudentsDao studentsDao;
 
-    @Autowired
     public StudentsServiceImpl(StudentsDao studentsDao) {
         this.studentsDao = studentsDao;
     }

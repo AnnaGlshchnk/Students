@@ -42,9 +42,8 @@ public class StudentsDaoImpl implements StudentsDao {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    @Autowired
-    public StudentsDaoImpl(DataSource dataSource) {
-        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    public StudentsDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     @Override

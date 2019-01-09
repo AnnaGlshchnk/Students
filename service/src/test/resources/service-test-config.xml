@@ -7,6 +7,7 @@
        http://www.springframework.org/schema/jdbc
        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
+    <import resource="classpath:dao-beans.xml"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
@@ -32,20 +33,12 @@
         </property>
     </bean>
 
-    <bean name="studentDao" class="com.anna.dao.StudentsDaoImpl">
-        <constructor-arg ref="dataSource"/>
-    </bean>
-
-    <bean name="groupDao" class="com.anna.dao.GroupsDaoImpl">
-        <constructor-arg ref="dataSource"/>
-    </bean>
-
     <bean id="studentService" class="com.anna.service.StudentsServiceImpl">
-        <constructor-arg name="studentsDao" ref="studentDao"/>
+        <constructor-arg name="studentsDao" ref="studentsDao"/>
     </bean>
 
     <bean id="groupService" class="com.anna.service.GroupsServiceImpl">
-        <constructor-arg name="groupsDao" ref="groupDao"/>
+        <constructor-arg name="groupsDao" ref="groupsDao"/>
     </bean>
 
 </beans>

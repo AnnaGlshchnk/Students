@@ -1,7 +1,7 @@
-package com.anna.test;
+package com.anna.controller;
 
-import com.anna.controller.GroupsController;
 import com.anna.model.Group;
+import com.anna.model.SaveGroup;
 import com.anna.service.GroupsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,7 +55,7 @@ public class GroupsControllerMockTest {
 
     @Test
     public void getGroups() throws Exception {
-        LOGGER.debug("test: getGroups");
+        LOGGER.debug("service: getGroups");
 
         List<Group> groups = new ArrayList<>();
         expect(mockGroupsService.getGroups(null, null)).andReturn(groups);
@@ -67,7 +67,7 @@ public class GroupsControllerMockTest {
 
     @Test
     public void getGroupById() throws Exception {
-        LOGGER.debug("test: getGroupById");
+        LOGGER.debug("service: getGroupById");
 
         Group group = new Group(1, "A");
         expect(mockGroupsService.getGroupById(anyInt())).andReturn(group);
@@ -79,14 +79,14 @@ public class GroupsControllerMockTest {
 
     @Test
     public void addGroup() throws Exception {
-        LOGGER.debug("test: addGroup");
+        LOGGER.debug("service: addGroup");
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date1 = simpleDateFormat.parse("2019-08-04");
         Date date2 = simpleDateFormat.parse("2023-06-30");
 
-        expect(mockGroupsService.addGroup(anyObject(Group.class))).andReturn(4);
+        expect(mockGroupsService.addGroup(anyObject(SaveGroup.class))).andReturn(4);
         replay(mockGroupsService);
 
         String group= "{\"groupId\":0,\"name\":\"D\",\"createDate\":\"2019-08-04\",\"finishDate\":\"2023-06-30\",\"countOfStudent\":0,\"avgAge\":0.0}";
@@ -99,14 +99,14 @@ public class GroupsControllerMockTest {
 
     @Test
     public void updateGroup() throws Exception {
-        LOGGER.debug("test: updateGroup");
+        LOGGER.debug("service: updateGroup");
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date1 = simpleDateFormat.parse("2019-08-04");
         Date date2 = simpleDateFormat.parse("2023-06-30");
 
-        expect(mockGroupsService.updateGroup(anyObject(Group.class))).andReturn(1);
+        expect(mockGroupsService.updateGroup(anyObject(SaveGroup.class))).andReturn(1);
         replay(mockGroupsService);
 
         String str = "{\"groupId\":1,\"name\":\"A\",\"createDate\":\"2019-08-04\",\"finishDate\":\"2023-06-30\",\"countOfStudent\":2,\"avgAge\":19.5}";
@@ -119,7 +119,7 @@ public class GroupsControllerMockTest {
 
     @Test
     public void deleteGroup() throws Exception {
-        LOGGER.debug("test: deleteGroup");
+        LOGGER.debug("service: deleteGroup");
 
         expect(mockGroupsService.deleteGroup(anyInt())).andReturn(0);
         replay(mockGroupsService);
