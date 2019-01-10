@@ -23,10 +23,10 @@ import static org.hamcrest.Matchers.*;
 @ContextConfiguration(locations = {"classpath:service-test-config.xml"})
 @Transactional
 public class StudentServiceTest {
-    private static final Logger LOGGER = LogManager.getLogger(GroupServiceTest.class);
+    private static final Logger LOGGER = LogManager.getLogger(StudentServiceTest.class);
 
     @Autowired
-    StudentsService studentsService;
+    private StudentsService studentsService;
 
     @Test
     public void getStudents() {

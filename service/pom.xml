@@ -27,7 +27,7 @@
             <artifactId>spring-context</artifactId>
         </dependency>
 
-        <!--service-->
+        <!--test-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

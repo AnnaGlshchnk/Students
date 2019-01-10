@@ -8,12 +8,10 @@ import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.text.SimpleDateFormat;
@@ -27,18 +25,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:controller-mock-test-config.xml"})
 public class GroupsControllerMockTest {
     private static final Logger LOGGER = LogManager.getLogger(GroupsControllerMockTest.class);
 
-    @Autowired
     private GroupsController groupsController;
 
     private MockMvc mockMvc;
 
-    @Autowired
     private GroupsService mockGroupsService;
+
+    public GroupsControllerMockTest() {
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("controller-mock-test-config.xml");
+        groupsController = context.getBean(GroupsController.class);
+        mockGroupsService = context.getBean(GroupsService.class);
+    }
 
     @Before
     public void setUp() {
@@ -62,7 +62,7 @@ public class GroupsControllerMockTest {
         replay(mockGroupsService);
 
         mockMvc.perform(get("/groups").accept(MediaType.APPLICATION_JSON)
-                ).andDo(print()).andExpect(status().isOk());
+        ).andDo(print()).andExpect(status().isOk());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class GroupsControllerMockTest {
         replay(mockGroupsService);
 
         mockMvc.perform(get("/groups/1").accept(MediaType.APPLICATION_JSON)
-                 ).andDo(print()).andExpect(status().isOk());
+        ).andDo(print()).andExpect(status().isOk());
     }
 
     @Test
@@ -89,11 +89,11 @@ public class GroupsControllerMockTest {
         expect(mockGroupsService.addGroup(anyObject(SaveGroup.class))).andReturn(4);
         replay(mockGroupsService);
 
-        String group= "{\"groupId\":0,\"name\":\"D\",\"createDate\":\"2019-08-04\",\"finishDate\":\"2023-06-30\",\"countOfStudent\":0,\"avgAge\":0.0}";
+        String group = "{\"groupId\":0,\"name\":\"D\",\"createDate\":\"2019-08-04\",\"finishDate\":\"2023-06-30\",\"countOfStudent\":0,\"avgAge\":0.0}";
 
         mockMvc.perform(post("/groups").accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON).content(group)
-                ).andDo(print())
+        ).andDo(print())
                 .andExpect(status().isCreated());
     }
 

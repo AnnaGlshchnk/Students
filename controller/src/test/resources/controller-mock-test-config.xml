@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="groupService" class="org.easymock.EasyMock" factory-method="createMock">
+    <bean id="mockGroupService" class="org.easymock.EasyMock" factory-method="createMock">
         <constructor-arg value="com.anna.service.GroupsService"/>
     </bean>
 
@@ -12,7 +12,7 @@
     </bean>
 
     <bean id="groupsController" class="com.anna.controller.GroupsController">
-        <constructor-arg ref="groupService"/>
+        <constructor-arg ref="mockGroupService"/>
     </bean>
 
     <bean id="studentsController" class="com.anna.controller.StudentsController">

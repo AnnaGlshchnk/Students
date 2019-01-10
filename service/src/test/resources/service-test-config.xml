@@ -33,11 +33,11 @@
         </property>
     </bean>
 
-    <bean id="studentService" class="com.anna.service.StudentsServiceImpl">
+    <bean id="studentsService" class="com.anna.service.StudentsServiceImpl">
         <constructor-arg name="studentsDao" ref="studentsDao"/>
     </bean>
 
-    <bean id="groupService" class="com.anna.service.GroupsServiceImpl">
+    <bean id="groupsService" class="com.anna.service.GroupsServiceImpl">
         <constructor-arg name="groupsDao" ref="groupsDao"/>
     </bean>
 

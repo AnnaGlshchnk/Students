@@ -27,7 +27,7 @@ public class GroupServiceTest {
     private static final Logger LOGGER = LogManager.getLogger(GroupServiceTest.class);
 
     @Autowired
-    GroupsService groupsService;
+    private GroupsService groupsService;
 
     @Test
     public void getGroups() {

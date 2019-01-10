@@ -25,7 +25,7 @@ public class StudentDaoTest {
     private static final Logger LOGGER = LogManager.getLogger(StudentDaoTest.class);
 
     @Autowired
-    StudentsDao studentsDao;
+    private StudentsDao studentsDao;
 
     @Test
     public void getStudents() {

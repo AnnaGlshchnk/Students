@@ -8,10 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,17 +20,19 @@ import java.util.List;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:service-mock-test-config.xml"})
 public class GroupServiceMockTest {
 
     private static final Logger LOGGER = LogManager.getLogger(GroupServiceMockTest.class);
 
-    @Autowired
     private GroupsService groupsService;
 
-    @Autowired
     private GroupsDao mockGroupsDao;
+
+    public GroupServiceMockTest() {
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("service-mock-test-config.xml");
+        groupsService = context.getBean(GroupsService.class);
+        mockGroupsDao = context.getBean(GroupsDao.class);
+    }
 
     @After
     public void clean() {

@@ -8,10 +8,9 @@ import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,17 +21,19 @@ import java.util.List;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:service-mock-test-config.xml"})
 public class StudentServiceMockTest {
 
-    private static final Logger LOGGER = LogManager.getLogger(GroupServiceMockTest.class);
+    private static final Logger LOGGER = LogManager.getLogger(StudentServiceMockTest.class);
 
-    @Autowired
     private StudentsService studentsService;
 
-    @Autowired
     private StudentsDao mockStudentsDao;
+
+    public StudentServiceMockTest() {
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("service-mock-test-config.xml");
+        studentsService = context.getBean(StudentsService.class);
+        mockStudentsDao = context.getBean(StudentsDao.class);
+    }
 
     @After
     public void clean() {
@@ -104,7 +105,7 @@ public class StudentServiceMockTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse("1998-09-09");
 
-        Integer studentId = studentsService.updateStudent(new Student(1, "Anna","Glush", date, new Group(1, "A")));
+        Integer studentId = studentsService.updateStudent(new Student(1, "Anna", "Glush", date, new Group(1, "A")));
         Assert.assertEquals(studentId, Integer.valueOf(1));
 
     }
