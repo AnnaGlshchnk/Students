@@ -74,9 +74,9 @@ public class GroupsDaoImpl implements GroupsDao {
     }
 
     @Override
-    public Integer updateGroup(SaveGroup group) {
+    public Integer updateGroup(Integer groupId, SaveGroup group) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource.addValue(GROUP_ID, group.getGroupId());
+        mapSqlParameterSource.addValue(GROUP_ID, groupId);
         mapSqlParameterSource.addValue(GROUP_NAME, group.getName());
         mapSqlParameterSource.addValue(CREATE_DATE, group.getCreateDate());
         mapSqlParameterSource.addValue(FINISH_DATE, group.getFinishDate());

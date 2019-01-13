@@ -78,9 +78,9 @@ public class GroupDaoTest {
         Date date1 = simpleDateFormat.parse("2018-09-01");
         Date date2 = simpleDateFormat.parse("2022-06-29");
 
-        SaveGroup saveGroup = new SaveGroup(1, "A", date1, date2);
+        SaveGroup saveGroup = new SaveGroup( "A", date1, date2);
         saveGroup.setName("newA");
-        groupsDao.updateGroup(saveGroup);
+        groupsDao.updateGroup(1, saveGroup);
         Group newgroup = groupsDao.getGroupById(1);
         Assert.assertEquals("newA", newgroup.getName());
     }

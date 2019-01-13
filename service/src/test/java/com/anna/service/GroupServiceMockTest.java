@@ -97,7 +97,7 @@ public class GroupServiceMockTest {
     @Test
     public void updateGroup() throws ParseException {
         LOGGER.debug("service: updateGroup");
-        expect(mockGroupsDao.updateGroup(anyObject())).andReturn(1);
+        expect(mockGroupsDao.updateGroup(anyObject(), anyObject())).andReturn(1);
         replay(mockGroupsDao);
 
         String pattern = "yyyy-MM-dd";
@@ -105,7 +105,7 @@ public class GroupServiceMockTest {
         Date date1 = simpleDateFormat.parse("2019-08-04");
         Date date2 = simpleDateFormat.parse("2023-06-30");
 
-        Integer id = groupsService.updateGroup(new SaveGroup(1, "A", date1, date2));
+        Integer id = groupsService.updateGroup(1, new SaveGroup("A", date1, date2));
         Assert.assertEquals(id, Integer.valueOf(1));
 
     }

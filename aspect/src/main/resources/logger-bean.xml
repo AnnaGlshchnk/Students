@@ -15,7 +15,7 @@
         <aop:aspect id="aspectLogging" ref="myLogger" >
 
             <aop:pointcut id="pointCutAround"
-                          expression="execution(* com.anna.*.*.*(..))" />
+                          expression="execution(* com.anna.controller.*.*(..))" />
 
             <aop:around method="logWebServiceCall" pointcut-ref="pointCutAround" />
 

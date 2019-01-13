@@ -1,5 +1,6 @@
 package com.anna.service;
 
+import com.anna.exception.OperationFailedException;
 import com.anna.model.Group;
 import com.anna.model.Student;
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,4 +95,40 @@ public class StudentServiceTest {
         Assert.assertEquals(5, students.size());
 
     }
+
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void getStudentByIdException() throws Exception {
+        LOGGER.debug("test: getStudentByIdException");
+
+        studentsService.getStudentById(10);
+    }
+
+    @Test(expected = OperationFailedException.class)
+    public void addStudentException() throws ParseException {
+        LOGGER.debug("service: addStudentException");
+
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        Date date = simpleDateFormat.parse("1998-09-09");
+
+        Student student = new Student( "Ui", date, new Group(2, "B"));
+        studentsService.addStudent(student);
+    }
+
+    @Test(expected = OperationFailedException.class)
+    public void updateStudentException() {
+        LOGGER.debug("service: updateStudentException");
+
+        Student student = new Student("Sally", "Fish");
+        studentsService.updateStudent(student);
+    }
+
+    @Test(expected = OperationFailedException.class)
+    public void deleteStudentException() {
+        LOGGER.debug("service: deleteStudentException");
+
+        studentsService.deleteStudent(10);
+
+    }
+
 }

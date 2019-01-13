@@ -1,12 +1,13 @@
 package com.anna.logger;
 
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import java.util.Arrays;
 
 public class MyLogger {
-    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MyLogger.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(MyLogger.class.getName());
 
     public Object logWebServiceCall(ProceedingJoinPoint joinPoint) throws Throwable {
         String className = joinPoint.getSignature().getDeclaringTypeName();

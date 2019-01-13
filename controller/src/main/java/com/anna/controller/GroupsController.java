@@ -48,9 +48,7 @@ public class GroupsController {
     @PutMapping("/groups/{groupId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateGroup(@RequestBody SaveGroup group, @PathVariable("groupId") Integer groupId) {
-        group.setGroupId(groupId);
-
-        groupService.updateGroup(group);
+        groupService.updateGroup(groupId, group);
     }
 
     @DeleteMapping("/groups/{groupId}")

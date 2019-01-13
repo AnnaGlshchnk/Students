@@ -1,6 +1,7 @@
 package com.anna.service;
 
 import com.anna.dao.StudentsDao;
+import com.anna.exception.OperationFailedException;
 import com.anna.model.Group;
 import com.anna.model.Student;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +12,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -114,11 +116,29 @@ public class StudentServiceMockTest {
     public void deleteGroup() {
         LOGGER.debug("service: deleteGroup");
 
-        expect(mockStudentsDao.deleteStudent(anyInt())).andReturn(null);
+        expect(mockStudentsDao.deleteStudent(anyInt())).andReturn(1);
         replay(mockStudentsDao);
 
-        Integer studentId = studentsService.deleteStudent(1);
-        Assert.assertNull(studentId);
+        studentsService.deleteStudent(1);
+    }
 
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void getStudentByIdException() {
+        LOGGER.debug("service: getStudentByIdException");
+
+        expect(mockStudentsDao.getStudentById(anyInt())).andReturn(null);
+        replay(mockStudentsDao);
+
+        studentsService.getStudentById(22);
+    }
+
+    @Test(expected = OperationFailedException.class)
+    public void deleteGroupExc() {
+        LOGGER.debug("service: deleteGroup");
+
+        expect(mockStudentsDao.deleteStudent(anyInt())).andReturn(0);
+        replay(mockStudentsDao);
+
+        studentsService.deleteStudent(1);
     }
 }

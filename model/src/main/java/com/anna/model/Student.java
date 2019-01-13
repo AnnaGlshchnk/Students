@@ -59,7 +59,11 @@ public class Student {
         this.group = group;
     }
 
-
+    public Student(String surname, Date birthDate, Group group) {
+        this.surname = surname;
+        this.birthDate = birthDate;
+        this.group = group;
+    }
 
     public int getStudentId() {
         return studentId;

@@ -14,7 +14,7 @@ public interface GroupsDao {
 
     Integer addGroup(SaveGroup group);
 
-    Integer updateGroup(SaveGroup group);
+    Integer updateGroup(Integer groupId, SaveGroup group);
 
     Integer deleteGroup(Integer groupId);
 }

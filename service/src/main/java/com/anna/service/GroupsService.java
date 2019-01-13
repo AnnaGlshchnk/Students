@@ -14,7 +14,7 @@ public interface GroupsService {
 
     Integer addGroup(SaveGroup group) throws OperationFailedException;
 
-    Integer updateGroup(SaveGroup group) throws OperationFailedException;
+    Integer updateGroup(Integer groupId, SaveGroup group) throws OperationFailedException;
 
     Integer deleteGroup(Integer groupId) throws OperationFailedException;
 }

@@ -15,6 +15,6 @@ public interface StudentsService {
 
     Integer updateStudent(Student student) throws OperationFailedException;
 
-    Integer deleteStudent(Integer studentId) throws OperationFailedException;
+    void deleteStudent(Integer studentId) throws OperationFailedException;
 }
 

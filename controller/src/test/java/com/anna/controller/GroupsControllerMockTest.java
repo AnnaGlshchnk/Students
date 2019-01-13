@@ -106,7 +106,7 @@ public class GroupsControllerMockTest {
         Date date1 = simpleDateFormat.parse("2019-08-04");
         Date date2 = simpleDateFormat.parse("2023-06-30");
 
-        expect(mockGroupsService.updateGroup(anyObject(SaveGroup.class))).andReturn(1);
+        expect(mockGroupsService.updateGroup(anyObject(Integer.class), anyObject(SaveGroup.class))).andReturn(1);
         replay(mockGroupsService);
 
         String str = "{\"groupId\":1,\"name\":\"A\",\"createDate\":\"2019-08-04\",\"finishDate\":\"2023-06-30\",\"countOfStudent\":2,\"avgAge\":19.5}";

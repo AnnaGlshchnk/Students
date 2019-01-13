@@ -82,9 +82,9 @@ public class GroupServiceTest {
         Date date1 = simpleDateFormat.parse("2018-09-01");
         Date date2 = simpleDateFormat.parse("2022-06-29");
 
-        SaveGroup group = new SaveGroup(1,"A", date1, date2);
+        SaveGroup group = new SaveGroup("A", date1, date2);
         group.setName("newA");
-        groupsService.updateGroup(group);
+        groupsService.updateGroup(1, group);
         Group newgroup = groupsService.getGroupById(1);
 
         Assert.assertEquals("newA", newgroup.getName());

@@ -71,11 +71,14 @@ public class StudentsServiceImpl implements StudentsService {
     }
 
     @Override
-    public Integer deleteStudent(Integer studentId) {
+    public void deleteStudent(Integer studentId) {
         if (studentId == null) {
             throw new OperationFailedException("studentId shouldn't be null");
         }
 
-        return studentsDao.deleteStudent(studentId);
+        Integer result = studentsDao.deleteStudent(studentId);
+        if (result != 1) {
+            throw new OperationFailedException("");
+        }
     }
 }

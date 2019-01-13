@@ -36,44 +36,16 @@ public class GroupsServiceImpl implements GroupsService {
 
     @Override
     public Integer addGroup(SaveGroup group) throws OperationFailedException {
-
-        validate(group);
-
         return groupsDao.addGroup(group);
     }
 
     @Override
-    public Integer updateGroup(SaveGroup group) throws OperationFailedException{
-
-        if (group.getGroupId() <= 0) {
-            throw new OperationFailedException("groupId should be more than 0");
-        }
-        validate(group);
-
-        return groupsDao.updateGroup(group);
-    }
-
-    private void validate(SaveGroup group) {
-        if (group == null) {
-            throw new OperationFailedException("group shouldn't be null");
-        }
-        if (group.getName() == null) {
-            throw new OperationFailedException("group should have name");
-        }
-        if (group.getCreateDate() == null) {
-            throw new OperationFailedException("group should have creation date");
-        }
-        if (group.getFinishDate() == null) {
-            throw new OperationFailedException("group should have graduation date");
-        }
+    public Integer updateGroup(Integer groupId, SaveGroup group) throws OperationFailedException{
+        return groupsDao.updateGroup(groupId, group);
     }
 
     @Override
     public Integer deleteGroup(Integer groupId) throws OperationFailedException{
-        if (groupId == null) {
-            throw new OperationFailedException("groupId shouldn't be null");
-        }
-
         return groupsDao.deleteGroup(groupId);
     }
 }
