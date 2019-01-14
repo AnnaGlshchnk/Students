@@ -42,14 +42,17 @@ public class StudentsServiceImpl implements StudentsService {
     }
 
     @Override
-    public Integer updateStudent(Student student) {
+    public void updateStudent(Student student) {
 
         if (student.getStudentId() <= 0) {
             throw new OperationFailedException("studentId should be more than 0");
         }
         validate(student);
 
-        return studentsDao.updateStudent(student);
+        Integer result = studentsDao.updateStudent(student);
+        if (result != 1) {
+            throw new OperationFailedException("Operation Failed");
+        }
     }
 
     private void validate(Student student) {
@@ -78,7 +81,7 @@ public class StudentsServiceImpl implements StudentsService {
 
         Integer result = studentsDao.deleteStudent(studentId);
         if (result != 1) {
-            throw new OperationFailedException("");
+            throw new OperationFailedException("Operation Failed");
         }
     }
 }

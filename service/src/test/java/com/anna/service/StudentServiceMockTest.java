@@ -4,6 +4,7 @@ import com.anna.dao.StudentsDao;
 import com.anna.exception.OperationFailedException;
 import com.anna.model.Group;
 import com.anna.model.Student;
+import junit.framework.AssertionFailedError;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -14,6 +15,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,8 +83,8 @@ public class StudentServiceMockTest {
     }
 
     @Test
-    public void addGroup() throws ParseException {
-        LOGGER.debug("service: addGroup");
+    public void addStudent() throws ParseException {
+        LOGGER.debug("service: addStudent");
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -98,8 +100,8 @@ public class StudentServiceMockTest {
     }
 
     @Test
-    public void updateGroup() throws ParseException {
-        LOGGER.debug("service: updateGroup");
+    public void updateStudent() throws ParseException {
+        LOGGER.debug("service: updateStudent");
         expect(mockStudentsDao.updateStudent(anyObject())).andReturn(1);
         replay(mockStudentsDao);
 
@@ -107,14 +109,13 @@ public class StudentServiceMockTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse("1998-09-09");
 
-        Integer studentId = studentsService.updateStudent(new Student(1, "Anna", "Glush", date, new Group(1, "A")));
-        Assert.assertEquals(studentId, Integer.valueOf(1));
+       studentsService.updateStudent(new Student(1, "Anna", "Glush", date, new Group(1, "A")));
 
     }
 
     @Test
-    public void deleteGroup() {
-        LOGGER.debug("service: deleteGroup");
+    public void deleteStudent() {
+        LOGGER.debug("service: deleteStudent");
 
         expect(mockStudentsDao.deleteStudent(anyInt())).andReturn(1);
         replay(mockStudentsDao);
@@ -122,23 +123,62 @@ public class StudentServiceMockTest {
         studentsService.deleteStudent(1);
     }
 
-    @Test(expected = EmptyResultDataAccessException.class)
+    @Test(expected = RuntimeException.class)
     public void getStudentByIdException() {
         LOGGER.debug("service: getStudentByIdException");
 
-        expect(mockStudentsDao.getStudentById(anyInt())).andReturn(null);
+        expect(mockStudentsDao.getStudentById(22)).andThrow(new RuntimeException());
         replay(mockStudentsDao);
 
         studentsService.getStudentById(22);
     }
 
     @Test(expected = OperationFailedException.class)
-    public void deleteGroupExc() {
-        LOGGER.debug("service: deleteGroup");
+    public void deleteStudentException() {
+        LOGGER.debug("service: deleteStudentException");
 
         expect(mockStudentsDao.deleteStudent(anyInt())).andReturn(0);
         replay(mockStudentsDao);
 
         studentsService.deleteStudent(1);
     }
+
+    @Test
+    public void addStudentException() throws ParseException {
+        LOGGER.debug("service: addStudentException");
+
+        //setup
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        Date date = simpleDateFormat.parse("1998-09-09");
+
+        Student student = new Student("Ui", date, new Group(2, "B"));
+
+        //when
+        try{
+            studentsService.addStudent(student);
+            throw new RuntimeException("Method should throw exception");
+        } catch (OperationFailedException ex){
+        }
+        //then
+        //check that mockStudentsDao.add was not called
+        expect(mockStudentsDao.addStudent(student)).andReturn(7);
+        expectLastCall().anyTimes();
+        replay(mockStudentsDao);
+    }
+
+    @Test(expected = OperationFailedException.class)
+    public void updateStudentException() throws ParseException {
+        LOGGER.debug("service: updateStudentException");
+        expect(mockStudentsDao.updateStudent(anyObject())).andReturn(0);
+        replay(mockStudentsDao);
+
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        Date date = simpleDateFormat.parse("1998-09-09");
+
+        studentsService.updateStudent(new Student(10, "Anna", "Glush", date, new Group(1, "A")));
+
+    }
+
 }

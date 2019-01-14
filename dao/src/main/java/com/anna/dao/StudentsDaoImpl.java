@@ -66,13 +66,17 @@ public class StudentsDaoImpl implements StudentsDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue(STUDENT_NAME, student.getName());
+        build(student, mapSqlParameterSource);
+
+        namedParameterJdbcTemplate.update(addStudentSql, mapSqlParameterSource, keyHolder);
+        return keyHolder.getKey().intValue();
+    }
+
+    private void build(Student student, MapSqlParameterSource mapSqlParameterSource) {
         mapSqlParameterSource.addValue(SURNAME, student.getSurname());
         mapSqlParameterSource.addValue(Birth_Date, student.getBirthDate());
         mapSqlParameterSource.addValue(GROUP_ID, student.getGroup().getGroupId());
         mapSqlParameterSource.addValue(GROUP_NAME, student.getGroup().getName());
-
-        namedParameterJdbcTemplate.update(addStudentSql, mapSqlParameterSource, keyHolder);
-        return keyHolder.getKey().intValue();
     }
 
     @Override
@@ -80,10 +84,7 @@ public class StudentsDaoImpl implements StudentsDao {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue(STUDENT_ID, student.getStudentId());
         mapSqlParameterSource.addValue(STUDENT_NAME, student.getName());
-        mapSqlParameterSource.addValue(SURNAME, student.getSurname());
-        mapSqlParameterSource.addValue(Birth_Date, student.getBirthDate());
-        mapSqlParameterSource.addValue(GROUP_ID, student.getGroup().getGroupId());
-        mapSqlParameterSource.addValue(GROUP_NAME, student.getGroup().getName());
+        build(student, mapSqlParameterSource);
 
         return namedParameterJdbcTemplate.update(updateStudentSql, mapSqlParameterSource);
     }

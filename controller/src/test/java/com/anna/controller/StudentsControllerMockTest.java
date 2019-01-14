@@ -113,7 +113,8 @@ public class StudentsControllerMockTest {
         Date date1 = simpleDateFormat.parse("2019-08-04");
         Date date2 = simpleDateFormat.parse("2023-06-30");
 
-        expect(mockStudentsService.updateStudent(anyObject(Student.class))).andReturn(1);
+       mockStudentsService.updateStudent(anyObject(Student.class));
+       expectLastCall().once();
         replay(mockStudentsService);
 
         String str = "{\"studentId\":1,\"name\":\"Anna\",\"surname\":\"Glush\",\"birthDate\":\"1998-06-30\"}";
@@ -128,7 +129,8 @@ public class StudentsControllerMockTest {
     public void deleteStudent() throws Exception {
         LOGGER.debug("service: deleteStudent");
 
-        expect(mockStudentsService.deleteStudent(anyInt())).andReturn(0);
+        mockStudentsService.deleteStudent(anyInt());
+        expectLastCall().once();
         replay(mockStudentsService);
 
         mockMvc.perform(delete("/students/1").accept(MediaType.APPLICATION_JSON)

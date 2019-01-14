@@ -128,7 +128,5 @@ public class StudentServiceTest {
         LOGGER.debug("service: deleteStudentException");
 
         studentsService.deleteStudent(10);
-
     }
-
 }

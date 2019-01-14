@@ -13,7 +13,7 @@ public interface StudentsService {
 
     Integer addStudent(Student student) throws OperationFailedException;
 
-    Integer updateStudent(Student student) throws OperationFailedException;
+    void updateStudent(Student student) throws OperationFailedException;
 
     void deleteStudent(Integer studentId) throws OperationFailedException;
 }
