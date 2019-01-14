@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
@@ -39,7 +40,7 @@ public class GroupsController {
     }
 
     @PostMapping("/groups")
-    public ResponseEntity<Void> addGroup(@RequestBody SaveGroup group, UriComponentsBuilder builder) {
+    public ResponseEntity<Void> addGroup(@Valid @RequestBody  SaveGroup group, UriComponentsBuilder builder) {
         Integer createdId = groupService.addGroup(group);
         UriComponents uriComponents = builder.path("/groups/{groupId}").buildAndExpand(createdId);
         return ResponseEntity.created(uriComponents.toUri()).build();
@@ -47,7 +48,7 @@ public class GroupsController {
 
     @PutMapping("/groups/{groupId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateGroup(@RequestBody SaveGroup group, @PathVariable("groupId") Integer groupId) {
+    public void updateGroup(@Valid @RequestBody   SaveGroup group, @PathVariable("groupId") Integer groupId) {
         groupService.updateGroup(groupId, group);
     }
 

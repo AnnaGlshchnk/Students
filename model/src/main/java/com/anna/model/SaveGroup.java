@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class SaveGroup {
 
-    @Size(min = 2, max = 15)
+    @Size(min = 1, max = 15)
     @NotNull
     private String name;
 
