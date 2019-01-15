@@ -96,7 +96,7 @@ public class StudentsControllerMockTest {
         expect(mockStudentsService.addStudent(anyObject(Student.class))).andReturn(7);
         replay(mockStudentsService);
 
-        String student= "{\"studentId\":0,\"name\":\"Ada\",\"surname\":\"Mluh\",\"birthDate\":\"1998-06-30\"}";
+        String student= "{\"name\":\"Ada\",\"surname\":\"Mluh\",\"birthDate\":\"1998-06-30\"}";
 
         mockMvc.perform(post("/students").accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON).content(student)

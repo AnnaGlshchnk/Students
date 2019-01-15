@@ -90,7 +90,7 @@ public class StudentServiceMockTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse("1998-09-09");
 
-        Student student = new Student("Val", "Ui", date, new Group(2, "B"));
+        Student student = new Student("Val", "Ui", date, new Group(2));
 
         expect(mockStudentsDao.addStudent(student)).andReturn(7);
         replay(mockStudentsDao);
@@ -109,7 +109,7 @@ public class StudentServiceMockTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse("1998-09-09");
 
-       studentsService.updateStudent(new Student(1, "Anna", "Glush", date, new Group(1, "A")));
+       studentsService.updateStudent(new Student(1, "Anna", "Glush", date, new Group(1)));
 
     }
 
@@ -152,7 +152,7 @@ public class StudentServiceMockTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse("1998-09-09");
 
-        Student student = new Student("Ui", date, new Group(2, "B"));
+        Student student = new Student("Ui", date, new Group(2));
 
         //when
         try{
@@ -177,7 +177,7 @@ public class StudentServiceMockTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse("1998-09-09");
 
-        studentsService.updateStudent(new Student(10, "Anna", "Glush", date, new Group(1, "A")));
+        studentsService.updateStudent(new Student(10, "Anna", "Glush", date, new Group(1)));
 
     }
 

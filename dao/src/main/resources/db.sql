@@ -16,7 +16,6 @@ CREATE TABLE student (
   surname             VARCHAR(255)   NOT NULL,
   birth_date          DATE           NOT NULL,
   group_id            INT            NOT NULL,
-  group_name          VARCHAR(255)   NOT NULL,
   PRIMARY KEY (student_id),
   FOREIGN KEY (group_id) REFERENCES studentGroup(group_id)  ON DELETE CASCADE
 );

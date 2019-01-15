@@ -26,7 +26,6 @@ public class StudentsDaoImpl implements StudentsDao {
     private static String SURNAME = "surname";
     private static String Birth_Date = "birthDate";
     private static String GROUP_ID = "groupId";
-    private static String GROUP_NAME = "groupName";
 
     @Value("${StudentsDaoSql.getStudents}")
     private String getStudentsSql;
@@ -76,7 +75,6 @@ public class StudentsDaoImpl implements StudentsDao {
         mapSqlParameterSource.addValue(SURNAME, student.getSurname());
         mapSqlParameterSource.addValue(Birth_Date, student.getBirthDate());
         mapSqlParameterSource.addValue(GROUP_ID, student.getGroup().getGroupId());
-        mapSqlParameterSource.addValue(GROUP_NAME, student.getGroup().getName());
     }
 
     @Override
@@ -106,8 +104,7 @@ public class StudentsDaoImpl implements StudentsDao {
                     resultSet.getString("student_name"),
                     resultSet.getString("surname"),
                     resultSet.getDate("birth_date"),
-                    new Group(resultSet.getInt("student_groupId"),
-                            resultSet.getString("student_groupName")));
+                    new Group(resultSet.getInt("student_groupId")));
         }
     }
 }

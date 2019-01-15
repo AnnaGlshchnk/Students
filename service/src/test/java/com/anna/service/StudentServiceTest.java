@@ -65,7 +65,7 @@ public class StudentServiceTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse("1998-09-09");
 
-        Student student = new Student("Val", "Ui", date, new Group(2, "B"));
+        Student student = new Student("Val", "Ui", date, new Group(2));
         Integer studentId = studentsService.addStudent(student);
         student = studentsService.getStudentById(studentId);
         Assert.assertThat(student, allOf(hasProperty("studentId", equalTo(7)),
@@ -111,7 +111,7 @@ public class StudentServiceTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse("1998-09-09");
 
-        Student student = new Student( "Ui", date, new Group(2, "B"));
+        Student student = new Student( "Ui", date, new Group(2));
         studentsService.addStudent(student);
     }
 
