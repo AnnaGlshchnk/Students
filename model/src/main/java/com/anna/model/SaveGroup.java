@@ -30,6 +30,11 @@ public class SaveGroup {
         this.finishDate = finishDate;
     }
 
+    public SaveGroup(Date createDate, Date finishDate) {
+        this.createDate = createDate;
+        this.finishDate = finishDate;
+    }
+
     public String getName() {
         return name;
     }

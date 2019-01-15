@@ -6,9 +6,12 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import javax.validation.ConstraintViolationException;
 
 @CrossOrigin
 @ControllerAdvice
@@ -40,6 +43,13 @@ public class RestErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {OperationFailedException.class})
     public ResponseEntity<Object> handleOperationFailedException(OperationFailedException ex, WebRequest request) {
+        final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage());
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @Override
+    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                               HttpHeaders headers, HttpStatus status, WebRequest request) {
         final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage());
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
