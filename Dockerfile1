@@ -1,0 +1,5 @@
+FROM mysql/mysql-server:5.5
+ENV MYSQL_DATABASE students
+ENV MYSQL_USER anna
+ENV MYSQL_PASSWORD 123
+COPY /dao/src/main/resources/ /docker-entrypoint-initdb.d/
