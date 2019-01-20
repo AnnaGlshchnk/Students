@@ -11,10 +11,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -38,7 +36,6 @@ public class StudentsDaoImpl implements StudentsDao {
     private String updateStudentSql;
     @Value("${StudentsDaoSql.deleteStudent}")
     private String deleteStudentSql;
-
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 

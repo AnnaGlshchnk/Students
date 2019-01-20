@@ -1,6 +1,7 @@
 package com.anna.service;
 
 import com.anna.dao.GroupsDao;
+import com.anna.dao.GroupsDaoImpl;
 import com.anna.exception.OperationFailedException;
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 @Transactional
 public class GroupsServiceImpl implements GroupsService {
 
@@ -18,7 +20,6 @@ public class GroupsServiceImpl implements GroupsService {
     public GroupsServiceImpl(GroupsDao groupsDao) {
         this.groupsDao = groupsDao;
     }
-
 
     @Override
     public List<Group> getGroups(String start, String finish) throws OperationFailedException {

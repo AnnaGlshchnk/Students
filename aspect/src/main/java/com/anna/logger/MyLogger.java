@@ -3,12 +3,23 @@ package com.anna.logger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+@Aspect
+@Component
 public class MyLogger {
     private static final Logger LOGGER = LogManager.getLogger(MyLogger.class.getName());
 
+    @Pointcut("execution(* com.anna.controller.*.*(..))")
+    private void ServiceMethod() {
+    }
+
+    @Around(value = "ServiceMethod()")
     public Object logWebServiceCall(ProceedingJoinPoint joinPoint) throws Throwable {
         String className = joinPoint.getSignature().getDeclaringTypeName();
         String methodName = joinPoint.getSignature().getName();

@@ -3,7 +3,6 @@ package com.anna.dao;
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
 import com.anna.model.Student;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -11,13 +10,10 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -96,14 +92,12 @@ public class GroupsDaoImpl implements GroupsDao {
         @Override
         public Group mapRow(ResultSet resultSet, int i) throws SQLException {
 
-            Group group = new Group(resultSet.getInt("group_id"),
+            return new Group(resultSet.getInt("group_id"),
                     resultSet.getString("group_name"),
                     resultSet.getDate("create_date"),
                     resultSet.getDate("finish_date"),
                     resultSet.getInt("countOfStudent"),
                     resultSet.getFloat("avgAge"));
-
-            return group;
         }
     }
 

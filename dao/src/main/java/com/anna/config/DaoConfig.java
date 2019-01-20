@@ -11,7 +11,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan("com.anna.dao")
 @PropertySources({
         @PropertySource("classpath:sql.properties"),
         @PropertySource("classpath:app.properties")
@@ -29,17 +28,17 @@ public class DaoConfig {
     }
 
     @Bean
-    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(){
+    public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate(){
         return new NamedParameterJdbcTemplate(getDataSource());
     }
 
     @Bean
-    public GroupsDao groupsDao(){
-        return new GroupsDaoImpl(namedParameterJdbcTemplate());
+    public GroupsDaoImpl getGroupsDao(){
+        return new GroupsDaoImpl(getNamedParameterJdbcTemplate());
     }
 
     @Bean
-    public StudentsDao studentsDao(){
-        return new StudentsDaoImpl(namedParameterJdbcTemplate());
+    public StudentsDaoImpl getStudentsDao(){
+        return new StudentsDaoImpl(getNamedParameterJdbcTemplate());
     }
 }

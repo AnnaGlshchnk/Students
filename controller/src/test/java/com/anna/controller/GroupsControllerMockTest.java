@@ -1,7 +1,5 @@
 package com.anna.controller;
 
-import com.anna.controller.errorHandlers.RestErrorHandler;
-import com.anna.exception.OperationFailedException;
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
 import com.anna.service.GroupsService;
@@ -16,9 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +22,6 @@ import java.util.List;
 import static org.easymock.EasyMock.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -40,12 +34,9 @@ public class GroupsControllerMockTest {
 
     private GroupsService mockGroupsService;
 
-    private RestErrorHandler restErrorHandler;
-
     public GroupsControllerMockTest() {
         ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("controller-mock-test-config.xml");
         groupsController = context.getBean(GroupsController.class);
-        restErrorHandler = context.getBean(RestErrorHandler.class);
         mockGroupsService = context.getBean(GroupsService.class);
     }
 
