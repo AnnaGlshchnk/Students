@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @EnableSwagger2
 public class SwaggerConfig {
     @Bean
-    public Docket customImplementation(){
+    public Docket customImplementation() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(getApiInfo())
                 .select()
@@ -25,6 +25,7 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
+
     private ApiInfo getApiInfo() {
         return new ApiInfo("REST Api Documentation",
                 "REST Api Documentation",
