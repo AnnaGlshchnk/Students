@@ -23,6 +23,11 @@
             <groupId>com.anna</groupId>
             <artifactId>service</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.anna</groupId>
+            <artifactId>aspect</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>javax.servlet</groupId>
