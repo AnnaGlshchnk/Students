@@ -1,5 +1,6 @@
 package com.anna.controller;
 
+import com.anna.config.ControllerMockTestConfig;
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
 import com.anna.service.GroupsService;
@@ -8,10 +9,15 @@ import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.text.SimpleDateFormat;
@@ -25,20 +31,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ControllerMockTestConfig.class)
+@WebAppConfiguration
 public class GroupsControllerMockTest {
     private static final Logger LOGGER = LogManager.getLogger(GroupsControllerMockTest.class);
 
+    @Autowired
     private GroupsController groupsController;
 
     private MockMvc mockMvc;
 
+    @Autowired
     private GroupsService mockGroupsService;
-
-    public GroupsControllerMockTest() {
-        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("controller-mock-test-config.xml");
-        groupsController = context.getBean(GroupsController.class);
-        mockGroupsService = context.getBean(GroupsService.class);
-    }
 
     @Before
     public void setUp() {

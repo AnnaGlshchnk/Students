@@ -1,5 +1,7 @@
 package com.anna.service;
 
+import com.anna.config.ServiceTestConfig;
+import com.anna.dao.GroupsDao;
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
 import org.apache.logging.log4j.LogManager;
@@ -20,7 +22,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:service-test-config.xml"})
+@ContextConfiguration(classes = ServiceTestConfig.class)
 @Transactional
 public class GroupServiceTest {
 

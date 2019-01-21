@@ -1,5 +1,6 @@
 package com.anna.dao;
 
+import com.anna.config.DaoTestConfig;
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
 import org.apache.logging.log4j.LogManager;
@@ -20,14 +21,14 @@ import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:dao-test-config.xml")
+@ContextConfiguration(classes = DaoTestConfig.class)
 @Transactional
 public class GroupDaoTest {
 
     private static final Logger LOGGER = LogManager.getLogger(GroupDaoTest.class);
 
     @Autowired
-    private GroupsDaoImpl groupsDao;
+    private GroupsDao groupsDao;
 
     @Test
     public void getGroups() {

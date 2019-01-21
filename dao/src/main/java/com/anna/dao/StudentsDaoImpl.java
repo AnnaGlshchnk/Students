@@ -39,6 +39,7 @@ public class StudentsDaoImpl implements StudentsDao {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    @Autowired
     public StudentsDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }

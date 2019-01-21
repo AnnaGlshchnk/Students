@@ -5,6 +5,7 @@ import com.anna.model.SaveGroup;
 import com.anna.model.json.View;
 import com.anna.service.GroupsService;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class GroupsController {
 
     private GroupsService groupService;
 
+    @Autowired
     public GroupsController(GroupsService groupService) {
         this.groupService = groupService;
     }

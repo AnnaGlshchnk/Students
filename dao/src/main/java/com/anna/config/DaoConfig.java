@@ -1,12 +1,15 @@
 package com.anna.config;
 
-import com.anna.dao.GroupsDao;
-import com.anna.dao.GroupsDaoImpl;
-import com.anna.dao.StudentsDao;
-import com.anna.dao.StudentsDaoImpl;
-import org.springframework.context.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
@@ -17,28 +20,40 @@ import javax.sql.DataSource;
 })
 public class DaoConfig {
 
+    @Value("${user.driverClassName}")
+    private String driverClassName;
+    @Value("${user.url}")
+    private String url;
+    @Value("${username.name}")
+    private String name;
+    @Value("${user.password}")
+    private String password;
+
+
     @Bean
-    public DataSource getDataSource(){
+    public static PropertySourcesPlaceholderConfigurer propertyConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("user.driverClassName");
-        dataSource.setUrl("user.url");
-        dataSource.setUsername("username.name");
-        dataSource.setPassword("user.password");
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUrl(url);
+        dataSource.setUsername(name);
+        dataSource.setPassword(password);
         return dataSource;
     }
 
     @Bean
-    public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate(){
-        return new NamedParameterJdbcTemplate(getDataSource());
+    public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
+        return new NamedParameterJdbcTemplate(dataSource());
     }
 
     @Bean
-    public GroupsDaoImpl getGroupsDao(){
-        return new GroupsDaoImpl(getNamedParameterJdbcTemplate());
+    public PlatformTransactionManager txManager() {
+        return new DataSourceTransactionManager(dataSource());
     }
 
-    @Bean
-    public StudentsDaoImpl getStudentsDao(){
-        return new StudentsDaoImpl(getNamedParameterJdbcTemplate());
-    }
+
 }

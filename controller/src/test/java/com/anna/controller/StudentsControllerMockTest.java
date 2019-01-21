@@ -1,5 +1,6 @@
 package com.anna.controller;
 
+import com.anna.config.ControllerMockTestConfig;
 import com.anna.model.Student;
 import com.anna.service.GroupsService;
 import com.anna.service.StudentsService;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.text.SimpleDateFormat;
@@ -31,21 +33,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
+
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ControllerMockTestConfig.class)
+@WebAppConfiguration
 public class StudentsControllerMockTest {
 
     private static final Logger LOGGER = LogManager.getLogger(StudentsControllerMockTest.class);
 
+    @Autowired
     private StudentsController studentsController;
 
     private MockMvc mockMvc;
 
+    @Autowired
     private StudentsService mockStudentsService;
-
-    public StudentsControllerMockTest() {
-        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("controller-mock-test-config.xml");
-        studentsController = context.getBean(StudentsController.class);
-        mockStudentsService = context.getBean(StudentsService.class);
-    }
 
     @Before
     public void setUp() {

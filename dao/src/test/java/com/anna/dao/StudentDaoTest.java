@@ -1,5 +1,6 @@
 package com.anna.dao;
 
+import com.anna.config.DaoTestConfig;
 import com.anna.model.Group;
 import com.anna.model.Student;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +20,7 @@ import java.util.List;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:dao-test-config.xml")
+@ContextConfiguration(classes = DaoTestConfig.class)
 @Transactional
 public class StudentDaoTest {
     private static final Logger LOGGER = LogManager.getLogger(StudentDaoTest.class);

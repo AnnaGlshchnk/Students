@@ -2,8 +2,7 @@ package com.anna.config;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
@@ -12,9 +11,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import java.util.List;
 
-@Component
-@ComponentScan(basePackages = {"com.anna.dao", "com.anna.service", "com.anna.aspect", "con.anna.controller"})
+@Configuration
+@ComponentScan(basePackages = {"com.anna.dao", "com.anna.service", "com.anna.logger", "com.anna.controller"})
 @EnableWebMvc
+@Import(DaoConfig.class)
+@EnableAspectJAutoProxy
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
@@ -31,6 +32,4 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         converters.add(jsonConverter());
         super.configureMessageConverters(converters);
     }
-
-
 }

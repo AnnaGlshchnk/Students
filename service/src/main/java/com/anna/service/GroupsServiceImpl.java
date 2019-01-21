@@ -17,6 +17,7 @@ public class GroupsServiceImpl implements GroupsService {
 
     private GroupsDao groupsDao;
 
+    @Autowired
     public GroupsServiceImpl(GroupsDao groupsDao) {
         this.groupsDao = groupsDao;
     }

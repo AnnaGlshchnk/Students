@@ -1,5 +1,6 @@
 package com.anna.service;
 
+import com.anna.config.ServiceMockTestConfig;
 import com.anna.dao.StudentsDao;
 import com.anna.exception.OperationFailedException;
 import com.anna.model.Group;
@@ -10,10 +11,13 @@ import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -25,19 +29,18 @@ import java.util.List;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
 
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ServiceMockTestConfig.class)
 public class StudentServiceMockTest {
 
     private static final Logger LOGGER = LogManager.getLogger(StudentServiceMockTest.class);
 
+    @Autowired
     private StudentsService studentsService;
 
+    @Autowired
     private StudentsDao mockStudentsDao;
-
-    public StudentServiceMockTest() {
-        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("service-mock-test-config.xml");
-        studentsService = context.getBean(StudentsService.class);
-        mockStudentsDao = context.getBean(StudentsDao.class);
-    }
 
     @After
     public void clean() {

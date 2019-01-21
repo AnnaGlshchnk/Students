@@ -15,10 +15,10 @@ public class StudentsServiceImpl implements StudentsService {
 
     private StudentsDao studentsDao;
 
+    @Autowired
     public StudentsServiceImpl(StudentsDao studentsDao) {
         this.studentsDao = studentsDao;
     }
-
 
     @Override
     public List<Student> getStudents(String minBirthDate, String maxBirthDate) {

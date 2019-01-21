@@ -3,6 +3,7 @@ package com.anna.dao;
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
 import com.anna.model.Student;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -39,6 +40,7 @@ public class GroupsDaoImpl implements GroupsDao {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    @Autowired
     public GroupsDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
