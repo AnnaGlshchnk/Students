@@ -4,6 +4,7 @@ import com.anna.config.ControllerMockTestConfig;
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
 import com.anna.service.GroupsService;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -11,18 +12,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.text.SimpleDateFormat;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.easymock.EasyMock.*;
@@ -49,7 +48,6 @@ public class GroupsControllerMockTest {
     @Before
     public void setUp() {
         mockMvc = standaloneSetup(groupsController)
-                .setMessageConverters(new MappingJackson2HttpMessageConverter())
                 .build();
     }
 
@@ -87,15 +85,12 @@ public class GroupsControllerMockTest {
     public void addGroup() throws Exception {
         LOGGER.debug("service: addGroup");
 
-        String pattern = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        Date date1 = simpleDateFormat.parse("2019-08-04");
-        Date date2 = simpleDateFormat.parse("2023-06-30");
-
         expect(mockGroupsService.addGroup(anyObject(SaveGroup.class))).andReturn(4);
         replay(mockGroupsService);
 
-        String group = "{\"groupId\":0,\"name\":\"D\",\"createDate\":\"2019-08-04\",\"finishDate\":\"2023-06-30\",\"countOfStudent\":0,\"avgAge\":0.0}";
+        Resource resource = new ClassPathResource("requests/add_group.json");
+        InputStream resourceInputStream = resource.getInputStream();
+        String group = IOUtils.toString(resourceInputStream, "UTF-8");
 
         mockMvc.perform(post("/groups").accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON).content(group)
@@ -107,15 +102,12 @@ public class GroupsControllerMockTest {
     public void updateGroup() throws Exception {
         LOGGER.debug("service: updateGroup");
 
-        String pattern = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        Date date1 = simpleDateFormat.parse("2019-08-04");
-        Date date2 = simpleDateFormat.parse("2023-06-30");
-
         expect(mockGroupsService.updateGroup(anyObject(Integer.class), anyObject(SaveGroup.class))).andReturn(1);
         replay(mockGroupsService);
 
-        String str = "{\"groupId\":1,\"name\":\"A\",\"createDate\":\"2019-08-04\",\"finishDate\":\"2023-06-30\",\"countOfStudent\":2,\"avgAge\":19.5}";
+        Resource resource = new ClassPathResource("requests/update_group.json");
+        InputStream resourceInputStream = resource.getInputStream();
+        String str = IOUtils.toString(resourceInputStream, "UTF-8");
 
         mockMvc.perform(put("/groups/1").accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON).content(str)

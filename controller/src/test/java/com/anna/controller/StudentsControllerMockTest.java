@@ -2,8 +2,9 @@ package com.anna.controller;
 
 import com.anna.config.ControllerMockTestConfig;
 import com.anna.model.Student;
-import com.anna.service.GroupsService;
 import com.anna.service.StudentsService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -11,28 +12,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.text.SimpleDateFormat;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.easymock.EasyMock.*;
-import static org.easymock.EasyMock.replay;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -53,7 +50,6 @@ public class StudentsControllerMockTest {
     @Before
     public void setUp() {
         mockMvc = standaloneSetup(studentsController)
-                .setMessageConverters(new MappingJackson2HttpMessageConverter())
                 .build();
     }
 
@@ -91,15 +87,13 @@ public class StudentsControllerMockTest {
     public void addStudent() throws Exception {
         LOGGER.debug("service: addStudent");
 
-        String pattern = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        Date date1 = simpleDateFormat.parse("2019-08-04");
-        Date date2 = simpleDateFormat.parse("2023-06-30");
-
         expect(mockStudentsService.addStudent(anyObject(Student.class))).andReturn(7);
         replay(mockStudentsService);
 
-        String student= "{\"name\":\"Ada\",\"surname\":\"Mluh\",\"birthDate\":\"1998-06-30\"}";
+        Resource resource = new ClassPathResource("requests/add_student.json");
+        InputStream resourceInputStream = resource.getInputStream();
+
+        String student = IOUtils.toString(resourceInputStream, "UTF-8");
 
         mockMvc.perform(post("/students").accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON).content(student)
@@ -111,16 +105,12 @@ public class StudentsControllerMockTest {
     public void updateStudent() throws Exception {
         LOGGER.debug("service: updateStudent");
 
-        String pattern = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        Date date1 = simpleDateFormat.parse("2019-08-04");
-        Date date2 = simpleDateFormat.parse("2023-06-30");
-
-       mockStudentsService.updateStudent(anyObject(Student.class));
-       expectLastCall().once();
+        mockStudentsService.updateStudent(anyObject(Student.class));
+        expectLastCall().once();
         replay(mockStudentsService);
-
-        String str = "{\"studentId\":1,\"name\":\"Anna\",\"surname\":\"Glush\",\"birthDate\":\"1998-06-30\"}";
+        Resource resource = new ClassPathResource("requests/update_student.json");
+        InputStream resourceInputStream = resource.getInputStream();
+        String str = IOUtils.toString(resourceInputStream, "UTF-8");
 
         mockMvc.perform(put("/students/1").accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON).content(str)
