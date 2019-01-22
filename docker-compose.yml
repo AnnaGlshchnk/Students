@@ -2,11 +2,11 @@ version: "3"
 
 services:
   students:
-    image: annaglshchnk/students:1.0
+    image: annaglshchnk/students:2.0
     ports:
       - "8080"
   mysql:
-    image:  annaglshchnk/sql5:1.0
+    image:  annaglshchnk/sql5:2.0
     ports:
       - "3306"
 
