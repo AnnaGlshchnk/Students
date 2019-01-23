@@ -4,8 +4,8 @@ import com.anna.config.ServiceMockTestConfig;
 import com.anna.dao.StudentsDao;
 import com.anna.exception.OperationFailedException;
 import com.anna.model.Group;
+import com.anna.model.SaveStudent;
 import com.anna.model.Student;
-import junit.framework.AssertionFailedError;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -13,13 +13,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -93,7 +89,7 @@ public class StudentServiceMockTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse("1998-09-09");
 
-        Student student = new Student("Val", "Ui", date, new Group(2));
+        SaveStudent student = new SaveStudent("Val", "Ui", date, new Group(2));
 
         expect(mockStudentsDao.addStudent(student)).andReturn(7);
         replay(mockStudentsDao);
@@ -105,14 +101,15 @@ public class StudentServiceMockTest {
     @Test
     public void updateStudent() throws ParseException {
         LOGGER.debug("service: updateStudent");
-        expect(mockStudentsDao.updateStudent(anyObject())).andReturn(1);
+        expect(mockStudentsDao.updateStudent(anyObject(), anyObject(SaveStudent.class))).andReturn(1);
         replay(mockStudentsDao);
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse("1998-09-09");
 
-       studentsService.updateStudent(new Student(1, "Anna", "Glush", date, new Group(1)));
+        Integer studentId = studentsService.updateStudent(1, new SaveStudent("Anna", "Glush", date, new Group(1)));
+        Assert.assertEquals(studentId, Integer.valueOf(1));
 
     }
 
@@ -144,44 +141,6 @@ public class StudentServiceMockTest {
         replay(mockStudentsDao);
 
         studentsService.deleteStudent(1);
-    }
-
-    @Test
-    public void addStudentException() throws ParseException {
-        LOGGER.debug("service: addStudentException");
-
-        //setup
-        String pattern = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        Date date = simpleDateFormat.parse("1998-09-09");
-
-        Student student = new Student("Ui", date, new Group(2));
-
-        //when
-        try{
-            studentsService.addStudent(student);
-            throw new RuntimeException("Method should throw exception");
-        } catch (OperationFailedException ex){
-        }
-        //then
-        //check that mockStudentsDao.add was not called
-        expect(mockStudentsDao.addStudent(student)).andReturn(7);
-        expectLastCall().anyTimes();
-        replay(mockStudentsDao);
-    }
-
-    @Test(expected = OperationFailedException.class)
-    public void updateStudentException() throws ParseException {
-        LOGGER.debug("service: updateStudentException");
-        expect(mockStudentsDao.updateStudent(anyObject())).andReturn(0);
-        replay(mockStudentsDao);
-
-        String pattern = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        Date date = simpleDateFormat.parse("1998-09-09");
-
-        studentsService.updateStudent(new Student(10, "Anna", "Glush", date, new Group(1)));
-
     }
 
 }

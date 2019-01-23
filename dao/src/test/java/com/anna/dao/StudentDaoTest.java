@@ -2,6 +2,7 @@ package com.anna.dao;
 
 import com.anna.config.DaoTestConfig;
 import com.anna.model.Group;
+import com.anna.model.SaveStudent;
 import com.anna.model.Student;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -61,23 +62,27 @@ public class StudentDaoTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse("1998-09-09");
 
-        Student student = new Student("Val", "Ui", date, new Group(2));
+        SaveStudent student = new SaveStudent("Val", "Ui", date, new Group(2));
         Integer studentId = studentsDao.addStudent(student);
 
-        student = studentsDao.getStudentById(studentId);
-        Assert.assertEquals(student.getStudentId(), 7);
+        Student newStudent = studentsDao.getStudentById(studentId);
+        Assert.assertEquals(newStudent.getStudentId(), 7);
     }
 
     @Test
-    public void updateStudent() {
+    public void updateStudent() throws ParseException {
         LOGGER.debug("service: updateStudent");
 
-        Student student = studentsDao.getStudentById(1);
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        Date date = simpleDateFormat.parse("1998-09-09");
+
+        SaveStudent student = new SaveStudent("Val", "Ui", date, new Group(2));
         student.setName("Anna");
 
-       studentsDao.updateStudent(student);
-       student = studentsDao.getStudentById(1);
-       Assert.assertEquals("Anna", student.getName());
+        studentsDao.updateStudent(2, student);
+        Student updateStudent = studentsDao.getStudentById(2);
+        Assert.assertEquals("Anna", updateStudent.getName());
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.anna.service;
 
 import com.anna.dao.StudentsDao;
 import com.anna.exception.OperationFailedException;
+import com.anna.model.SaveStudent;
 import com.anna.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,42 +37,13 @@ public class StudentsServiceImpl implements StudentsService {
     }
 
     @Override
-    public Integer addStudent(Student student) {
-        validate(student);
-
+    public Integer addStudent(SaveStudent student) {
         return studentsDao.addStudent(student);
     }
 
     @Override
-    public void updateStudent(Student student) {
-
-        if (student.getStudentId() <= 0) {
-            throw new OperationFailedException("studentId should be more than 0");
-        }
-        validate(student);
-
-        Integer result = studentsDao.updateStudent(student);
-        if (result != 1) {
-            throw new OperationFailedException("Operation Failed");
-        }
-    }
-
-    private void validate(Student student) {
-        if (student == null) {
-            throw new OperationFailedException("student shouldn't be null");
-        }
-        if (student.getName() == null) {
-            throw new OperationFailedException("student should have name");
-        }
-        if (student.getSurname() == null) {
-            throw new OperationFailedException("student should have surname");
-        }
-        if (student.getBirthDate() == null) {
-            throw new OperationFailedException("student should have birth date");
-        }
-        if (student.getGroup() == null) {
-            throw new OperationFailedException("student should have group");
-        }
+    public Integer updateStudent(Integer studentId, SaveStudent student) {
+        return studentsDao.updateStudent(studentId, student);
     }
 
     @Override

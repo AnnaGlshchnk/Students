@@ -1,8 +1,8 @@
 package com.anna.dao;
 
+import com.anna.model.SaveStudent;
 import com.anna.model.Student;
 
-import java.util.Date;
 import java.util.List;
 
 public interface StudentsDao {
@@ -11,9 +11,9 @@ public interface StudentsDao {
 
     Student getStudentById(Integer studentId);
 
-    Integer addStudent(Student student);
+    Integer addStudent(SaveStudent student);
 
-    Integer updateStudent(Student student);
+    Integer updateStudent(Integer studentId, SaveStudent student);
 
     Integer deleteStudent(Integer studentId);
 

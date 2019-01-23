@@ -3,6 +3,7 @@ package com.anna.service;
 import com.anna.config.ServiceTestConfig;
 import com.anna.exception.OperationFailedException;
 import com.anna.model.Group;
+import com.anna.model.SaveStudent;
 import com.anna.model.Student;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -66,25 +67,29 @@ public class StudentServiceTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse("1998-09-09");
 
-        Student student = new Student("Val", "Ui", date, new Group(2));
+        SaveStudent student = new SaveStudent("Val", "Ui", date, new Group(2));
         Integer studentId = studentsService.addStudent(student);
-        student = studentsService.getStudentById(studentId);
-        Assert.assertThat(student, allOf(hasProperty("studentId", equalTo(7)),
+        Student newStudent = studentsService.getStudentById(studentId);
+        Assert.assertThat(newStudent, allOf(hasProperty("studentId", equalTo(7)),
                 hasProperty("name", equalTo("Val")),
                 hasProperty("surname", equalTo("Ui")),
                 hasProperty("birthDate", equalTo(date))));
     }
 
     @Test
-    public void updateStudent() {
+    public void updateStudent() throws ParseException {
         LOGGER.debug("service: updateStudent");
 
-        Student student = studentsService.getStudentById(1);
-        student.setName("Anna");
-        studentsService.updateStudent(student);
-        student = studentsService.getStudentById(1);
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        Date date = simpleDateFormat.parse("1998-09-09");
 
-        Assert.assertEquals("Anna", student.getName());
+        SaveStudent student = new SaveStudent("Val", "Ui", date, new Group(2));
+        student.setName("Anna");
+        studentsService.updateStudent(2, student);
+        Student updateStudent = studentsService.getStudentById(2);
+
+        Assert.assertEquals("Anna", updateStudent.getName());
     }
 
     @Test
@@ -102,26 +107,6 @@ public class StudentServiceTest {
         LOGGER.debug("test: getStudentByIdException");
 
         studentsService.getStudentById(10);
-    }
-
-    @Test(expected = OperationFailedException.class)
-    public void addStudentException() throws ParseException {
-        LOGGER.debug("service: addStudentException");
-
-        String pattern = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        Date date = simpleDateFormat.parse("1998-09-09");
-
-        Student student = new Student( "Ui", date, new Group(2));
-        studentsService.addStudent(student);
-    }
-
-    @Test(expected = OperationFailedException.class)
-    public void updateStudentException() {
-        LOGGER.debug("service: updateStudentException");
-
-        Student student = new Student("Sally", "Fish");
-        studentsService.updateStudent(student);
     }
 
     @Test(expected = OperationFailedException.class)

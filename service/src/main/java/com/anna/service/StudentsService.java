@@ -1,6 +1,7 @@
 package com.anna.service;
 
 import com.anna.exception.OperationFailedException;
+import com.anna.model.SaveStudent;
 import com.anna.model.Student;
 
 import java.util.List;
@@ -11,9 +12,9 @@ public interface StudentsService {
 
     Student getStudentById(Integer studentId) throws OperationFailedException;
 
-    Integer addStudent(Student student) throws OperationFailedException;
+    Integer addStudent(SaveStudent student) throws OperationFailedException;
 
-    void updateStudent(Student student) throws OperationFailedException;
+    Integer updateStudent(Integer studentId, SaveStudent student) throws OperationFailedException;
 
     void deleteStudent(Integer studentId) throws OperationFailedException;
 }

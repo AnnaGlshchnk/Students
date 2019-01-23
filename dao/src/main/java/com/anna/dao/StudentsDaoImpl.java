@@ -1,6 +1,7 @@
 package com.anna.dao;
 
 import com.anna.model.Group;
+import com.anna.model.SaveStudent;
 import com.anna.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,7 +61,7 @@ public class StudentsDaoImpl implements StudentsDao {
     }
 
     @Override
-    public Integer addStudent(Student student) {
+    public Integer addStudent(SaveStudent student) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue(STUDENT_NAME, student.getName());
@@ -70,16 +71,16 @@ public class StudentsDaoImpl implements StudentsDao {
         return keyHolder.getKey().intValue();
     }
 
-    private void build(Student student, MapSqlParameterSource mapSqlParameterSource) {
+    private void build(SaveStudent student, MapSqlParameterSource mapSqlParameterSource) {
         mapSqlParameterSource.addValue(SURNAME, student.getSurname());
         mapSqlParameterSource.addValue(Birth_Date, student.getBirthDate());
         mapSqlParameterSource.addValue(GROUP_ID, student.getGroup().getGroupId());
     }
 
     @Override
-    public Integer updateStudent(Student student) {
+    public Integer updateStudent(Integer studentId, SaveStudent student) {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource.addValue(STUDENT_ID, student.getStudentId());
+        mapSqlParameterSource.addValue(STUDENT_ID, studentId);
         mapSqlParameterSource.addValue(STUDENT_NAME, student.getName());
         build(student, mapSqlParameterSource);
 

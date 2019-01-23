@@ -1,9 +1,9 @@
 package com.anna.controller;
 
 import com.anna.config.ControllerMockTestConfig;
+import com.anna.model.SaveStudent;
 import com.anna.model.Student;
 import com.anna.service.StudentsService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -87,7 +86,7 @@ public class StudentsControllerMockTest {
     public void addStudent() throws Exception {
         LOGGER.debug("service: addStudent");
 
-        expect(mockStudentsService.addStudent(anyObject(Student.class))).andReturn(7);
+        expect(mockStudentsService.addStudent(anyObject(SaveStudent.class))).andReturn(7);
         replay(mockStudentsService);
 
         Resource resource = new ClassPathResource("requests/add_student.json");
@@ -105,7 +104,7 @@ public class StudentsControllerMockTest {
     public void updateStudent() throws Exception {
         LOGGER.debug("service: updateStudent");
 
-        mockStudentsService.updateStudent(anyObject(Student.class));
+        expect(mockStudentsService.updateStudent(anyObject(Integer.class), anyObject(SaveStudent.class))).andReturn(1);
         expectLastCall().once();
         replay(mockStudentsService);
         Resource resource = new ClassPathResource("requests/update_student.json");
