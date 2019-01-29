@@ -1,0 +1,12 @@
+rootProject.name = 'Students'
+include ':dao'
+include ':service'
+include ':controller'
+include ':model'
+include ':aspect'
+
+project(':dao').projectDir = "$rootDir/dao" as File
+project(':service').projectDir = "$rootDir/service" as File
+project(':controller').projectDir = "$rootDir/controller" as File
+project(':model').projectDir = "$rootDir/model" as File
+project(':aspect').projectDir = "$rootDir/aspect" as File
