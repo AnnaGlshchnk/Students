@@ -35,6 +35,7 @@ public class SaveGroup {
         this.finishDate = finishDate;
     }
 
+
     public String getName() {
         return name;
     }

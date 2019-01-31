@@ -15,6 +15,7 @@
         <module>controller</module>
         <module>model</module>
         <module>aspect</module>
+        <module>integration_tests</module>
     </modules>
 
     <properties>
