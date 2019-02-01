@@ -27,3 +27,4 @@ yarn-error.log*
 *.jar
 **/log/
 **/build/
+.gradle

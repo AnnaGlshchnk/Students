@@ -20,11 +20,10 @@ public class GroupsIntegrationTests {
 
     private RestTemplate restTemplate = new RestTemplate();
 
+    private final String fooResourceUrl = "http://172.19.0.2:8080/groups";
+
     @Test
     public void getGroupById() {
-
-        String fooResourceUrl = "http://172.23.0.3:8080/groups";
-
         ResponseEntity<Group> response = restTemplate.getForEntity(fooResourceUrl + "/1", Group.class);
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
         assertNotNull(response);
@@ -35,7 +34,6 @@ public class GroupsIntegrationTests {
 
     @Test
     public void addStudent() throws ParseException {
-        String fooResourceUrl = "http://172.23.0.3:8080/groups";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -53,7 +51,6 @@ public class GroupsIntegrationTests {
 
     @Test
     public void updateStudent() throws ParseException {
-        String fooResourceUrl = "http://172.23.0.3:8080/groups";
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -68,8 +65,6 @@ public class GroupsIntegrationTests {
 
     @Test
     public void deleteStudent() throws ParseException {
-        String fooResourceUrl = "http://172.23.0.3:8080/groups";
-
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date1 = simpleDateFormat.parse("2018-09-01");

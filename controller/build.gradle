@@ -22,4 +22,14 @@ dependencies {
     testCompile group: 'org.springframework', name: 'spring-test', version:'4.3.10.RELEASE'
     testCompile group: 'org.easymock', name: 'easymock', version:'3.4'
     providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version:'3.0.1'
+
+
+  test {
+    useJUnit {
+      includeCategories 'com.anna.controller.GroupsControllerMockTest'
+    }
+    testLogging {
+      showStandardStreams = true
+    }
+  }
 }

@@ -19,10 +19,10 @@ public class StudentsIntegrationTests {
 
     private RestTemplate restTemplate = new RestTemplate();
 
+    private final String fooResourceUrl = "http://172.19.0.2:8080/students";
+
     @Test
     public void getStudentById() {
-
-        String fooResourceUrl = "http://172.23.0.3:8080/students";
 
         ResponseEntity<Student> response = restTemplate.getForEntity(fooResourceUrl + "/1", Student.class);
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
@@ -36,7 +36,6 @@ public class StudentsIntegrationTests {
 
     @Test
     public void addStudent() throws ParseException {
-        String fooResourceUrl = "http://172.23.0.3:8080/students";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -53,7 +52,6 @@ public class StudentsIntegrationTests {
 
     @Test
     public void updateStudent() throws ParseException {
-        String fooResourceUrl = "http://172.23.0.3:8080/students";
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -68,7 +66,6 @@ public class StudentsIntegrationTests {
 
     @Test
     public void deleteStudent() throws ParseException {
-        String fooResourceUrl = "http://172.23.0.3:8080/students";
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);

@@ -11,7 +11,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
@@ -98,6 +100,5 @@ public class GroupServiceTest {
         groupsService.deleteGroup(1);
         List<Group> groups = groupsService.getGroups(null, null);
         Assert.assertEquals(2, groups.size());
-
     }
 }
