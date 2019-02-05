@@ -17,20 +17,19 @@ import static org.junit.Assert.*;
 
 public class StudentsIntegrationTests {
 
+    private final String fooResourceUrl = "http://localhost:8080/students";
     private RestTemplate restTemplate = new RestTemplate();
-
-    private final String fooResourceUrl = "http://172.19.0.2:8080/students";
 
     @Test
     public void getStudentById() {
 
-        ResponseEntity<Student> response = restTemplate.getForEntity(fooResourceUrl + "/1", Student.class);
+        ResponseEntity<Student> response = restTemplate.getForEntity(fooResourceUrl + "/2", Student.class);
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
         assertNotNull(response);
         assertNotNull(response.getBody());
-        assertEquals(response.getBody().getStudentId(), 1);
-        assertEquals(response.getBody().getName(), "Ann");
-        assertEquals(response.getBody().getSurname(), "Glush");
+        assertEquals(response.getBody().getStudentId(), 2);
+        assertEquals(response.getBody().getName(), "Zen");
+        assertEquals(response.getBody().getSurname(), "Ro");
         assertEquals(response.getBody().getGroup().getGroupId(), 1);
     }
 
@@ -71,9 +70,10 @@ public class StudentsIntegrationTests {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date1 = simpleDateFormat.parse("1999-01-08");
 
-        Student student = new Student(16, "Kally", "Blanck", date1, new Group(2));
-        String entityUrl = fooResourceUrl + "/" + student.getStudentId();
+        HttpEntity<SaveStudent> request = new HttpEntity<>(new SaveStudent("Kally", "Blanck", date1, new Group(2)));
+        ResponseEntity<SaveStudent> response = restTemplate.postForEntity(fooResourceUrl, request, SaveStudent.class);
 
-        restTemplate.delete(entityUrl);
+        restTemplate.delete(response.getHeaders().getLocation());
+
     }
 }

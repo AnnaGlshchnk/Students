@@ -2,10 +2,9 @@ package com.anna.integration_test.test;
 
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
-import com.anna.model.SaveStudent;
-import com.anna.model.Student;
 import org.junit.Test;
 import org.springframework.http.*;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
@@ -14,13 +13,11 @@ import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertNotNull;
 
 public class GroupsIntegrationTests {
 
+    private final String fooResourceUrl = "http://localhost:8080/groups";
     private RestTemplate restTemplate = new RestTemplate();
-
-    private final String fooResourceUrl = "http://172.19.0.2:8080/groups";
 
     @Test
     public void getGroupById() {
@@ -33,7 +30,7 @@ public class GroupsIntegrationTests {
     }
 
     @Test
-    public void addStudent() throws ParseException {
+    public void addGroup() throws ParseException {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -50,7 +47,7 @@ public class GroupsIntegrationTests {
     }
 
     @Test
-    public void updateStudent() throws ParseException {
+    public void updateGroup() throws ParseException {
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -64,15 +61,20 @@ public class GroupsIntegrationTests {
     }
 
     @Test
-    public void deleteStudent() throws ParseException {
+    public void deleteGroup() throws ParseException {
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date1 = simpleDateFormat.parse("2018-09-01");
         Date date2 = simpleDateFormat.parse("2022-06-29");
 
-        Group group = new Group(4, "Dnew", date1, date2);
-        String entityUrl = fooResourceUrl + "/" + group.getGroupId();
+        HttpEntity<SaveGroup> request = new HttpEntity<>(new SaveGroup("Dnew", date1, date2));
+        try{
+            ResponseEntity<SaveGroup> response = restTemplate.postForEntity(fooResourceUrl, request, SaveGroup.class);
+            restTemplate.delete(response.getHeaders().getLocation());
+        }
+        catch(HttpServerErrorException ex){
+            System.out.println(ex);
+        }
 
-        restTemplate.delete(entityUrl);
     }
 }

@@ -4,9 +4,9 @@ services:
   students:
     image: annaglshchnk/students:latest
     ports:
-      - "8080"
+      - "8080:8080/tcp"
   mysql:
-    image:  annaglshchnk/sql5:2.0
+    image: annaglshchnk/sql5:2.0
     ports:
       - "3306"
 
