@@ -15,7 +15,7 @@ import java.util.Date;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
-public class StudentsIntegrationTests {
+public class StudentsIntegrationTest {
 
     private final String fooResourceUrl = "http://localhost:8080/students";
     private RestTemplate restTemplate = new RestTemplate();

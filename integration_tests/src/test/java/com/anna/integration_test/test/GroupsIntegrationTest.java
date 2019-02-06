@@ -14,7 +14,7 @@ import java.util.Date;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
-public class GroupsIntegrationTests {
+public class GroupsIntegrationTest {
 
     private final String fooResourceUrl = "http://localhost:8080/groups";
     private RestTemplate restTemplate = new RestTemplate();
