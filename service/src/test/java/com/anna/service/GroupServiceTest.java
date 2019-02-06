@@ -1,7 +1,6 @@
 package com.anna.service;
 
 import com.anna.config.ServiceTestConfig;
-import com.anna.dao.GroupsDao;
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
 import org.apache.logging.log4j.LogManager;
@@ -11,9 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
@@ -78,7 +75,7 @@ public class GroupServiceTest {
     }
 
     @Test
-    public void updateGroup() throws ParseException{
+    public void updateGroup() throws ParseException {
         LOGGER.debug("service: updateGroup");
 
         String pattern = "yyyy-MM-dd";
@@ -93,6 +90,7 @@ public class GroupServiceTest {
 
         Assert.assertEquals("newA", newgroup.getName());
     }
+
     @Test
     public void deleteGroup() {
         LOGGER.debug("service: deleteGroup");

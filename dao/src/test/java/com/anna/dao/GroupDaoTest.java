@@ -9,8 +9,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,7 +77,7 @@ public class GroupDaoTest {
         Date date1 = simpleDateFormat.parse("2018-09-01");
         Date date2 = simpleDateFormat.parse("2022-06-29");
 
-        SaveGroup saveGroup = new SaveGroup( "A", date1, date2);
+        SaveGroup saveGroup = new SaveGroup("A", date1, date2);
         saveGroup.setName("newA");
         groupsDao.updateGroup(1, saveGroup);
         Group newgroup = groupsDao.getGroupById(1);

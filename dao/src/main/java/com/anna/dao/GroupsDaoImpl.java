@@ -113,10 +113,10 @@ public class GroupsDaoImpl implements GroupsDao {
                     resultSet.getDate("finish_date"),
                     new ArrayList<>());
 
-            do{
+            do {
                 group.getStudents().add(new Student(resultSet.getString("student_name"),
                         resultSet.getString("surname")));
-            }while (resultSet.next());
+            } while (resultSet.next());
 
             return group;
         }

@@ -12,6 +12,7 @@
     <artifactId>aspect</artifactId>
 
     <dependencies>
+        <!--project-->
         <dependency>
             <groupId>com.anna</groupId>
             <artifactId>dao</artifactId>
@@ -21,10 +22,13 @@
             <artifactId>service</artifactId>
         </dependency>
 
+        <!--spring framework-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
+
+        <!--logging-->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>

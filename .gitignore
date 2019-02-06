@@ -25,6 +25,6 @@ yarn-error.log*
 *.kotlin_module
 **/target/
 *.jar
-**/log/
+**/logs/
 **/build/
 .gradle

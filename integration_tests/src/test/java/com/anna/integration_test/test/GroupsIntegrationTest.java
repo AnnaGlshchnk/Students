@@ -68,11 +68,10 @@ public class GroupsIntegrationTest {
         Date date2 = simpleDateFormat.parse("2022-06-29");
 
         HttpEntity<SaveGroup> request = new HttpEntity<>(new SaveGroup("Dnew", date1, date2));
-        try{
+        try {
             ResponseEntity<SaveGroup> response = restTemplate.postForEntity(fooResourceUrl, request, SaveGroup.class);
             restTemplate.delete(response.getHeaders().getLocation());
-        }
-        catch(HttpServerErrorException ex){
+        } catch (HttpServerErrorException ex) {
             System.out.println(ex);
         }
 

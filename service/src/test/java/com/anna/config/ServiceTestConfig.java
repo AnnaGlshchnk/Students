@@ -47,22 +47,22 @@ public class ServiceTestConfig {
     }
 
     @Bean
-    public GroupsDao groupsDao(){
+    public GroupsDao groupsDao() {
         return new GroupsDaoImpl(namedParameterJdbcTemplate());
     }
 
     @Bean
-    public StudentsDao studentsDao(){
+    public StudentsDao studentsDao() {
         return new StudentsDaoImpl(namedParameterJdbcTemplate());
     }
 
     @Bean
-    public GroupsService groupsService(){
+    public GroupsService groupsService() {
         return new GroupsServiceImpl(groupsDao());
     }
 
     @Bean
-    public StudentsService studentsService(){
+    public StudentsService studentsService() {
         return new StudentsServiceImpl(studentsDao());
     }
 }

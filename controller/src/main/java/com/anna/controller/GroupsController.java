@@ -29,8 +29,8 @@ public class GroupsController {
     @JsonView(View.Group.class)
     @GetMapping("/groups")
     @ResponseStatus(HttpStatus.OK)
-    public List<Group> getGroups(@RequestParam(value = "start", required = false) String  start,
-                                    @RequestParam(value = "finish", required = false) String  finish) {
+    public List<Group> getGroups(@RequestParam(value = "start", required = false) String start,
+                                 @RequestParam(value = "finish", required = false) String finish) {
         return groupService.getGroups(start, finish);
     }
 

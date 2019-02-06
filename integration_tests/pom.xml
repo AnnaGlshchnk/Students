@@ -34,12 +34,6 @@
             <artifactId>model</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>5.1.4.RELEASE</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -48,8 +42,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <!-- Skips unit tests if the value of skip.unit.tests property is true -->
-                    <!-- Excludes integration tests when unit tests are run -->
                     <testFailureIgnore>true</testFailureIgnore>
                     <skipTests>${skip.tests}</skipTests>
                 </configuration>
@@ -65,9 +57,5 @@
             </properties>
         </profile>
     </profiles>
-
-
-
-
 
 </project>

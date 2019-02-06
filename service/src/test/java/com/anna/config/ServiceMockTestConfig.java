@@ -17,22 +17,22 @@ import org.springframework.context.annotation.Configuration;
 public class ServiceMockTestConfig {
 
     @Bean
-    public GroupsDao groupsDao(){
+    public GroupsDao groupsDao() {
         return EasyMock.createMock(GroupsDaoImpl.class);
     }
 
     @Bean
-    public StudentsDao studentsDao(){
+    public StudentsDao studentsDao() {
         return EasyMock.createMock(StudentsDaoImpl.class);
     }
 
     @Bean
-    public GroupsService groupsService(){
+    public GroupsService groupsService() {
         return new GroupsServiceImpl(groupsDao());
     }
 
     @Bean
-    public StudentsService studentsService(){
+    public StudentsService studentsService() {
         return new StudentsServiceImpl(studentsDao());
     }
 }

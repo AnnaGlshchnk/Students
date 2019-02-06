@@ -1,7 +1,6 @@
 package com.anna.service;
 
 import com.anna.dao.GroupsDao;
-import com.anna.dao.GroupsDaoImpl;
 import com.anna.exception.OperationFailedException;
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
@@ -42,12 +41,12 @@ public class GroupsServiceImpl implements GroupsService {
     }
 
     @Override
-    public Integer updateGroup(Integer groupId, SaveGroup group) throws OperationFailedException{
+    public Integer updateGroup(Integer groupId, SaveGroup group) throws OperationFailedException {
         return groupsDao.updateGroup(groupId, group);
     }
 
     @Override
-    public Integer deleteGroup(Integer groupId) throws OperationFailedException{
+    public Integer deleteGroup(Integer groupId) throws OperationFailedException {
         return groupsDao.deleteGroup(groupId);
     }
 }

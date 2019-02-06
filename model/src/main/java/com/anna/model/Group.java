@@ -1,7 +1,6 @@
 package com.anna.model;
 
 import com.anna.model.json.View;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,10 +11,10 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Group {
 
-    @JsonView({View.Student.class,View.GroupWithStudents.class})
+    @JsonView({View.Student.class, View.GroupWithStudents.class})
     private int groupId;
 
-    @JsonView({View.Student.class,View.GroupWithStudents.class})
+    @JsonView({View.Student.class, View.GroupWithStudents.class})
     private String name;
 
     @JsonView(View.GroupWithStudents.class)

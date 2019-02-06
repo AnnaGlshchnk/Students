@@ -25,12 +25,12 @@ public class ControllerMockTestConfig {
     }
 
     @Bean
-    public GroupsController groupsController(){
+    public GroupsController groupsController() {
         return new GroupsController(mockGroupsService());
     }
 
     @Bean
-    public StudentsController studentsController(){
+    public StudentsController studentsController() {
         return new StudentsController(mockStudentsService());
     }
 }
