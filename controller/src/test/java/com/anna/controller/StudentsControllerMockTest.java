@@ -3,7 +3,7 @@ package com.anna.controller;
 import com.anna.config.ControllerMockTestConfig;
 import com.anna.model.SaveStudent;
 import com.anna.model.Student;
-import com.anna.service.StudentsService;
+import com.anna.service.StudentsServiceImpl;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +11,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -19,43 +22,45 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.easymock.EasyMock.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ControllerMockTestConfig.class)
 @WebAppConfiguration
 public class StudentsControllerMockTest {
-
     private static final Logger LOGGER = LogManager.getLogger(StudentsControllerMockTest.class);
 
-    @Autowired
+
+    @InjectMocks
     private StudentsController studentsController;
+
+    @Mock
+    private StudentsServiceImpl mockStudentsService;
 
     private MockMvc mockMvc;
 
-    @Autowired
-    private StudentsService mockStudentsService;
+    public StudentsControllerMockTest() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Before
-    public void setUp() {
-        mockMvc = standaloneSetup(studentsController)
-                .build();
+    public void init() {
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(studentsController).build();
     }
 
     @After
-    public void tearDown() {
-        verify(mockStudentsService);
-        reset(mockStudentsService);
+    public void after() {
+        Mockito.reset(mockStudentsService);
     }
 
     @Test
@@ -63,11 +68,12 @@ public class StudentsControllerMockTest {
         LOGGER.debug("service: getStudents");
 
         List<Student> students = new ArrayList<>();
-        expect(mockStudentsService.getStudents(null, null)).andReturn(students);
-        replay(mockStudentsService);
+        Mockito.when(mockStudentsService.getStudents(null, null)).thenReturn(students);
 
         mockMvc.perform(get("/students").accept(MediaType.APPLICATION_JSON)
         ).andDo(print()).andExpect(status().isOk());
+
+        Mockito.verify(mockStudentsService).getStudents(null, null);
     }
 
     @Test
@@ -75,19 +81,19 @@ public class StudentsControllerMockTest {
         LOGGER.debug("service: getStudentById");
 
         Student student = new Student(1, "Anna", "Glush");
-        expect(mockStudentsService.getStudentById(anyInt())).andReturn(student);
-        replay(mockStudentsService);
+        Mockito.when(mockStudentsService.getStudentById(1)).thenReturn(student);
 
         mockMvc.perform(get("/students/1").accept(MediaType.APPLICATION_JSON)
         ).andDo(print()).andExpect(status().isOk());
+
+        Mockito.verify(mockStudentsService).getStudentById(1);
     }
 
     @Test
     public void addStudent() throws Exception {
         LOGGER.debug("service: addStudent");
 
-        expect(mockStudentsService.addStudent(anyObject(SaveStudent.class))).andReturn(7);
-        replay(mockStudentsService);
+        Mockito.when(mockStudentsService.addStudent(Mockito.any(SaveStudent.class))).thenReturn(7);
 
         Resource resource = new ClassPathResource("requests/add_student.json");
         InputStream resourceInputStream = resource.getInputStream();
@@ -104,9 +110,8 @@ public class StudentsControllerMockTest {
     public void updateStudent() throws Exception {
         LOGGER.debug("service: updateStudent");
 
-        expect(mockStudentsService.updateStudent(anyObject(Integer.class), anyObject(SaveStudent.class))).andReturn(1);
-        expectLastCall().once();
-        replay(mockStudentsService);
+        Mockito.when(mockStudentsService.updateStudent(Mockito.any(Integer.class), Mockito.any(SaveStudent.class))).thenReturn(1);
+
         Resource resource = new ClassPathResource("requests/update_student.json");
         InputStream resourceInputStream = resource.getInputStream();
         String str = IOUtils.toString(resourceInputStream, "UTF-8");
@@ -121,9 +126,7 @@ public class StudentsControllerMockTest {
     public void deleteStudent() throws Exception {
         LOGGER.debug("service: deleteStudent");
 
-        mockStudentsService.deleteStudent(anyInt());
-        expectLastCall().once();
-        replay(mockStudentsService);
+        mockStudentsService.deleteStudent(Mockito.any(Integer.class));
 
         mockMvc.perform(delete("/students/1").accept(MediaType.APPLICATION_JSON)
         ).andDo(print()).andExpect(status().isOk());

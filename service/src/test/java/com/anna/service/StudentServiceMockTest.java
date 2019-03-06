@@ -1,6 +1,6 @@
 package com.anna.service;
 
-import com.anna.config.ServiceMockTestConfig;
+import com.anna.config.ServiceTestConfig;
 import com.anna.dao.StudentsDao;
 import com.anna.exception.OperationFailedException;
 import com.anna.model.Group;
@@ -12,7 +12,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -22,26 +25,27 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ServiceMockTestConfig.class)
+@ContextConfiguration(classes = ServiceTestConfig.class)
 public class StudentServiceMockTest {
-
     private static final Logger LOGGER = LogManager.getLogger(StudentServiceMockTest.class);
 
-    @Autowired
-    private StudentsService studentsService;
+    @InjectMocks
+    private StudentsServiceImpl studentsService;
 
-    @Autowired
+    @Mock
     private StudentsDao mockStudentsDao;
+
+    public StudentServiceMockTest() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @After
     public void clean() {
-        verify(mockStudentsDao);
-        reset(mockStudentsDao);
+        Mockito.reset(mockStudentsDao);
     }
 
     @Test
@@ -49,9 +53,7 @@ public class StudentServiceMockTest {
         LOGGER.debug("service: getStudents");
 
         List<Student> students = new ArrayList<>();
-        expect(mockStudentsDao.getStudents(null, null)).andReturn(students);
-
-        replay(mockStudentsDao);
+        Mockito.when(mockStudentsDao.getStudents(null, null)).thenReturn(students);
 
         students = studentsService.getStudents(null, null);
         Assert.assertEquals(0, students.size());
@@ -62,9 +64,7 @@ public class StudentServiceMockTest {
         LOGGER.debug("service: getStudentsWithParam");
 
         List<Student> students = new ArrayList<>();
-        expect(mockStudentsDao.getStudents("1998-03-04", "2000-12-12")).andReturn(students);
-
-        replay(mockStudentsDao);
+        Mockito.when(mockStudentsDao.getStudents("1998-03-04", "2000-12-12")).thenReturn(students);
 
         students = studentsService.getStudents("1998-03-04", "2000-12-12");
         Assert.assertEquals(0, students.size());
@@ -74,8 +74,7 @@ public class StudentServiceMockTest {
     public void getStudentById() {
         LOGGER.debug("service: getStudentById");
 
-        expect(mockStudentsDao.getStudentById(anyInt())).andReturn(new Student(4));
-        replay(mockStudentsDao);
+        Mockito.when(mockStudentsDao.getStudentById(Mockito.any(Integer.class))).thenReturn(new Student(4));
 
         Student student = studentsService.getStudentById(4);
         assertEquals(4, student.getStudentId());
@@ -91,8 +90,7 @@ public class StudentServiceMockTest {
 
         SaveStudent student = new SaveStudent("Val", "Ui", date, new Group(2));
 
-        expect(mockStudentsDao.addStudent(student)).andReturn(7);
-        replay(mockStudentsDao);
+        Mockito.when(mockStudentsDao.addStudent(student)).thenReturn(7);
 
         Integer studentId = studentsService.addStudent(student);
         assertEquals(studentId, (Integer) 7);
@@ -101,8 +99,8 @@ public class StudentServiceMockTest {
     @Test
     public void updateStudent() throws ParseException {
         LOGGER.debug("service: updateStudent");
-        expect(mockStudentsDao.updateStudent(anyObject(), anyObject(SaveStudent.class))).andReturn(1);
-        replay(mockStudentsDao);
+
+        Mockito.when(mockStudentsDao.updateStudent(Mockito.any(Integer.class), Mockito.any(SaveStudent.class))).thenReturn(1);
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -110,15 +108,13 @@ public class StudentServiceMockTest {
 
         Integer studentId = studentsService.updateStudent(1, new SaveStudent("Anna", "Glush", date, new Group(1)));
         Assert.assertEquals(studentId, Integer.valueOf(1));
-
     }
 
     @Test
     public void deleteStudent() {
         LOGGER.debug("service: deleteStudent");
 
-        expect(mockStudentsDao.deleteStudent(anyInt())).andReturn(1);
-        replay(mockStudentsDao);
+        Mockito.when(mockStudentsDao.deleteStudent(Mockito.any(Integer.class))).thenReturn(1);
 
         studentsService.deleteStudent(1);
     }
@@ -127,8 +123,7 @@ public class StudentServiceMockTest {
     public void getStudentByIdException() {
         LOGGER.debug("service: getStudentByIdException");
 
-        expect(mockStudentsDao.getStudentById(22)).andThrow(new RuntimeException());
-        replay(mockStudentsDao);
+        Mockito.when(mockStudentsDao.getStudentById(22)).thenThrow(new RuntimeException());
 
         studentsService.getStudentById(22);
     }
@@ -137,8 +132,7 @@ public class StudentServiceMockTest {
     public void deleteStudentException() {
         LOGGER.debug("service: deleteStudentException");
 
-        expect(mockStudentsDao.deleteStudent(anyInt())).andReturn(0);
-        replay(mockStudentsDao);
+        Mockito.when(mockStudentsDao.deleteStudent(22)).thenReturn(0);
 
         studentsService.deleteStudent(1);
     }
