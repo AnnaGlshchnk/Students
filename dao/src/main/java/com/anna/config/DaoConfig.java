@@ -7,9 +7,13 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
+import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -56,6 +60,14 @@ public class DaoConfig {
         dataSource.setUrl(url);
         dataSource.setUsername(name);
         dataSource.setPassword(password);
+
+        Resource initSchema = new ClassPathResource("db.sql");
+        Resource textSchema = new ClassPathResource("db_text.sql");
+
+        ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
+        databasePopulator.addScripts(initSchema, textSchema);
+        DatabasePopulatorUtils.execute(databasePopulator, dataSource);
+
         return dataSource;
     }
 
