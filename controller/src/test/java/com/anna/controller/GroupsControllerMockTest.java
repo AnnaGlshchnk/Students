@@ -1,9 +1,19 @@
 package com.anna.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.anna.config.ControllerMockTestConfig;
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
 import com.anna.service.GroupsServiceImpl;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,109 +34,103 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ControllerMockTestConfig.class)
 @WebAppConfiguration
 public class GroupsControllerMockTest {
-    private static final Logger LOGGER = LogManager.getLogger(GroupsControllerMockTest.class);
 
-    @InjectMocks
-    private GroupsController groupsController;
+  private static final Logger LOGGER = LogManager.getLogger(GroupsControllerMockTest.class);
 
-    @Mock
-    private GroupsServiceImpl mockGroupsService;
+  @InjectMocks
+  private GroupsController groupsController;
 
-    private MockMvc mockMvc;
+  @Mock
+  private GroupsServiceImpl mockGroupsService;
 
-    public GroupsControllerMockTest() {
-        MockitoAnnotations.initMocks(this);
-    }
+  private MockMvc mockMvc;
 
-    @Before
-    public void init() {
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(groupsController).build();
-    }
+  public GroupsControllerMockTest() {
+    MockitoAnnotations.initMocks(this);
+  }
 
-    @After
-    public void after() {
-        Mockito.reset(mockGroupsService);
-    }
+  @Before
+  public void init() {
+    mockMvc = MockMvcBuilders
+        .standaloneSetup(groupsController).build();
+  }
 
-    @Test
-    public void getGroups() throws Exception {
-        LOGGER.debug("service: getGroups");
+  @After
+  public void after() {
+    Mockito.reset(mockGroupsService);
+  }
 
-        List<Group> groups = new ArrayList<>();
-        Mockito.when(mockGroupsService.getGroups(null, null)).thenReturn(groups);
+  @Test
+  public void getGroups() throws Exception {
+    LOGGER.debug("service: getGroups");
 
-        mockMvc.perform(get("/groups").accept(MediaType.APPLICATION_JSON)
-        ).andDo(print()).andExpect(status().isOk());
+    List<Group> groups = new ArrayList<>();
+    Mockito.when(mockGroupsService.getGroups(null, null)).thenReturn(groups);
 
-        Mockito.verify(mockGroupsService).getGroups(null, null);
-    }
+    mockMvc.perform(get("/groups").accept(MediaType.APPLICATION_JSON)
+    ).andDo(print()).andExpect(status().isOk());
 
-    @Test
-    public void getGroupById() throws Exception {
-        LOGGER.debug("service: getGroupById");
+    Mockito.verify(mockGroupsService).getGroups(null, null);
+  }
 
-        Group group = new Group(1, "A");
-        Mockito.when(mockGroupsService.getGroupById(1)).thenReturn(group);
+  @Test
+  public void getGroupById() throws Exception {
+    LOGGER.debug("service: getGroupById");
 
-        mockMvc.perform(get("/groups/1").accept(MediaType.APPLICATION_JSON)
-        ).andDo(print()).andExpect(status().isOk());
+    Group group = new Group(1, "A");
+    Mockito.when(mockGroupsService.getGroupById(1)).thenReturn(group);
 
-        Mockito.verify(mockGroupsService).getGroupById(1);
-    }
+    mockMvc.perform(get("/groups/1").accept(MediaType.APPLICATION_JSON)
+    ).andDo(print()).andExpect(status().isOk());
 
-    @Test
-    public void addGroup() throws Exception {
-        LOGGER.debug("service: addGroup");
+    Mockito.verify(mockGroupsService).getGroupById(1);
+  }
 
-        Mockito.when(mockGroupsService.addGroup(Mockito.any(SaveGroup.class))).thenReturn(4);
+  @Test
+  public void addGroup() throws Exception {
+    LOGGER.debug("service: addGroup");
 
-        Resource resource = new ClassPathResource("requests/add_group.json");
-        InputStream resourceInputStream = resource.getInputStream();
-        String group = IOUtils.toString(resourceInputStream, "UTF-8");
+    Mockito.when(mockGroupsService.addGroup(Mockito.any(SaveGroup.class))).thenReturn(4);
 
-        mockMvc.perform(post("/groups").accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON).content(group)
-        ).andDo(print())
-                .andExpect(status().isCreated());
-    }
+    Resource resource = new ClassPathResource("requests/add_group.json");
+    InputStream resourceInputStream = resource.getInputStream();
+    String group = IOUtils.toString(resourceInputStream, "UTF-8");
 
-    @Test
-    public void updateGroup() throws Exception {
-        LOGGER.debug("service: updateGroup");
+    mockMvc.perform(post("/groups").accept(MediaType.APPLICATION_JSON)
+        .contentType(MediaType.APPLICATION_JSON).content(group)
+    ).andDo(print())
+        .andExpect(status().isCreated());
+  }
 
-        Mockito.when(mockGroupsService.updateGroup(Mockito.any(Integer.class), Mockito.any(SaveGroup.class))).thenReturn(1);
+  @Test
+  public void updateGroup() throws Exception {
+    LOGGER.debug("service: updateGroup");
 
-        Resource resource = new ClassPathResource("requests/update_group.json");
-        InputStream resourceInputStream = resource.getInputStream();
-        String str = IOUtils.toString(resourceInputStream, "UTF-8");
+    Mockito.when(
+        mockGroupsService.updateGroup(Mockito.any(Integer.class), Mockito.any(SaveGroup.class)))
+        .thenReturn(1);
 
-        mockMvc.perform(put("/groups/1").accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON).content(str)
-        ).andDo(print())
-                .andExpect(status().isAccepted());
-    }
+    Resource resource = new ClassPathResource("requests/update_group.json");
+    InputStream resourceInputStream = resource.getInputStream();
+    String str = IOUtils.toString(resourceInputStream, "UTF-8");
 
-    @Test
-    public void deleteGroup() throws Exception {
-        LOGGER.debug("service: deleteGroup");
+    mockMvc.perform(put("/groups/1").accept(MediaType.APPLICATION_JSON)
+        .contentType(MediaType.APPLICATION_JSON).content(str)
+    ).andDo(print())
+        .andExpect(status().isAccepted());
+  }
 
-        Mockito.when(mockGroupsService.deleteGroup(Mockito.any(Integer.class))).thenReturn(0);
+  @Test
+  public void deleteGroup() throws Exception {
+    LOGGER.debug("service: deleteGroup");
 
-        mockMvc.perform(delete("/groups/1").accept(MediaType.APPLICATION_JSON)
-        ).andDo(print()).andExpect(status().isOk());
-    }
+    Mockito.when(mockGroupsService.deleteGroup(Mockito.any(Integer.class))).thenReturn(0);
+
+    mockMvc.perform(delete("/groups/1").accept(MediaType.APPLICATION_JSON)
+    ).andDo(print()).andExpect(status().isOk());
+  }
 }
