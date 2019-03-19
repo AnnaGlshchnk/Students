@@ -1,11 +1,18 @@
 package com.anna.service;
 
+import static org.junit.Assert.assertEquals;
+
 import com.anna.config.ServiceTestConfig;
 import com.anna.dao.StudentsDao;
 import com.anna.exception.OperationFailedException;
 import com.anna.model.Group;
 import com.anna.model.SaveStudent;
 import com.anna.model.Student;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -19,122 +26,118 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ServiceTestConfig.class)
 public class StudentServiceMockTest {
-    private static final Logger LOGGER = LogManager.getLogger(StudentServiceMockTest.class);
 
-    @InjectMocks
-    private StudentsServiceImpl studentsService;
+  private static final Logger LOGGER = LogManager.getLogger(StudentServiceMockTest.class);
 
-    @Mock
-    private StudentsDao mockStudentsDao;
+  @InjectMocks
+  private StudentsServiceImpl studentsService;
 
-    public StudentServiceMockTest() {
-        MockitoAnnotations.initMocks(this);
-    }
+  @Mock
+  private StudentsDao mockStudentsDao;
 
-    @After
-    public void clean() {
-        Mockito.reset(mockStudentsDao);
-    }
+  public StudentServiceMockTest() {
+    MockitoAnnotations.initMocks(this);
+  }
 
-    @Test
-    public void getStudents() {
-        LOGGER.debug("service: getStudents");
+  @After
+  public void clean() {
+    Mockito.reset(mockStudentsDao);
+  }
 
-        List<Student> students = new ArrayList<>();
-        Mockito.when(mockStudentsDao.getStudents(null, null)).thenReturn(students);
+  @Test
+  public void getStudents() {
+    LOGGER.debug("service: getStudents");
 
-        students = studentsService.getStudents(null, null);
-        Assert.assertEquals(0, students.size());
-    }
+    List<Student> students = new ArrayList<>();
+    Mockito.when(mockStudentsDao.getStudents(null, null)).thenReturn(students);
 
-    @Test
-    public void getStudentsWithParam() {
-        LOGGER.debug("service: getStudentsWithParam");
+    students = studentsService.getStudents(null, null);
+    Assert.assertEquals(0, students.size());
+  }
 
-        List<Student> students = new ArrayList<>();
-        Mockito.when(mockStudentsDao.getStudents("1998-03-04", "2000-12-12")).thenReturn(students);
+  @Test
+  public void getStudentsWithParam() {
+    LOGGER.debug("service: getStudentsWithParam");
 
-        students = studentsService.getStudents("1998-03-04", "2000-12-12");
-        Assert.assertEquals(0, students.size());
-    }
+    List<Student> students = new ArrayList<>();
+    Mockito.when(mockStudentsDao.getStudents("1998-03-04", "2000-12-12")).thenReturn(students);
 
-    @Test
-    public void getStudentById() {
-        LOGGER.debug("service: getStudentById");
+    students = studentsService.getStudents("1998-03-04", "2000-12-12");
+    Assert.assertEquals(0, students.size());
+  }
 
-        Mockito.when(mockStudentsDao.getStudentById(Mockito.any(Integer.class))).thenReturn(new Student(4));
+  @Test
+  public void getStudentById() {
+    LOGGER.debug("service: getStudentById");
 
-        Student student = studentsService.getStudentById(4);
-        assertEquals(4, student.getStudentId());
-    }
+    Mockito.when(mockStudentsDao.getStudentById(Mockito.any(Integer.class)))
+        .thenReturn(new Student(4));
 
-    @Test
-    public void addStudent() throws ParseException {
-        LOGGER.debug("service: addStudent");
+    Student student = studentsService.getStudentById(4);
+    assertEquals(4, student.getStudentId());
+  }
 
-        String pattern = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        Date date = simpleDateFormat.parse("1998-09-09");
+  @Test
+  public void addStudent() throws ParseException {
+    LOGGER.debug("service: addStudent");
 
-        SaveStudent student = new SaveStudent("Val", "Ui", date, new Group(2));
+    String pattern = "yyyy-MM-dd";
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    Date date = simpleDateFormat.parse("1998-09-09");
 
-        Mockito.when(mockStudentsDao.addStudent(student)).thenReturn(7);
+    SaveStudent student = new SaveStudent("Val", "Ui", date, new Group(2));
 
-        Integer studentId = studentsService.addStudent(student);
-        assertEquals(studentId, (Integer) 7);
-    }
+    Mockito.when(mockStudentsDao.addStudent(student)).thenReturn(7);
 
-    @Test
-    public void updateStudent() throws ParseException {
-        LOGGER.debug("service: updateStudent");
+    Integer studentId = studentsService.addStudent(student);
+    assertEquals(studentId, (Integer) 7);
+  }
 
-        Mockito.when(mockStudentsDao.updateStudent(Mockito.any(Integer.class), Mockito.any(SaveStudent.class))).thenReturn(1);
+  @Test
+  public void updateStudent() throws ParseException {
+    LOGGER.debug("service: updateStudent");
 
-        String pattern = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        Date date = simpleDateFormat.parse("1998-09-09");
+    Mockito.when(
+        mockStudentsDao.updateStudent(Mockito.any(Integer.class), Mockito.any(SaveStudent.class)))
+        .thenReturn(1);
 
-        Integer studentId = studentsService.updateStudent(1, new SaveStudent("Anna", "Glush", date, new Group(1)));
-        Assert.assertEquals(studentId, Integer.valueOf(1));
-    }
+    String pattern = "yyyy-MM-dd";
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    Date date = simpleDateFormat.parse("1998-09-09");
 
-    @Test
-    public void deleteStudent() {
-        LOGGER.debug("service: deleteStudent");
+    Integer studentId = studentsService
+        .updateStudent(1, new SaveStudent("Anna", "Glush", date, new Group(1)));
+    Assert.assertEquals(studentId, Integer.valueOf(1));
+  }
 
-        Mockito.when(mockStudentsDao.deleteStudent(Mockito.any(Integer.class))).thenReturn(1);
+  @Test
+  public void deleteStudent() {
+    LOGGER.debug("service: deleteStudent");
 
-        studentsService.deleteStudent(1);
-    }
+    Mockito.when(mockStudentsDao.deleteStudent(Mockito.any(Integer.class))).thenReturn(1);
 
-    @Test(expected = RuntimeException.class)
-    public void getStudentByIdException() {
-        LOGGER.debug("service: getStudentByIdException");
+    studentsService.deleteStudent(1);
+  }
 
-        Mockito.when(mockStudentsDao.getStudentById(22)).thenThrow(new RuntimeException());
+  @Test(expected = RuntimeException.class)
+  public void getStudentByIdException() {
+    LOGGER.debug("service: getStudentByIdException");
 
-        studentsService.getStudentById(22);
-    }
+    Mockito.when(mockStudentsDao.getStudentById(22)).thenThrow(new RuntimeException());
 
-    @Test(expected = OperationFailedException.class)
-    public void deleteStudentException() {
-        LOGGER.debug("service: deleteStudentException");
+    studentsService.getStudentById(22);
+  }
 
-        Mockito.when(mockStudentsDao.deleteStudent(22)).thenReturn(0);
+  @Test(expected = OperationFailedException.class)
+  public void deleteStudentException() {
+    LOGGER.debug("service: deleteStudentException");
 
-        studentsService.deleteStudent(1);
-    }
+    Mockito.when(mockStudentsDao.deleteStudent(22)).thenReturn(0);
+
+    studentsService.deleteStudent(1);
+  }
 
 }

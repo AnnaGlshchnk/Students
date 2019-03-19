@@ -2,19 +2,17 @@ package com.anna.dao;
 
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
-
-import java.util.Date;
 import java.util.List;
 
 public interface GroupsDao {
 
-    List<Group> getGroups(String start, String finish);
+  List<Group> getGroups(String start, String finish);
 
-    Group getGroupById(Integer groupId);
+  Group getGroupById(Integer groupId);
 
-    Integer addGroup(SaveGroup group);
+  Integer addGroup(SaveGroup group);
 
-    Integer updateGroup(Integer groupId, SaveGroup group);
+  Integer updateGroup(Integer groupId, SaveGroup group);
 
-    Integer deleteGroup(Integer groupId);
+  Integer deleteGroup(Integer groupId);
 }
