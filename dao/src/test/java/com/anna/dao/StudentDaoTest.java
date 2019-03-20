@@ -32,16 +32,16 @@ public class StudentDaoTest {
   public void getStudents() {
     LOGGER.debug("service: getStudents");
 
-    List<Student> students = studentsDao.getStudents(null, null);
-    Assert.assertEquals(6, students.size());
+    List<Student> students = studentsDao.getStudents(1, 5, null, null);
+    Assert.assertEquals(5, students.size());
   }
 
   @Test
   public void getStudentsWithParam() {
     LOGGER.debug("service: getStudents");
 
-    List<Student> students = studentsDao.getStudents("1996-05-04", "1998-04-08");
-    Assert.assertEquals(2, students.size());
+    List<Student> students = studentsDao.getStudents(1, 5, "1996-05-04", "1998-04-08");
+    Assert.assertEquals(1, students.size());
   }
 
   @Test
@@ -89,8 +89,8 @@ public class StudentDaoTest {
     LOGGER.debug("service: deleteStudent");
 
     studentsDao.deleteStudent(1);
-    List<Student> students = studentsDao.getStudents(null, null);
-    Assert.assertEquals(5, students.size());
+    List<Student> students = studentsDao.getStudents(1, 5, null, null);
+    Assert.assertEquals(4, students.size());
 
   }
 }

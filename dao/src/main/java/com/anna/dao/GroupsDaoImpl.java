@@ -21,6 +21,8 @@ public class GroupsDaoImpl implements GroupsDao {
 
   private static String START = "start";
   private static String FINISH = "finish";
+  private static String PAGE = "page";
+  private static String SIZE = "size";
   private static String GROUP_ID = "groupId";
   private static String GROUP_NAME = "groupName";
   private static String CREATE_DATE = "createDate";
@@ -45,8 +47,10 @@ public class GroupsDaoImpl implements GroupsDao {
   }
 
   @Override
-  public List<Group> getGroups(String start, String finish) {
+  public List<Group> getGroups(Integer page, Integer size, String start, String finish) {
     MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+    mapSqlParameterSource.addValue(PAGE, page);
+    mapSqlParameterSource.addValue(SIZE, size);
     mapSqlParameterSource.addValue(START, start);
     mapSqlParameterSource.addValue(FINISH, finish);
     return namedParameterJdbcTemplate.query(getGroupsSql, mapSqlParameterSource, new GroupMapper());

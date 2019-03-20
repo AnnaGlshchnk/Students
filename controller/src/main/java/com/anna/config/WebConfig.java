@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 @ComponentScan(basePackages = {"com.anna.dao", "com.anna.service",
-              "com.anna.logger", "com.anna.controller"})
+    "com.anna.logger", "com.anna.controller"})
 @EnableWebMvc
 @Import({DaoConfig.class, SwaggerConfig.class})
 @EnableAspectJAutoProxy

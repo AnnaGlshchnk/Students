@@ -20,6 +20,8 @@ public class StudentsDaoImpl implements StudentsDao {
 
   private static String MIN_BIRTH_DATE = "minBirthDate";
   private static String MAX_BIRTH_DATE = "maxBirthDate";
+  private static String PAGE = "page";
+  private static String SIZE = "size";
   private static String STUDENT_ID = "studentId";
   private static String STUDENT_NAME = "studentName";
   private static String SURNAME = "surname";
@@ -45,8 +47,11 @@ public class StudentsDaoImpl implements StudentsDao {
   }
 
   @Override
-  public List<Student> getStudents(String minBirthDate, String maxBirthDate) {
+  public List<Student> getStudents(Integer page, Integer size,
+      String minBirthDate, String maxBirthDate) {
     MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+    mapSqlParameterSource.addValue(PAGE, page);
+    mapSqlParameterSource.addValue(SIZE, size);
     mapSqlParameterSource.addValue(MIN_BIRTH_DATE, minBirthDate);
     mapSqlParameterSource.addValue(MAX_BIRTH_DATE, maxBirthDate);
 

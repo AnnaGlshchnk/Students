@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface StudentsDao {
 
-  List<Student> getStudents(String minBirthDate, String maxBirthDate);
+  List<Student> getStudents(Integer page, Integer size, String minBirthDate, String maxBirthDate);
 
   Student getStudentById(Integer studentId);
 

@@ -39,9 +39,10 @@ public class Student {
 
   /**
    * Constructor for class SaveStudent.
+   *
    * @param studentId this is the student's ID
-   * @param name  this is group name
-   * @param surname  this is the student's last name
+   * @param name this is group name
+   * @param surname this is the student's last name
    */
   public Student(int studentId, String name, String surname) {
     this.studentId = studentId;
@@ -51,9 +52,10 @@ public class Student {
 
   /**
    * Constructor for class SaveStudent.
-   * @param name  this is group name
-   * @param surname  this is the student's last name
-   * @param birthDate  this is the student's birth date
+   *
+   * @param name this is group name
+   * @param surname this is the student's last name
+   * @param birthDate this is the student's birth date
    * @param group this is the student's group
    */
   public Student(String name, String surname, Date birthDate, Group group) {
@@ -65,10 +67,11 @@ public class Student {
 
   /**
    * Constructor for class SaveStudent.
+   *
    * @param studentId this is the student's ID
-   * @param name  this is group name
-   * @param surname  this is the student's last name
-   * @param birthDate  this is the student's birth date
+   * @param name this is group name
+   * @param surname this is the student's last name
+   * @param birthDate this is the student's birth date
    * @param group this is the student's group
    */
   public Student(int studentId, String name, String surname, Date birthDate, Group group) {
@@ -81,8 +84,9 @@ public class Student {
 
   /**
    * Constructor for class SaveStudent.
-   * @param surname  this is the student's last name
-   * @param birthDate  this is the student's birth date
+   *
+   * @param surname this is the student's last name
+   * @param birthDate this is the student's birth date
    * @param group this is the student's group
    */
   public Student(String surname, Date birthDate, Group group) {

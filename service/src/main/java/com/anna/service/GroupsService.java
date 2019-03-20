@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface GroupsService {
 
-  List<Group> getGroups(String start, String finish) throws OperationFailedException;
+  List<Group> getGroups(Integer page, Integer size, String start, String finish)
+      throws OperationFailedException;
 
   Group getGroupById(Integer groupId) throws OperationFailedException;
 

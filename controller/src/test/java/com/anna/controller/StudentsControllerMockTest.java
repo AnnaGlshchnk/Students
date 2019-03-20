@@ -69,12 +69,12 @@ public class StudentsControllerMockTest {
     LOGGER.debug("service: getStudents");
 
     List<Student> students = new ArrayList<>();
-    Mockito.when(mockStudentsService.getStudents(null, null)).thenReturn(students);
+    Mockito.when(mockStudentsService.getStudents(1, 5, null, null)).thenReturn(students);
 
     mockMvc.perform(get("/students").accept(MediaType.APPLICATION_JSON)
     ).andDo(print()).andExpect(status().isOk());
 
-    Mockito.verify(mockStudentsService).getStudents(null, null);
+    Mockito.verify(mockStudentsService).getStudents(1, 5, null, null);
   }
 
   @Test

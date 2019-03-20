@@ -6,7 +6,7 @@ services:
     ports:
       - "8080:8080/tcp"
   mysql:
-    image: annaglshchnk/sql5:2.0
+    image: annaglshchnk/sql5:latest
     ports:
       - "3306"
 

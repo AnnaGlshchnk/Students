@@ -25,9 +25,10 @@ public class SaveGroup {
 
   /**
    * Constructor for class SaveGroup.
-   * @param name  this is group name
-   * @param createDate  this is the date the group was created
-   * @param finishDate  this is the graduation date
+   *
+   * @param name this is group name
+   * @param createDate this is the date the group was created
+   * @param finishDate this is the graduation date
    */
   public SaveGroup(String name, Date createDate, Date finishDate) {
     this.name = name;

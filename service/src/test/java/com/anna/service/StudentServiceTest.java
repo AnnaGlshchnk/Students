@@ -38,15 +38,15 @@ public class StudentServiceTest {
   public void getStudents() {
     LOGGER.debug("service: getStudents");
 
-    List<Student> students = studentsService.getStudents(null, null);
-    Assert.assertEquals(6, students.size());
+    List<Student> students = studentsService.getStudents(1, 5, null, null);
+    Assert.assertEquals(5, students.size());
   }
 
   @Test
   public void getStudentsWithParam() {
     LOGGER.debug("service: getStudents");
 
-    List<Student> students = studentsService.getStudents("1996-05-04", "1998-04-08");
+    List<Student> students = studentsService.getStudents(1, 5, "1996-05-04", "1998-04-08");
     Assert.assertEquals(2, students.size());
   }
 
@@ -99,7 +99,7 @@ public class StudentServiceTest {
     LOGGER.debug("service: deleteStudent");
 
     studentsService.deleteStudent(1);
-    List<Student> students = studentsService.getStudents(null, null);
+    List<Student> students = studentsService.getStudents(1, 5, null, null);
     Assert.assertEquals(5, students.size());
 
   }

@@ -1,10 +1,8 @@
 package com.anna.model;
 
 import java.util.Date;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class SaveStudent {
@@ -29,9 +27,10 @@ public class SaveStudent {
 
   /**
    * Constructor for class SaveStudent.
-   * @param name  this is group name
-   * @param surname  this is the student's last name
-   * @param birthDate  this is the student's birth date
+   *
+   * @param name this is group name
+   * @param surname this is the student's last name
+   * @param birthDate this is the student's birth date
    * @param group this is the student's group
    */
   public SaveStudent(String name, String surname, Date birthDate, Group group) {

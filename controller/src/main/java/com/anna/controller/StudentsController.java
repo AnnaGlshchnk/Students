@@ -34,13 +34,24 @@ public class StudentsController {
     this.studentService = studentService;
   }
 
+  /**
+   * Get student's list.
+   *
+   * @param page number of page
+   * @param size number of students per page
+   * @param minBirthDate min value for sort
+   * @param maxBirthDate max value for sort
+   * @return list
+   */
   @JsonView(View.Student.class)
-  @GetMapping("/students")
+  @GetMapping(value = "/students")
   @ResponseStatus(HttpStatus.OK)
   public List<Student> getStudents(
+      @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+      @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
       @RequestParam(value = "minBirthDate", required = false) String minBirthDate,
       @RequestParam(value = "maxBirthDate", required = false) String maxBirthDate) {
-    return studentService.getStudents(minBirthDate, maxBirthDate);
+    return studentService.getStudents(page, size, minBirthDate, maxBirthDate);
   }
 
   @JsonView(View.StudentDetails.class)
