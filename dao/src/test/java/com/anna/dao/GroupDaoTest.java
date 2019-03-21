@@ -31,7 +31,7 @@ public class GroupDaoTest {
   public void getGroups() {
     LOGGER.debug("service: getGroups");
 
-    List<Group> groups = groupsDao.getGroups(null, null);
+    List<Group> groups = groupsDao.getGroups(0, 3, null, null);
     Assert.assertEquals(3, groups.size());
   }
 
@@ -39,7 +39,7 @@ public class GroupDaoTest {
   public void getGroupsWithParam() {
     LOGGER.debug("service: getGroups");
 
-    List<Group> groups = groupsDao.getGroups("2011-08-04", "2019-07-29");
+    List<Group> groups = groupsDao.getGroups(0, 3, "2011-08-04", "2019-07-29");
     Assert.assertEquals(2, groups.size());
   }
 
@@ -88,7 +88,7 @@ public class GroupDaoTest {
     LOGGER.debug("service: deleteGroup");
 
     groupsDao.deleteGroup(1);
-    List<Group> groups = groupsDao.getGroups(null, null);
+    List<Group> groups = groupsDao.getGroups(0, 3, null, null);
     Assert.assertEquals(2, groups.size());
 
   }

@@ -37,9 +37,12 @@ public class GroupsController {
   @JsonView(View.Group.class)
   @GetMapping("/groups")
   @ResponseStatus(HttpStatus.OK)
-  public List<Group> getGroups(@RequestParam(value = "start", required = false) String start,
+  public List<Group> getGroups(
+      @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+      @RequestParam(value = "size", required = false, defaultValue = "3") Integer size,
+      @RequestParam(value = "start", required = false) String start,
       @RequestParam(value = "finish", required = false) String finish) {
-    return groupService.getGroups(start, finish);
+    return groupService.getGroups(page, size,start, finish);
   }
 
   @JsonView(View.GroupWithStudents.class)

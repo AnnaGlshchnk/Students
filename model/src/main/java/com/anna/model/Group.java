@@ -51,10 +51,11 @@ public class Group {
 
   /**
    * Constructor for class Group.
-   * @param groupId  this is group ID
-   * @param name  this is group name
-   * @param createDate  this is the date the group was created
-   * @param finishDate  this is the graduation date
+   *
+   * @param groupId this is group ID
+   * @param name this is group name
+   * @param createDate this is the date the group was created
+   * @param finishDate this is the graduation date
    */
   public Group(int groupId, String name, Date createDate, Date finishDate) {
     this.groupId = groupId;
@@ -65,9 +66,10 @@ public class Group {
 
   /**
    * Constructor for class Group.
-   * @param name  this is group name
-   * @param createDate  this is the date the group was created
-   * @param finishDate  this is the graduation date
+   *
+   * @param name this is group name
+   * @param createDate this is the date the group was created
+   * @param finishDate this is the graduation date
    */
   public Group(String name, Date createDate, Date finishDate) {
     this.name = name;
@@ -77,11 +79,12 @@ public class Group {
 
   /**
    * Constructor for class Group.
-   * @param groupId  this is group ID
-   * @param name  this is group name
-   * @param createDate  this is the date the group was created
-   * @param finishDate  this is the graduation date
-   * @param students  this is list of students
+   *
+   * @param groupId this is group ID
+   * @param name this is group name
+   * @param createDate this is the date the group was created
+   * @param finishDate this is the graduation date
+   * @param students this is list of students
    */
   public Group(int groupId, String name, Date createDate, Date finishDate, List<Student> students) {
     this.groupId = groupId;
@@ -93,11 +96,12 @@ public class Group {
 
   /**
    * Constructor for class Group.
-   * @param groupId  this is group ID
-   * @param name  this is group name
-   * @param createDate  this is the date the group was created
-   * @param finishDate  this is the graduation date
-   * @param countOfStudent  this is the number of students in a group
+   *
+   * @param groupId this is group ID
+   * @param name this is group name
+   * @param createDate this is the date the group was created
+   * @param finishDate this is the graduation date
+   * @param countOfStudent this is the number of students in a group
    * @param avgAge this is the average age of students
    */
   public Group(int groupId, String name, Date createDate,

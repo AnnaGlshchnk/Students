@@ -69,12 +69,12 @@ public class GroupsControllerMockTest {
     LOGGER.debug("service: getGroups");
 
     List<Group> groups = new ArrayList<>();
-    Mockito.when(mockGroupsService.getGroups(null, null)).thenReturn(groups);
+    Mockito.when(mockGroupsService.getGroups(1, 3, null, null)).thenReturn(groups);
 
     mockMvc.perform(get("/groups").accept(MediaType.APPLICATION_JSON)
     ).andDo(print()).andExpect(status().isOk());
 
-    Mockito.verify(mockGroupsService).getGroups(null, null);
+    Mockito.verify(mockGroupsService).getGroups(1, 3, null, null);
   }
 
   @Test

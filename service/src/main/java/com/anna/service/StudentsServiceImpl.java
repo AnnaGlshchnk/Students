@@ -6,6 +6,7 @@ import com.anna.model.SaveStudent;
 import com.anna.model.Student;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +22,20 @@ public class StudentsServiceImpl implements StudentsService {
   }
 
   @Override
-  public List<Student> getStudents(String minBirthDate, String maxBirthDate) {
+  public List<Student> getStudents(Integer page, Integer size, String minBirthDate,
+      String maxBirthDate) {
 
-    return studentsDao.getStudents(minBirthDate, maxBirthDate);
+    if (page <= 0 || size <= 0) {
+      throw new OperationFailedException("Parameters not to be equal or less then zero.");
+    }
+
+    List<Student> students = studentsDao
+        .getStudents(--page * size, size, minBirthDate, maxBirthDate);
+    if (students.size() == 0) {
+      throw new EmptyResultDataAccessException("No found.", 0);
+    }
+
+    return students;
   }
 
   @Override

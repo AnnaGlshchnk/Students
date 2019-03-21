@@ -50,10 +50,11 @@ public class GroupServiceMockTest {
     LOGGER.debug("service: getGroups");
 
     List<Group> groups = new ArrayList<>();
-    Mockito.when(mockGroupsDao.getGroups(null, null)).thenReturn(groups);
+    groups.add(new Group());
+    Mockito.when(mockGroupsDao.getGroups(0, 3, null, null)).thenReturn(groups);
 
-    groups = groupsService.getGroups(null, null);
-    Assert.assertEquals(0, groups.size());
+    groups = groupsService.getGroups(1, 3, null, null);
+    Assert.assertEquals(1, groups.size());
   }
 
   @Test
@@ -61,10 +62,11 @@ public class GroupServiceMockTest {
     LOGGER.debug("service: getGroups");
 
     List<Group> groups = new ArrayList<>();
-    Mockito.when(mockGroupsDao.getGroups("2011-08-04", "2019-07-29")).thenReturn(groups);
+    groups.add(new Group());
+    Mockito.when(mockGroupsDao.getGroups(0, 3, "2011-08-04", "2019-07-29")).thenReturn(groups);
 
-    groups = groupsService.getGroups("2011-08-04", "2019-07-29");
-    Assert.assertEquals(0, groups.size());
+    groups = groupsService.getGroups(1, 3, "2011-08-04", "2019-07-29");
+    Assert.assertEquals(1, groups.size());
   }
 
   @Test

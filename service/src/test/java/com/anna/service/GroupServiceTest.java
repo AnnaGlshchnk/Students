@@ -35,7 +35,7 @@ public class GroupServiceTest {
   public void getGroups() {
     LOGGER.debug("service: getGroups");
 
-    List<Group> groups = groupsService.getGroups(null, null);
+    List<Group> groups = groupsService.getGroups(1, 3, null, null);
     Assert.assertEquals(3, groups.size());
   }
 
@@ -43,7 +43,7 @@ public class GroupServiceTest {
   public void getGroupsWithParam() {
     LOGGER.debug("service: getGroups");
 
-    List<Group> groups = groupsService.getGroups("2011-08-04", "2019-07-29");
+    List<Group> groups = groupsService.getGroups(1, 3, "2011-08-04", "2019-07-29");
     Assert.assertEquals(2, groups.size());
   }
 
@@ -97,7 +97,7 @@ public class GroupServiceTest {
     LOGGER.debug("service: deleteGroup");
 
     groupsService.deleteGroup(1);
-    List<Group> groups = groupsService.getGroups(null, null);
+    List<Group> groups = groupsService.getGroups(1, 3, null, null);
     Assert.assertEquals(2, groups.size());
   }
 }

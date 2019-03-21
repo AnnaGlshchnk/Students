@@ -52,10 +52,11 @@ public class StudentServiceMockTest {
     LOGGER.debug("service: getStudents");
 
     List<Student> students = new ArrayList<>();
-    Mockito.when(mockStudentsDao.getStudents(null, null)).thenReturn(students);
+    students.add(new Student());
+    Mockito.when(mockStudentsDao.getStudents(0, 5, null, null)).thenReturn(students);
 
-    students = studentsService.getStudents(null, null);
-    Assert.assertEquals(0, students.size());
+    students = studentsService.getStudents(1, 5, null, null);
+    Assert.assertEquals(1, students.size());
   }
 
   @Test
@@ -63,10 +64,12 @@ public class StudentServiceMockTest {
     LOGGER.debug("service: getStudentsWithParam");
 
     List<Student> students = new ArrayList<>();
-    Mockito.when(mockStudentsDao.getStudents("1998-03-04", "2000-12-12")).thenReturn(students);
+    students.add(new Student());
+    Mockito.when(mockStudentsDao.getStudents(0, 5, "1998-03-04", "2000-12-12"))
+        .thenReturn(students);
 
-    students = studentsService.getStudents("1998-03-04", "2000-12-12");
-    Assert.assertEquals(0, students.size());
+    students = studentsService.getStudents(1, 5, "1998-03-04", "2000-12-12");
+    Assert.assertEquals(1, students.size());
   }
 
   @Test

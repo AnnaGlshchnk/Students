@@ -7,8 +7,10 @@ import java.util.List;
 
 public interface StudentsService {
 
-  List<Student> getStudents(String minBirthDate,
-                            String maxBirthDate) throws OperationFailedException;
+  List<Student> getStudents(Integer size,
+      Integer page,
+      String minBirthDate,
+      String maxBirthDate) throws OperationFailedException;
 
   Student getStudentById(Integer studentId) throws OperationFailedException;
 
