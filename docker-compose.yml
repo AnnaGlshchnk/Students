@@ -2,11 +2,37 @@ version: "3"
 
 services:
   students:
-    image: annaglshchnk/students:latest
+    image: annaglshchnk/students:4.2
     ports:
       - "8080:8080/tcp"
+    environment:
+      - DRIVER_DB=com.mysql.jdbc.Driver
+      - HOST_DB=jdbc:mysql://mysql:3306/students
+      - USER_NAME=anna
+      - PASSWORD_DB=123
+      - DATABASE_SQL=MYSQL
+    links:
+      - mysql
+
+  app:
+    image: annaglshchnk/students:4.2
+    ports:
+        - "8088:8080/tcp"
+    environment:
+      - DRIVER_DB=org.postgresql.Driver
+      - HOST_DB=jdbc:postgresql://postgresql:5432/students
+      - USER_NAME=anna
+      - PASSWORD_DB=qwe123
+      - DATABASE_SQL=POSTGRESQL
+    links:
+      - postgresql
+
   mysql:
     image: annaglshchnk/sql5:latest
     ports:
-      - "3306"
+      - "3768:3306"
 
+  postgresql:
+    image: annaglshchnk/postgres:1.0
+    ports:
+      - "3769:5432"

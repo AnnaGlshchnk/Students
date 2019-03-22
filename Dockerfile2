@@ -1,0 +1,5 @@
+FROM postgres:11
+ENV POSTGRES_DB students
+ENV POSTGRES_USER anna
+ENV POSTGRES_PASSWORD qwe123
+COPY /dao/src/main/resources/conf.environment/POSTGRESQL /docker-entrypoint-initdb.d/
