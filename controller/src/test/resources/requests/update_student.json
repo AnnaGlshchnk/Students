@@ -2,5 +2,8 @@
   "studentId": 1,
   "name": "Anna",
   "surname": "Glush",
-  "birthDate": "1999-06-30"
+  "birthDate": "1999-06-30",
+  "group": {
+    "groupId": 1
+  }
 }

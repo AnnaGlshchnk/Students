@@ -1,5 +1,8 @@
 {
   "name": "Ada",
   "surname": "Mluh",
-  "birthDate": "1998-06-30"
+  "birthDate": "1998-06-30",
+  "group": {
+    "groupId": 1
+  }
 }
