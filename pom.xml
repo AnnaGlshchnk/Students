@@ -41,7 +41,27 @@
     <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
     <checkstyle.version>8.18</checkstyle.version>
     <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+    <postgresql.version>42.2.5</postgresql.version>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>MYSQL</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <spring.profiles.active>MYSQL</spring.profiles.active>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>POSTGRESQL</id>
+      <properties>
+        <spring.profiles.active>POSTGRESQL</spring.profiles.active>
+      </properties>
+    </profile>
+  </profiles>
 
   <dependencyManagement>
     <dependencies>
@@ -113,12 +133,18 @@
         <version>${jackson.version}</version>
       </dependency>
 
-      <!--mysql driver-->
+      <!--database driver-->
       <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>${mysql-connector-java.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>${postgresql.version}</version>
+      </dependency>
+
 
       <!--logging-->
       <dependency>

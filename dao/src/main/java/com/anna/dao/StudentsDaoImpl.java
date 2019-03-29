@@ -1,5 +1,7 @@
 package com.anna.dao;
 
+import static com.anna.builder.BuilderMapSqlParameterSource.buildMapSqlParameterSource;
+
 import com.anna.model.Group;
 import com.anna.model.SaveStudent;
 import com.anna.model.Student;
@@ -18,10 +20,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class StudentsDaoImpl implements StudentsDao {
 
-  private static String MIN_BIRTH_DATE = "minBirthDate";
-  private static String MAX_BIRTH_DATE = "maxBirthDate";
-  private static String PAGE = "page";
-  private static String SIZE = "size";
   private static String STUDENT_ID = "studentId";
   private static String STUDENT_NAME = "studentName";
   private static String SURNAME = "surname";
@@ -49,11 +47,8 @@ public class StudentsDaoImpl implements StudentsDao {
   @Override
   public List<Student> getStudents(Integer page, Integer size,
       String minBirthDate, String maxBirthDate) {
-    MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-    mapSqlParameterSource.addValue(PAGE, page);
-    mapSqlParameterSource.addValue(SIZE, size);
-    mapSqlParameterSource.addValue(MIN_BIRTH_DATE, minBirthDate);
-    mapSqlParameterSource.addValue(MAX_BIRTH_DATE, maxBirthDate);
+    MapSqlParameterSource mapSqlParameterSource = buildMapSqlParameterSource(page, size,
+        minBirthDate, maxBirthDate);
 
     return namedParameterJdbcTemplate.query(getStudentsSql, mapSqlParameterSource,
         new StudentWithGroupMapper());
@@ -73,7 +68,8 @@ public class StudentsDaoImpl implements StudentsDao {
     mapSqlParameterSource.addValue(STUDENT_NAME, student.getName());
     build(student, mapSqlParameterSource);
 
-    namedParameterJdbcTemplate.update(addStudentSql, mapSqlParameterSource, keyHolder);
+    namedParameterJdbcTemplate
+        .update(addStudentSql, mapSqlParameterSource, keyHolder, new String[]{"student_id"});
     return keyHolder.getKey().intValue();
   }
 

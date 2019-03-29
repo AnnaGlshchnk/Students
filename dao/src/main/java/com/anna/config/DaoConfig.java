@@ -2,6 +2,7 @@ package com.anna.config;
 
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -17,7 +18,7 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@PropertySource(value = "classpath:sql.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "classpath:conf.environment/${database.sql}/sql.properties")
 public class DaoConfig {
 
   @Value("${user.driverClassName}")
@@ -28,16 +29,34 @@ public class DaoConfig {
   private String name;
   @Value("${user.password}")
   private String password;
+  @Value("${db.sql}")
+  private String db;
+  @Value("${text.sql}")
+  private String text;
 
   /**
-   * Bean for configuration default properties.
+   * Bean for configuration MYSQL properties.
    */
-  @Profile("default")
+  @Profile("MYSQL")
   @Bean
   public static PropertySourcesPlaceholderConfigurer app() {
     PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer =
         new PropertySourcesPlaceholderConfigurer();
-    propertySourcesPlaceholderConfigurer.setLocations(new ClassPathResource("app.properties"));
+    propertySourcesPlaceholderConfigurer.setLocations(new ClassPathResource(
+        "conf.environment/MYSQL/app.properties"));
+    return propertySourcesPlaceholderConfigurer;
+  }
+
+  /**
+   * Bean for configuration POSTGRESQL properties.
+   */
+  @Profile("POSTGRESQL")
+  @Bean
+  public static PropertySourcesPlaceholderConfigurer appPostgres() {
+    PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer =
+        new PropertySourcesPlaceholderConfigurer();
+    propertySourcesPlaceholderConfigurer.setLocations(new ClassPathResource(
+        "conf.environment/POSTGRESQL/app.properties"));
     return propertySourcesPlaceholderConfigurer;
   }
 
@@ -46,12 +65,14 @@ public class DaoConfig {
    */
   @Profile("docker")
   @Bean
-  public static PropertySourcesPlaceholderConfigurer appDocker() {
-    PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer =
-        new PropertySourcesPlaceholderConfigurer();
-    propertySourcesPlaceholderConfigurer
-        .setLocations(new ClassPathResource("app-docker.properties"));
-    return propertySourcesPlaceholderConfigurer;
+  public static PropertyPlaceholderConfigurer appDocker() {
+    PropertyPlaceholderConfigurer ppc
+        = new PropertyPlaceholderConfigurer();
+    Resource[] resources = new ClassPathResource[]
+        {new ClassPathResource("conf.environment/app-docker.properties")};
+    ppc.setLocations(resources);
+    ppc.setIgnoreUnresolvablePlaceholders(true);
+    return ppc;
   }
 
   @Bean
@@ -69,10 +90,8 @@ public class DaoConfig {
     dataSource.setUrl(url);
     dataSource.setUsername(name);
     dataSource.setPassword(password);
-
-    Resource initSchema = new ClassPathResource("db.sql");
-    Resource textSchema = new ClassPathResource("db_text.sql");
-
+    Resource initSchema = new ClassPathResource(db);
+    Resource textSchema = new ClassPathResource(text);
     ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
     databasePopulator.addScripts(initSchema, textSchema);
     DatabasePopulatorUtils.execute(databasePopulator, dataSource);
@@ -89,5 +108,4 @@ public class DaoConfig {
   public PlatformTransactionManager txManager() {
     return new DataSourceTransactionManager(dataSource());
   }
-
 }

@@ -16,7 +16,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@PropertySource("classpath:sql.properties")
+@PropertySource("classpath:conf.environment/MYSQL/sql.properties")
 @EnableTransactionManagement
 public class DaoTestConfig {
 

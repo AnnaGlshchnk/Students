@@ -1,5 +1,7 @@
 package com.anna.dao;
 
+import static com.anna.builder.BuilderMapSqlParameterSource.buildMapSqlParameterSource;
+
 import com.anna.model.Group;
 import com.anna.model.SaveGroup;
 import com.anna.model.Student;
@@ -19,10 +21,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class GroupsDaoImpl implements GroupsDao {
 
-  private static String START = "start";
-  private static String FINISH = "finish";
-  private static String PAGE = "page";
-  private static String SIZE = "size";
   private static String GROUP_ID = "groupId";
   private static String GROUP_NAME = "groupName";
   private static String CREATE_DATE = "createDate";
@@ -48,11 +46,8 @@ public class GroupsDaoImpl implements GroupsDao {
 
   @Override
   public List<Group> getGroups(Integer page, Integer size, String start, String finish) {
-    MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-    mapSqlParameterSource.addValue(PAGE, page);
-    mapSqlParameterSource.addValue(SIZE, size);
-    mapSqlParameterSource.addValue(START, start);
-    mapSqlParameterSource.addValue(FINISH, finish);
+    MapSqlParameterSource mapSqlParameterSource = buildMapSqlParameterSource(page, size, start,
+        finish);
     return namedParameterJdbcTemplate.query(getGroupsSql, mapSqlParameterSource, new GroupMapper());
   }
 
@@ -70,8 +65,8 @@ public class GroupsDaoImpl implements GroupsDao {
     mapSqlParameterSource.addValue(GROUP_NAME, group.getName());
     mapSqlParameterSource.addValue(CREATE_DATE, group.getCreateDate());
     mapSqlParameterSource.addValue(FINISH_DATE, group.getFinishDate());
-
-    namedParameterJdbcTemplate.update(addGroupSql, mapSqlParameterSource, keyHolder);
+    namedParameterJdbcTemplate
+        .update(addGroupSql, mapSqlParameterSource, keyHolder, new String[]{"group_id"});
     return keyHolder.getKey().intValue();
 
   }
