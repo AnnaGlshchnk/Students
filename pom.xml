@@ -233,6 +233,14 @@
     </dependencies>
   </dependencyManagement>
 
+  <distributionManagement>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>EPBYBREW0132-snapshots</name>
+      <url>http://localhost:8081/artifactory/libs-snapshot-local</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <build>
     <pluginManagement>
       <plugins>
@@ -305,6 +313,8 @@
             </execution>
           </executions>
         </plugin>
+
+
       </plugins>
     </pluginManagement>
     <plugins>
@@ -314,4 +324,6 @@
       </plugin>
     </plugins>
   </build>
+
+
 </project>
