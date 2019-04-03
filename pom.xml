@@ -313,8 +313,6 @@
             </execution>
           </executions>
         </plugin>
-
-
       </plugins>
     </pluginManagement>
     <plugins>
@@ -324,6 +322,5 @@
       </plugin>
     </plugins>
   </build>
-
 
 </project>
