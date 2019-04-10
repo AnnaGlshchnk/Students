@@ -9,16 +9,16 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>service</artifactId>
+  <artifactId>students_service</artifactId>
   <dependencies>
     <!--project-->
     <dependency>
       <groupId>com.anna</groupId>
-      <artifactId>model</artifactId>
+      <artifactId>students_model</artifactId>
     </dependency>
     <dependency>
       <groupId>com.anna</groupId>
-      <artifactId>dao</artifactId>
+      <artifactId>students_dao</artifactId>
     </dependency>
 
     <!--spring framework-->

@@ -9,7 +9,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>integration_tests</artifactId>
+  <artifactId>students_integration_tests</artifactId>
 
   <properties>
     <skip.tests>true</skip.tests>
@@ -31,7 +31,7 @@
     </dependency>
     <dependency>
       <groupId>com.anna</groupId>
-      <artifactId>model</artifactId>
+      <artifactId>students_model</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

@@ -10,21 +10,21 @@
   <modelVersion>4.0.0</modelVersion>
   <packaging>war</packaging>
 
-  <artifactId>controller</artifactId>
+  <artifactId>students_controller</artifactId>
 
   <dependencies>
     <!--project-->
     <dependency>
       <groupId>com.anna</groupId>
-      <artifactId>dao</artifactId>
+      <artifactId>students_dao</artifactId>
     </dependency>
     <dependency>
       <groupId>com.anna</groupId>
-      <artifactId>service</artifactId>
+      <artifactId>students_service</artifactId>
     </dependency>
     <dependency>
       <groupId>com.anna</groupId>
-      <artifactId>aspect</artifactId>
+      <artifactId>students_aspect</artifactId>
     </dependency>
 
     <dependency>
